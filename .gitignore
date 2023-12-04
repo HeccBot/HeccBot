@@ -1,0 +1,9 @@
+/node_modules
+config.js
+/.vscode
+
+deployCommands.js
+
+/JsonFiles
+/Mongoose
+/TextCommands/test.js
