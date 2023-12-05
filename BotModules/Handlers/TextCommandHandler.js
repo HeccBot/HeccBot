@@ -135,43 +135,46 @@ module.exports = {
             // Cooldown
             if ( Timestamps.has(message.author.id) )
             {
-                // Cooldown hit, tell User to cool off a little hehe
+                // Cooldown hit, tell User to cool off a little
                 const ExpirationTime = Timestamps.get(message.author.id) + CooldownAmount;
 
                 if ( Now < ExpirationTime )
                 {
                     let timeLeft = ( ExpirationTime - Now ) / 1000; // How much time is left of cooldown, in seconds
 
-                    switch (timeLeft)
+                    // MINUTES
+                    if ( timeLeft >= 60 && timeLeft < 3600 )
                     {
-                        // MINUTES
-                        case timeLeft >= 60 && timeLeft < 3600:
-                            timeLeft = timeLeft / 60; // For UX
-                            let cooldownMinutesMessage = `Please wait ${timeLeft.toFixed(1)} more minutes before using this Command again.`;
-                            return await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: cooldownMinutesMessage });
-
-                        // HOURS
-                        case timeLeft >= 3600 && timeLeft < 86400:
-                            timeLeft = timeLeft / 3600; // For UX
-                            let cooldownHoursMessage = `Please wait ${timeLeft.toFixed(1)} more hours before using this Command again.`;
-                            return await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: cooldownHoursMessage });
-
-                        // DAYS
-                        case timeLeft >= 86400 && timeLeft < 2.628e+6:
-                            timeLeft = timeLeft / 86400; // For UX
-                            let cooldownDaysMessage = `Please wait ${timeLeft.toFixed(1)} more days before using this Command again.`;
-                            return await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: cooldownDaysMessage });
-
-                        // MONTHS
-                        case timeLeft >= 2.628e+6:
-                            timeLeft = timeLeft / 2.628e+6; // For UX
-                            let cooldownMonthsMessage = `Please wait ${timeLeft.toFixed(1)} more months before using this Command again.`;
-                            return await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: cooldownMonthsMessage });
-
-                        // SECONDS
-                        default:
-                            let cooldownSecondsMessage = `Please wait ${timeLeft.toFixed(1)} more seconds before using this Command again.`;
-                            return await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: cooldownSecondsMessage });
+                        timeLeft = timeLeft / 60; // For UX
+                        await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'TEXT_COMMAND_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1)) });
+                        return null;
+                    }
+                    // HOURS
+                    else if ( timeLeft >= 3600 && timeLeft < 86400 )
+                    {
+                        timeLeft = timeLeft / 3600; // For UX
+                        await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'TEXT_COMMAND_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1)) });
+                        return null;
+                    }
+                    // DAYS
+                    else if ( timeLeft >= 86400 && timeLeft < 2.628e+6 )
+                    {
+                        timeLeft = timeLeft / 86400; // For UX
+                        await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'TEXT_COMMAND_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1)) });
+                        return null;
+                    }
+                    // MONTHS
+                    else if ( timeLeft >= 2.628e+6 )
+                    {
+                        timeLeft = timeLeft / 2.628e+6; // For UX
+                        await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'TEXT_COMMAND_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1)) });
+                        return null;
+                    }
+                    // SECONDS
+                    else
+                    {
+                        await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'TEXT_COMMAND_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1)) });
+                        return null;
                     }
                 }
             }
