@@ -25,22 +25,6 @@ module.exports = {
         else if ( SubcommandCheck != undefined ) { await Subcommand(interaction, SlashCommand); }
         else { await Rootcommand(interaction, SlashCommand); }
 
-
-        // Attempt to run Command
-        try { await SlashCommand.execute(interaction); }
-        catch (err)
-        {
-            //console.error(err);
-            if ( interaction.deferred )
-            {
-                await interaction.editReply({ content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
-            }
-            else
-            {
-                await interaction.reply({ ephemeral: true, content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
-            }
-        }
-
         return;
     }
 }
@@ -137,6 +121,22 @@ async function Rootcommand(interaction, SlashCommand)
         // Create new cooldown
         Timestamps.set(interaction.user.id, Now);
         setTimeout(() => Timestamps.delete(interaction.user.id), CooldownAmount);
+    }
+
+
+    // Attempt to run Command
+    try { await SlashCommand.execute(interaction); }
+    catch (err)
+    {
+        //console.error(err);
+        if ( interaction.deferred )
+        {
+            await interaction.editReply({ content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
+        }
+        else
+        {
+            await interaction.reply({ ephemeral: true, content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
+        }
     }
 
     return;
@@ -240,6 +240,22 @@ async function Subcommand(interaction, SlashCommand)
         setTimeout(() => Timestamps.delete(interaction.user.id), CooldownAmount);
     }
 
+
+    // Attempt to run Command
+    try { await SlashCommand.execute(interaction); }
+    catch (err)
+    {
+        //console.error(err);
+        if ( interaction.deferred )
+        {
+            await interaction.editReply({ content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
+        }
+        else
+        {
+            await interaction.reply({ ephemeral: true, content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
+        }
+    }
+
     return;
 }
 
@@ -338,6 +354,22 @@ async function SubcommandGroup(interaction, SlashCommand)
         // Create new cooldown
         Timestamps.set(interaction.user.id, Now);
         setTimeout(() => Timestamps.delete(interaction.user.id), CooldownAmount);
+    }
+
+
+    // Attempt to run Command
+    try { await SlashCommand.execute(interaction); }
+    catch (err)
+    {
+        //console.error(err);
+        if ( interaction.deferred )
+        {
+            await interaction.editReply({ content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
+        }
+        else
+        {
+            await interaction.reply({ ephemeral: true, content: `${localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')}` });
+        }
     }
 
     return;
