@@ -1,6 +1,7 @@
 const { ContextMenuCommandInteraction, DMChannel, Collection } = require("discord.js");
 const { Collections } = require("../../constants.js");
 const { localize } = require("../LocalizationModule.js");
+const { LogError, LogToUser } = require("../LoggingModule.js");
 
 module.exports = {
     /**
@@ -113,14 +114,16 @@ module.exports = {
         catch (err)
         {
             //console.error(err);
-            if ( interaction.deferred )
+            await LogError(err);
+            await LogToUser(interaction, null, err);
+            /* if ( interaction.deferred )
             {
                 await interaction.editReply({ content: `${localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_GENERIC')}` });
             }
             else
             {
                 await interaction.reply({ ephemeral: true, content: `${localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_GENERIC')}` });
-            }
+            } */
         }
 
         return;

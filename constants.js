@@ -15,6 +15,11 @@ module.exports =
     // StatusPage Client
     DiscordStatusClient: new StatuspageUpdates(DiscordStatusPageID, 10000),
 
+    /** Zebby's Debug Mode Boolean. Defaulted to FALSE, if TRUE, logs errors/etc to his private Discord Channel
+     * @type {Boolean}
+     */
+    DebugMode: false,
+
     // Collections that are used in many locations
     Collections: {
         TextCommands: new Collection(),

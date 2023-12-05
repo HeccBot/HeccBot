@@ -1,6 +1,7 @@
 const { PermissionFlagsBits, Message, DMChannel, Collection } = require("discord.js");
 const { DiscordClient, Collections } = require("../../constants.js");
 const Config = require("../../config.js");
+const { LogError, LogToUser } = require("../LoggingModule.js");
 
 module.exports = {
     /**
@@ -191,7 +192,9 @@ module.exports = {
             catch (err)
             {
                 //console.error(err);
-                await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: "Sorry, but there was a problem trying to run this Command." });
+                //await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: "Sorry, but there was a problem trying to run this Command." });
+                await LogError(err);
+                await LogToUser(message, null, err);
             }
 
             return;

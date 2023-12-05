@@ -4,6 +4,7 @@ const { Statuspage, StatuspageUpdates } = require("statuspage.js");
 const fs = require("fs");
 const { DiscordClient, Collections, DiscordStatusClient, checkPomelo, fetchDisplayName } = require("./constants.js");
 const Config = require("./config.js");
+const { LogWarn, LogError, LogInfo } = require("./BotModules/LoggingModule.js");
 
 
 
@@ -81,20 +82,20 @@ DiscordClient.once('ready', () => {
 /******************************************************************************* */
 // DEBUGGING AND ERROR LOGGING
 // Warnings
-process.on('warning', (warning) => { return console.warn("***WARNING: ", warning); });
-DiscordClient.on('warn', (warning) => { return console.warn("***DISCORD WARNING: ", warning); });
+process.on('warning', async (warning) => { await LogWarn(null, warning); return; });
+DiscordClient.on('warn', async (warning) => { await LogWarn(null, warning); return; });
 
 // Unhandled Promise Rejections
-process.on('unhandledRejection', (err) => { return console.error("***UNHANDLED PROMISE REJECTION: ", err); });
+process.on('unhandledRejection', async (err) => { await LogError(err); return; });
 
 // Discord Errors
-DiscordClient.on('error', (err) => { return console.error("***DISCORD ERROR: ", err); });
+DiscordClient.on('error', async (err) => { await LogError(err); return; });
 
 // Discord Rate Limit - Only uncomment when debugging
-//DiscordClient.rest.on('rateLimited', (RateLimitError) => { return console.log("***DISCORD RATELIMIT HIT: ", RateLimitError); });
+//DiscordClient.rest.on('rateLimited', async (RateLimitError) => { return console.log("***DISCORD RATELIMIT HIT: ", RateLimitError); });
 
 // Mongoose Errors
-Mongoose.connection.on('error', console.error);
+Mongoose.connection.on('error', async err => { await LogError(err); return; });
 
 
 
@@ -195,7 +196,7 @@ DiscordClient.on('interactionCreate', async (interaction) => {
     else
     {
         // Unknown or unhandled new type of Interaction
-        console.log(`****Unrecognised or new unhandled Interaction type triggered:\n${interaction.type}\n${interaction}`);
+        await LogInfo(`****Unrecognised or new unhandled Interaction type triggered:\n${interaction.type}\n${interaction}`);
     }
 
     return;
