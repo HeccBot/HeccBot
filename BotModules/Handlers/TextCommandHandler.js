@@ -2,6 +2,7 @@ const { PermissionFlagsBits, Message, DMChannel, Collection } = require("discord
 const { DiscordClient, Collections } = require("../../constants.js");
 const Config = require("../../config.js");
 const { LogError, LogToUser } = require("../LoggingModule.js");
+const { localize } = require("../LocalizationModule.js");
 
 module.exports = {
     /**

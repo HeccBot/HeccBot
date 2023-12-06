@@ -8,6 +8,11 @@ const { LogWarn, LogError, LogInfo } = require("./BotModules/LoggingModule.js");
 
 
 
+// Just so its mutable
+DiscordClient.DebugMode = false;
+
+
+
 /******************************************************************************* */
 // BRING IN FILES FOR COMMANDS AND INTERACTIONS
 // Text Commands

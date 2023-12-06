@@ -1,6 +1,6 @@
 const { TextChannel, CommandInteraction, MessageComponentInteraction, ModalSubmitInteraction, Message } = require("discord.js");
 const { ErrorLogGuildID, ErrorLogChannelID } = require("../config");
-const { DebugMode, DiscordClient } = require("../constants");
+const { DiscordClient } = require("../constants");
 const { localize } = require("./LocalizationModule");
 
 
@@ -16,7 +16,7 @@ module.exports = {
         console.log(`[INFO] ${message}`);
 
         // If DEBUG mode is enabled, log to Zebby's logging Channel
-        if ( DebugMode )
+        if ( DiscordClient.DebugMode )
         {
             const LogGuild = await DiscordClient.guilds.fetch(ErrorLogGuildID);
             const LogChannel = await LogGuild.channels.fetch(ErrorLogChannelID);
@@ -47,7 +47,7 @@ module.exports = {
             console.warn(`[WARN] ${message}`);
 
             // If DEBUG mode is enabled, log to Zebby's logging Channel
-            if ( DebugMode )
+            if ( DiscordClient.DebugMode )
             {
                 const LogGuild = await DiscordClient.guilds.fetch(ErrorLogGuildID);
                 const LogChannel = await LogGuild.channels.fetch(ErrorLogChannelID);
@@ -68,7 +68,7 @@ module.exports = {
             console.warn(warning);
 
             // If DEBUG mode is enabled, log to Zebby's logging Channel
-            if ( DebugMode )
+            if ( DiscordClient.DebugMode )
             {
                 const LogGuild = await DiscordClient.guilds.fetch(ErrorLogGuildID);
                 const LogChannel = await LogGuild.channels.fetch(ErrorLogChannelID);
@@ -97,7 +97,7 @@ module.exports = {
         console.error(error);
 
         // If DEBUG mode is enabled, log to Zebby's logging Channel
-        if ( DebugMode )
+        if ( DiscordClient.DebugMode )
         {
             const LogGuild = await DiscordClient.guilds.fetch(ErrorLogGuildID);
             const LogChannel = await LogGuild.channels.fetch(ErrorLogChannelID);
@@ -105,7 +105,7 @@ module.exports = {
             {
                 await LogChannel.send({
                     allowedMentions: { parse: [] },
-                    content: `**[ERROR]**\n\`\`\`${error.name}\n\n${error}\`\`\``.slice(0, 1999)
+                    content: `**[ERROR]**\n\`\`\`${error.name}: ${error.message}\n\n${error.stack}\`\`\``.slice(0, 1999)
                 })
                 .catch(console.error);
             }
@@ -122,7 +122,7 @@ module.exports = {
     async LogDebug(message)
     {
         // ONLY log if Debug Mode is enabled
-        if ( DebugMode )
+        if ( DiscordClient.DebugMode )
         {
             // Log to console
             console.debug(`[DEBUG] ${message}`);
@@ -165,8 +165,8 @@ module.exports = {
         else
         {
             // ACK to User
-            if ( interaction.deferred ) { await interaction.followUp({ ephemeral: true, content: localize(interaction.locale, 'ERROR_WITH_PREVIEW', error.name) }); }
-            else { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'ERROR_WITH_PREVIEW', error.name) }); }
+            if ( interaction.deferred ) { await interaction.followUp({ ephemeral: true, content: localize(interaction.locale, 'ERROR_WITH_PREVIEW', `${error.name}: ${error.message}`) }); }
+            else { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'ERROR_WITH_PREVIEW', `${error.name}: ${error.message}`) }); }
         }
 
         return;
@@ -194,7 +194,7 @@ module.exports = {
         else
         {
             // ACK to User
-            await userMessage.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'ERROR_WITH_PREVIEW', error.name) });
+            await userMessage.reply({ allowedMentions: { parse: [], repliedUser: false }, content: localize('en-GB', 'ERROR_WITH_PREVIEW', `${error.name}: ${error.message}`) });
         }
 
         return;
