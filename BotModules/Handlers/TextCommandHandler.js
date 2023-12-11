@@ -192,8 +192,6 @@ module.exports = {
             try { await Command.execute(message, Arguments); }
             catch (err)
             {
-                //console.error(err);
-                //await message.reply({ allowedMentions: { parse: [], repliedUser: false }, content: "Sorry, but there was a problem trying to run this Command." });
                 await LogError(err);
                 await LogToUser(message, null, err);
             }

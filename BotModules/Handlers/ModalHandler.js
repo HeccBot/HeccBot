@@ -26,17 +26,8 @@ module.exports = {
         try { await Modal.execute(interaction); }
         catch (err)
         {
-            //console.error(err);
             await LogError(err);
             await LogToUser(interaction, null, err);
-            /* if ( interaction.deferred )
-            {
-                await interaction.editReply({ content: `${localize(interaction.locale, 'MODAL_ERROR_GENERIC')}` });
-            }
-            else
-            {
-                await interaction.reply({ ephemeral: true, content: `${localize(interaction.locale, 'MODAL_ERROR_GENERIC')}` });
-            } */
         }
 
         return;

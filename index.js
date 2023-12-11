@@ -1,7 +1,8 @@
 const Mongoose = require("mongoose");
 const { RateLimitError, DMChannel, Collection, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Webhook, Colors, TextChannel, PartialGroupDMChannel } = require("discord.js");
 const { Statuspage, StatuspageUpdates } = require("statuspage.js");
-const fs = require("fs");
+const fs = require("node:fs");
+const path = require("node:path");
 const { DiscordClient, Collections, DiscordStatusClient, checkPomelo, fetchDisplayName } = require("./constants.js");
 const Config = require("./config.js");
 const { LogWarn, LogError, LogInfo } = require("./BotModules/LoggingModule.js");
@@ -24,50 +25,93 @@ for ( const File of TextCommandFiles )
 }
 
 // Slash Commands
-const SlashCommandFiles = fs.readdirSync("./Interactions/SlashCommands").filter(file => file.endsWith(".js"));
-for ( const File of SlashCommandFiles )
-{
-    const TempCommand = require(`./Interactions/SlashCommands/${File}`);
-    Collections.SlashCommands.set(TempCommand.Name, TempCommand);
-}
+const SlashFoldersPath = path.join(__dirname, 'Interactions/SlashCommands');
+const SlashCommandFolders = fs.readdirSync(SlashFoldersPath);
 
-const SlashActionFiles = fs.readdirSync("./Interactions/SlashCommands/Actions").filter(file => file.endsWith(".js"));
-for ( const File of SlashActionFiles )
+for ( const Folder of SlashCommandFolders )
 {
-    const TempAction = require(`./Interactions/SlashCommands/Actions/${File}`);
-    Collections.SlashCommands.set(TempAction.Name, TempAction);
+    const SlashCommandsPath = path.join(SlashFoldersPath, Folder);
+    const SlashCommandFiles = fs.readdirSync(SlashCommandsPath).filter(file => file.endsWith(".js"));
+    
+    for ( const File of SlashCommandFiles )
+    {
+        const FilePath = path.join(SlashCommandsPath, File);
+        const TempCommand = require(FilePath);
+        if ( 'execute' in TempCommand && 'registerData' in TempCommand ) { Collections.SlashCommands.set(TempCommand.Name, TempCommand); }
+        else { console.warn(`[WARNING] The Slash Command at ${FilePath} is missing required "execute" or "registerData" methods.`); }
+    }
 }
 
 // Context Commands
-const ContextCommandFiles = fs.readdirSync("./Interactions/ContextCommands").filter(file => file.endsWith(".js"));
-for ( const File of ContextCommandFiles )
+const ContextFoldersPath = path.join(__dirname, 'Interactions/ContextCommands');
+const ContextCommandFolders = fs.readdirSync(ContextFoldersPath);
+
+for ( const Folder of ContextCommandFolders )
 {
-    const TempCommand = require(`./Interactions/ContextCommands/${File}`);
-    Collections.ContextCommands.set(TempCommand.Name, TempCommand);
+    const ContextCommandsPath = path.join(ContextFoldersPath, Folder);
+    const ContextCommandFiles = fs.readdirSync(ContextCommandsPath).filter(file => file.endsWith(".js"));
+    
+    for ( const File of ContextCommandFiles )
+    {
+        const FilePath = path.join(ContextCommandsPath, File);
+        const TempCommand = require(FilePath);
+        if ( 'execute' in TempCommand && 'registerData' in TempCommand ) { Collections.ContextCommands.set(TempCommand.Name, TempCommand); }
+        else { console.warn(`[WARNING] The Context Command at ${FilePath} is missing required "execute" or "registerData" methods.`); }
+    }
 }
 
 // Buttons
-const ButtonFiles = fs.readdirSync("./Interactions/Buttons").filter(file => file.endsWith(".js"));
-for ( const File of ButtonFiles )
+const ButtonFoldersPath = path.join(__dirname, 'Interactions/Buttons');
+const ButtonFolders = fs.readdirSync(ButtonFoldersPath);
+
+for ( const Folder of ButtonFolders )
 {
-    const TempButton = require(`./Interactions/Buttons/${File}`);
-    Collections.Buttons.set(TempButton.Name, TempButton);
+    const ButtonPath = path.join(ButtonFoldersPath, Folder);
+    const ButtonFiles = fs.readdirSync(ButtonPath).filter(file => file.endsWith(".js"));
+    
+    for ( const File of ButtonFiles )
+    {
+        const FilePath = path.join(ButtonPath, File);
+        const TempFile = require(FilePath);
+        if ( 'execute' in TempFile ) { Collections.Buttons.set(TempFile.Name, TempFile); }
+        else { console.warn(`[WARNING] The Button at ${FilePath} is missing required "execute" method.`); }
+    }
 }
 
 // Selects
-const SelectFiles = fs.readdirSync("./Interactions/Selects").filter(file => file.endsWith(".js"));
-for ( const File of SelectFiles )
+const SelectFoldersPath = path.join(__dirname, 'Interactions/Selects');
+const SelectFolders = fs.readdirSync(SelectFoldersPath);
+
+for ( const Folder of SelectFolders )
 {
-    const TempSelect = require(`./Interactions/Selects/${File}`);
-    Collections.Selects.set(TempSelect.Name, TempSelect);
+    const SelectPath = path.join(SelectFoldersPath, Folder);
+    const SelectFiles = fs.readdirSync(SelectPath).filter(file => file.endsWith(".js"));
+    
+    for ( const File of SelectFiles )
+    {
+        const FilePath = path.join(SelectPath, File);
+        const TempFile = require(FilePath);
+        if ( 'execute' in TempFile ) { Collections.Selects.set(TempFile.Name, TempFile); }
+        else { console.warn(`[WARNING] The Select at ${FilePath} is missing required "execute" method.`); }
+    }
 }
 
 // Modals
-const ModalFiles = fs.readdirSync("./Interactions/Modals").filter(file => file.endsWith(".js"));
-for ( const File of ModalFiles )
+const ModalFoldersPath = path.join(__dirname, 'Interactions/Modals');
+const ModalFolders = fs.readdirSync(ModalFoldersPath);
+
+for ( const Folder of ModalFolders )
 {
-    const TempModal = require(`./Interactions/Modals/${File}`);
-    Collections.Modals.set(TempModal.Name, TempModal);
+    const ModalPath = path.join(ModalFoldersPath, Folder);
+    const ModalFiles = fs.readdirSync(ModalPath).filter(file => file.endsWith(".js"));
+    
+    for ( const File of ModalFiles )
+    {
+        const FilePath = path.join(ModalPath, File);
+        const TempFile = require(FilePath);
+        if ( 'execute' in TempFile ) { Collections.Modals.set(TempFile.Name, TempFile); }
+        else { console.warn(`[WARNING] The Modal at ${FilePath} is missing required "execute" method.`); }
+    }
 }
 
 
