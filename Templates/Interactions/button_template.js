@@ -17,9 +17,9 @@ module.exports = {
 
     /**
      * Executes the Button
-     * @param {ButtonInteraction} buttonInteraction 
+     * @param {ButtonInteraction} interaction 
      */
-    async execute(buttonInteraction)
+    async execute(interaction)
     {
         //.
     }

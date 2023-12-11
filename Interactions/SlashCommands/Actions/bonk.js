@@ -109,16 +109,16 @@ module.exports = {
 
     /**
      * Executes the Slash Command
-     * @param {ChatInputCommandInteraction} slashCommand 
+     * @param {ChatInputCommandInteraction} interaction 
      */
-    async execute(slashCommand)
+    async execute(interaction)
     {
         try {
-            await SlashAction(slashCommand);
+            await SlashAction(interaction);
         }
         catch (err) {
             await LogError(err);
-            await LogToUser(slashCommand, null, err);
+            await LogToUser(interaction, null, err);
         }
 
         return;
@@ -128,9 +128,9 @@ module.exports = {
 
     /**
      * Handles given Autocomplete Interactions for any Options in this Slash CMD that uses it
-     * @param {AutocompleteInteraction} autocompleteInteraction 
+     * @param {AutocompleteInteraction} interaction 
      */
-    async autocomplete(autocompleteInteraction)
+    async autocomplete(interaction)
     {
         //.
     }

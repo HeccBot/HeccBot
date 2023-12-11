@@ -13,9 +13,9 @@ module.exports = {
 
     /**
      * Executes the Modal
-     * @param {ModalSubmitInteraction|ModalMessageModalSubmitInteraction} modalInteraction 
+     * @param {ModalSubmitInteraction|ModalMessageModalSubmitInteraction} interaction 
      */
-    async execute(modalInteraction)
+    async execute(interaction)
     {
         //.
     }

@@ -47,9 +47,9 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} contextCommand 
+     * @param {ContextMenuCommandInteraction} interaction 
      */
-    async execute(contextCommand)
+    async execute(interaction)
     {
         //.
     }
