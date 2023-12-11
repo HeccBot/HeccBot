@@ -31,6 +31,13 @@ for ( const File of SlashCommandFiles )
     Collections.SlashCommands.set(TempCommand.Name, TempCommand);
 }
 
+const SlashActionFiles = fs.readdirSync("./Interactions/SlashCommands/Actions").filter(file => file.endsWith(".js"));
+for ( const File of SlashActionFiles )
+{
+    const TempAction = require(`./Interactions/SlashCommands/Actions/${File}`);
+    Collections.SlashCommands.set(TempAction.Name, TempAction);
+}
+
 // Context Commands
 const ContextCommandFiles = fs.readdirSync("./Interactions/ContextCommands").filter(file => file.endsWith(".js"));
 for ( const File of ContextCommandFiles )
@@ -126,6 +133,9 @@ DiscordClient.on('messageCreate', async (message) => {
     // DM Channel Messages
     if ( message.channel instanceof DMChannel ) { return; }
     if ( message.channel instanceof PartialGroupDMChannel ) { return; }
+
+    // If no content (because none was provided or because Bot was not mentioned due to not having Message Content Intent) - ignore
+    if ( message.content == null ) { return; }
 
     // Safe-guard against Discord Outages
     if ( !message.guild.available ) { return; }

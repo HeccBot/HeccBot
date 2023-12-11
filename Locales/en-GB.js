@@ -163,7 +163,12 @@ module.exports = {
     ACTION_COMMAND_MEE6_BOOP: `***{{0}}** booped **{{1}}**...*`,
     ACTION_COMMAND_MEE6_KISS: `OK, listen **{{0}}**, **{{1}}** doesn't deserve a kiss.`,
 
-    ACTION_RETURN_BUTTON_LABEL: `Return {{0}}`,
+    ACTION_RETURN_BUTTON_LABEL_HEADPAT: `Return Headpat`,
+    ACTION_RETURN_BUTTON_LABEL_HUG: `Return Hug`,
+    ACTION_RETURN_BUTTON_LABEL_BONK: `Return Bonk`,
+    ACTION_RETURN_BUTTON_LABEL_BOOP: `Return Boop`,
+    ACTION_RETURN_BUTTON_LABEL_KISS: `Return Kiss`,
+
     ACTION_RETURN_HEADPAT: `**{{0}}** gave **{{1}}** a headpat in return!`,
     ACTION_RETURN_HUG: `**{{0}}** cuddled **{{1}}** too!`,
     ACTION_RETURN_BONK: `**{{0}}** bonked **{{1}}** in retaliation!`,
