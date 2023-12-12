@@ -182,5 +182,15 @@ module.exports = {
 
 
 
-    // ******* .
+    // ******* DISCORD STATUS FEED
+    DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG: `{{0}} subscribed to the Discord Outage Feed using HeccBot`,
+    DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS: `Successfully subscribed this Server to the Discord Outage Feed!\nAny Discord Outages will be notified about in the {{0}} Channel.`,
+    DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG: `{{0}} unsubscribed from the Discord Outage Feed using HeccBot`,
+    DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS: `Successfully unsubscribed from the Discord Outage Feed.\nThis Server will no longer receive notifications from HeccBot about Discord's Outages.{{0}}`,
+
+    DSTATUS_COMMAND_ERROR_THREAD_INVALID: `Sorry, but a Thread cannot be selected if its within an Announcement or Media Channel.\nIf you want to subscribe a Thread to the Discord Outage Feed, please pick a Thread that is within a Forum or Text Channel.\nOtherwise, you can select a standard Text Channel itself instead.`,
+    DSTATUS_COMMAND_ERROR_MISSING_PERMISSIONS: `Sorry, but my Discord Outage Feed cannot be subscribed to Channels (or Threads) in which I do not have *both* the **View Channel** and **Manage Webhooks** Permissions for!\nPlease try again, once I have been granted those Permissions in that Channel/Thread.\n*(Note: if you tried to subscribe in a Thread or Forum Post, you'll have to grant the Permissions in the parent Channel, since Threads/Posts inherit their Permissions from their parent Channel)*`,
+    DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED: `This Server is already subscribed to the Discord Outage Feed!\nIf you want to disable the Discord Outage Feed in this Server, please use the {{0}} Command.`,
+    DSTATUS_COMMAND_ERROR_SUBSCRIPTION_GENERIC: `Sorry, but something went wrong while trying to subscribe to the Discord Outage Feed...`,
+    DSTATUS_COMMAND_ERROR_PRIVATE_THREAD: `Sorry, but you cannot subscribe a Private Thread to the Discord Outage Feed.`,
 };

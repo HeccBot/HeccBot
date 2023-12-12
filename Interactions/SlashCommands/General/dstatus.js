@@ -1,0 +1,229 @@
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, TextChannel, ThreadChannel, ForumChannel, ChannelType } = require("discord.js");
+const { localize } = require("../../../BotModules/LocalizationModule.js");
+const { DiscordClient, fetchDisplayName } = require("../../../constants.js");
+const { OutageFeedModel } = require("../../../Mongoose/Models.js");
+const { LogToUser } = require("../../../BotModules/LoggingModule.js");
+
+module.exports = {
+    // Command's Name
+    //     Use full lowercase
+    Name: "dstatus",
+
+    // Command's Description
+    Description: `Toggles receiving Discord Outage updates in this Server`,
+
+    // Command's Localised Descriptions
+    LocalisedDescriptions: {
+        'en-GB': `Toggles receiving Discord Outage updates in this Server`,
+        'en-US': `Toggles receiving Discord Outage updates in this Server`
+    },
+
+    // Command's Category
+    Category: "GENERAL",
+
+    // Cooldown, in seconds
+    //     Defaults to 3 seconds if missing
+    Cooldown: 30,
+
+    // Cooldowns for specific subcommands and/or subcommand-groups
+    //     IF SUBCOMMAND: name as "subcommandName"
+    //     IF SUBCOMMAND GROUP: name as "subcommandGroupName_subcommandName"
+    SubcommandCooldown: {
+        "subscribe": 30,
+        "unsubscribe": 30
+    },
+
+    // Scope of Command's usage
+    //     One of the following: DM, GUILD, ALL
+    Scope: "GUILD",
+
+    // Scope of specific Subcommands Usage
+    //     One of the following: DM, GUILD, ALL
+    //     IF SUBCOMMAND: name as "subcommandName"
+    //     IF SUBCOMMAND GROUP: name as "subcommandGroupName_subcommandName"
+    SubcommandScope: {
+        "subscribe": "GUILD",
+        "unsubscribe": "GUILD"
+    },
+
+
+
+    /**
+     * Returns data needed for registering Slash Command onto Discord's API
+     * @returns {ChatInputApplicationCommandData}
+     */
+    registerData()
+    {
+        /** @type {ChatInputApplicationCommandData} */
+        const Data = {};
+
+        Data.name = this.Name;
+        Data.description = this.Description;
+        Data.descriptionLocalizations = this.LocalisedDescriptions;
+        Data.type = ApplicationCommandType.ChatInput;
+        Data.dmPermission = false;
+        Data.defaultMemberPermissions = PermissionFlagsBits.ManageGuild;
+        Data.options = [
+            {
+                type: ApplicationCommandOptionType.Subcommand,
+                name: "subscribe",
+                description: "Subscribe to receiving Discord Outage updates in this Server",
+                descriptionLocalizations: {
+                    'en-GB': `Subscribe to receiving Discord Outage updates in this Server`,
+                    'en-US': `Subscribe to receiving Discord Outage updates in this Server`
+                },
+                options: [
+                    {
+                        type: ApplicationCommandOptionType.Channel,
+                        name: "channel",
+                        description: "Channel to receive Discord Outage updates in",
+                        descriptionLocalizations: {
+                            'en-GB': `Channel to receive Discord Outage updates in`,
+                            'en-US': `Channel to receive Discord Outage updates in`
+                        },
+                        channel_types: [ ChannelType.GuildText, ChannelType.PublicThread ], // Public Threads only allowed because Forum Channels
+                        required: true
+                    }
+                ]
+            },
+            {
+                type: ApplicationCommandOptionType.Subcommand,
+                name: "unsubscribe",
+                description: "Disable receiving Discord Outage updates in this Server",
+                descriptionLocalizations: {
+                    'en-GB': `Disable receiving Discord Outage updates in this Server`,
+                    'en-US': `Disable receiving Discord Outage updates in this Server`
+                },
+            }
+        ]
+
+        return Data;
+    },
+
+
+
+    /**
+     * Executes the Slash Command
+     * @param {ChatInputCommandInteraction} interaction 
+     */
+    async execute(interaction)
+    {
+        // Grab Subcommand used
+        const SubcommandName = interaction.options.getSubcommand(true);
+
+        switch (SubcommandName)
+        {
+            case "subscribe":
+                await subscribeToFeed(interaction);
+                break;
+
+            case "unsubscribe":
+                await disableFeed(interaction);
+                break;
+        }
+
+        return;
+    },
+
+
+
+    /**
+     * Handles given Autocomplete Interactions for any Options in this Slash CMD that uses it
+     * @param {AutocompleteInteraction} interaction 
+     */
+    async autocomplete(interaction)
+    {
+        //.
+    }
+}
+
+
+
+
+
+/**
+ * Subscribes the specified Channel to the Discord Outage Feed
+ * @param {ChatInputCommandInteraction} interaction 
+ */
+async function subscribeToFeed(interaction)
+{
+    await interaction.deferReply({ ephemeral: true });
+
+    // Grab Channel
+    /** @type {TextChannel|ThreadChannel} */
+    const InputChannel = interaction.options.getChannel("channel", true);
+
+    // If Thread, ensure inside of Forum or Text Channels, not Media or Announcements
+    if ( InputChannel instanceof ThreadChannel && !(InputChannel.parent instanceof ForumChannel || InputChannel.parent instanceof TextChannel) )
+    {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_THREAD_INVALID') });
+        return;
+    }
+
+    // Ensure not Private Thread
+    if ( InputChannel.type === ChannelType.PrivateThread )
+    {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_PRIVATE_THREAD') });
+        return;
+    }
+
+    // Ensure HeccBot has perms to create webhooks
+    const BotChannelPermissions = InputChannel.permissionsFor(DiscordClient.user.id);
+    if ( !BotChannelPermissions.has(PermissionFlagsBits.ViewChannel) || !BotChannelPermissions.has(PermissionFlagsBits.ManageWebhooks) )
+    {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_MISSING_PERMISSIONS') });
+        return;
+    }
+
+    // Ensure not already subscribed
+    let checkDb = await OutageFeedModel.exists({ serverId: interaction.guildId });
+    if ( checkDb == null )
+    {
+        // Create Webhook & subscribe to Feed
+        let feedWebhook;
+        let threadId = null;
+
+        if ( InputChannel instanceof TextChannel )
+        {
+            feedWebhook = await InputChannel.createWebhook({
+                name: `Dis-Outage Feed`,
+                avatar: `https://i.imgur.com/gXWXIpr.png`,
+                reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
+            })
+            .catch(async err => {
+                await LogToUser(interaction, null, err);
+                return;
+            });
+        }
+        else
+        {
+            feedWebhook = await InputChannel.parent.createWebhook({
+                name: `Dis-Outage Feed`,
+                avatar: `https://i.imgur.com/gXWXIpr.png`,
+                reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
+            })
+            .catch(async err => {
+                await LogToUser(interaction, null, err);
+                return;
+            });
+            threadId = InputChannel.id;
+        }
+
+        // Save to DB
+        await OutageFeedModel.create({ serverId: interaction.guildId, webhookId: feedWebhook.id, threadId: threadId })
+        .then(async createdDocument => {
+            // ACK to User
+            await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS', `<#${InputChannel.id}>`) });
+            return;
+        })
+        .catch(async err => {
+            await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_SUBSCRIPTION_GENERIC') });
+            return;
+        });
+    }
+    else
+    {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED', `</dstatus unsubscribe:${interaction.commandId}>`) });
+        return;
+    }
+}
