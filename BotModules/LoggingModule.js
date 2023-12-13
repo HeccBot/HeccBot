@@ -117,7 +117,7 @@ module.exports = {
 
     /**
      * Debug log
-     * @param {String} message 
+     * @param {String|Error} message 
      */
     async LogDebug(message)
     {

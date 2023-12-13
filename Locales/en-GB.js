@@ -192,5 +192,8 @@ module.exports = {
     DSTATUS_COMMAND_ERROR_MISSING_PERMISSIONS: `Sorry, but my Discord Outage Feed cannot be subscribed to Channels (or Threads) in which I do not have *both* the **View Channel** and **Manage Webhooks** Permissions for!\nPlease try again, once I have been granted those Permissions in that Channel/Thread.\n*(Note: if you tried to subscribe in a Thread or Forum Post, you'll have to grant the Permissions in the parent Channel, since Threads/Posts inherit their Permissions from their parent Channel)*`,
     DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED: `This Server is already subscribed to the Discord Outage Feed!\nIf you want to disable the Discord Outage Feed in this Server, please use the {{0}} Command.`,
     DSTATUS_COMMAND_ERROR_SUBSCRIPTION_GENERIC: `Sorry, but something went wrong while trying to subscribe to the Discord Outage Feed...`,
+    DSTATUS_COMMAND_ERROR_UNSUBSCRIPTION_GENERIC: `Sorry, something went wrong while trying to unsubscribe from the Discord Outage Feed...`,
     DSTATUS_COMMAND_ERROR_PRIVATE_THREAD: `Sorry, but you cannot subscribe a Private Thread to the Discord Outage Feed.`,
+    DSTATUS_COMMAND_ERROR_NOT_CURRENTLY_SUBSCRIBED: `There is no found Discord Outage Feed for this Server - as such, you cannot unsubscribe from a non-existent Feed subscription!`,
+    DSTATUS_COMMAND_ERROR_WEBHOOK_DELETION_FAILED: `An error occurred while I was trying to delete the Webhook for this Feed.\nYou will have to delete the Webhook manually in Server Settings > Integrations.`,
 };

@@ -2,7 +2,7 @@ const { ChatInputCommandInteraction, ChatInputApplicationCommandData, Applicatio
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { DiscordClient, fetchDisplayName } = require("../../../constants.js");
 const { OutageFeedModel } = require("../../../Mongoose/Models.js");
-const { LogToUser } = require("../../../BotModules/LoggingModule.js");
+const { LogToUser, LogDebug } = require("../../../BotModules/LoggingModule.js");
 
 module.exports = {
     // Command's Name
@@ -226,4 +226,51 @@ async function subscribeToFeed(interaction)
         await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED', `</dstatus unsubscribe:${interaction.commandId}>`) });
         return;
     }
+}
+
+
+
+
+
+/**
+ * Disables the DIscord Outage Feed for the Server
+ * @param {ChatInputCommandInteraction} interaction 
+ */
+async function disableFeed(interaction)
+{
+    // See if Server actually is subscribed right now
+    if ( await OutageFeedModel.exists({ serverId: interaction.guildId }) == null )
+    {
+        await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_NOT_CURRENTLY_SUBSCRIBED') });
+        return;
+    }
+
+    await interaction.deferReply({ ephemeral: true });
+
+    // Disable the feed!
+    // First, remove Webhook if possible
+    let feedDbEntry = await OutageFeedModel.findOne({ serverId: interaction.guildId });
+    let feedWebhook = await DiscordClient.fetchWebhook(feedDbEntry.webhookId);
+    let webhookDeletionMessage = null;
+
+    try {
+        await feedWebhook.delete(localize(interaction.guildLocale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true)));
+    }
+    catch (err) {
+        await LogDebug(err);
+        webhookDeletionMessage = `:warning: ${localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_WEBHOOK_DELETION_FAILED')}`;
+    }
+
+    // Delete from DB
+    await feedDbEntry.deleteOne()
+    .then(async () => {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS', `${webhookDeletionMessage != null ? `\n\n${webhookDeletionMessage}` : ""}`) });
+        return;
+    })
+    .catch(async (err) => {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_UNSUBSCRIPTION_GENERIC') });
+        return;
+    });
+
+    return;
 }
