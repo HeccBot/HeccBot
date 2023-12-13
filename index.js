@@ -270,9 +270,12 @@ DiscordClient.on('interactionCreate', async (interaction) => {
 
 /******************************************************************************* */
 // STATUSPAGE - INCIDENT UPDATE EVENT
-/* DiscordStatusClient.on("incident_update", async (incident) => {
-    // TODO
-}); */
+const OutageFeedModule = require("./BotModules/OutageFeedModule.js");
+
+DiscordStatusClient.on("incident_update", async (incident) => {
+    await OutageFeedModule.main(incident);
+    return;
+});
 
 
 
@@ -285,4 +288,4 @@ DiscordClient.on('interactionCreate', async (interaction) => {
 
 DiscordClient.login(Config.TOKEN); // Login to and start the Discord Bot Client
 DiscordStatusClient.start(); // Start listening for Discord Status Page Updates
-Mongoose.connect(Config.MongoString).catch(console.error);
+Mongoose.connect(Config.MongoString).catch(console.error); // Conect to DB
