@@ -1,6 +1,6 @@
 const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, ApplicationCommandOptionType } = require("discord.js");
 const { SlashAction } = require("../../../BotModules/ActionModule.js");
-const { LogError, LogToUser } = require("../../../BotModules/LoggingModule.js");
+const { LogError, LogToUser, LogDebug } = require("../../../BotModules/LoggingModule.js");
 
 module.exports = {
     // Command's Name
@@ -117,7 +117,7 @@ module.exports = {
             await SlashAction(interaction);
         }
         catch (err) {
-            await LogError(err);
+            await LogDebug(err);
             await LogToUser(interaction, null, err);
         }
 
