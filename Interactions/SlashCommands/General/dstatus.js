@@ -250,11 +250,10 @@ async function disableFeed(interaction)
     // Disable the feed!
     // First, remove Webhook if possible
     let feedDbEntry = await OutageFeedModel.findOne({ serverId: interaction.guildId });
-    let feedWebhook = await DiscordClient.fetchWebhook(feedDbEntry.webhookId);
     let webhookDeletionMessage = null;
 
     try {
-        await feedWebhook.delete(localize(interaction.guildLocale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true)));
+        await DiscordClient.deleteWebhook(feedDbEntry.webhookId, { reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true)) });
     }
     catch (err) {
         await LogDebug(err);
