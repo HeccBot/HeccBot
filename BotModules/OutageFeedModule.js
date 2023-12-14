@@ -29,6 +29,7 @@ module.exports = {
             .setTitle(incident.name)
             .setDescription(`Impact: ${incident.impact}`)
             .addFields(incident.incident_updates.reverse().map(incidentUpdate => { return { name: `${incidentUpdate.status.charAt(0).toUpperCase() + incidentUpdate.status.slice(1)} ( <t:${Math.floor(incidentUpdate.updated_at.getTime() / 1000)}:R> )`, value: (incidentUpdate.body || "No information available.") } }).slice(-5))
+            .setFooter({ text: `Posted by ${DiscordClient.user.username}#${DiscordClient.user.discriminator} ` })
             .setTimestamp(incident.created_at);
 
             // Create URL button
@@ -74,6 +75,7 @@ module.exports = {
             .setTitle(incident.name)
             .setDescription(`Impact: ${incident.impact}`)
             .addFields(incident.incident_updates.reverse().map(incidentUpdate => { return { name: `${incidentUpdate.status.charAt(0).toUpperCase() + incidentUpdate.status.slice(1)} ( <t:${Math.floor(incidentUpdate.updated_at.getTime() / 1000)}:R> )`, value: (incidentUpdate.body || "No information available.") } }).slice(-5))
+            .setFooter({ text: `Posted by ${DiscordClient.user.username}#${DiscordClient.user.discriminator} ` })
             .setTimestamp(incident.created_at);
 
             // Create URL button
