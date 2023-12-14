@@ -42,26 +42,30 @@ module.exports = {
             const SentMessageCollection = new Collection();
 
             allDbEntries.forEach(async document => {
-                // Fetch webhook
-                await DiscordClient.fetchWebhook(document.webhookId)
-                .then(async fetchedWebhook => {
-                    await fetchedWebhook.send({
-                        allowedMentions: { parse: [] },
-                        threadId: document.threadId instanceof String ? document.threadId : null,
-                        content: `**Discord Outage:**`,
-                        embeds: [OutageEmbed],
-                        components: [OutagePageLinkButton]
+                // Ensure outage doesn't affect fetching webhooks or posting messages
+                if ( (await DiscordClient.guilds.fetch(document.serverId)).available != false )
+                {
+                    // Fetch webhook
+                    await DiscordClient.fetchWebhook(document.webhookId)
+                    .then(async fetchedWebhook => {
+                        await fetchedWebhook.send({
+                            allowedMentions: { parse: [] },
+                            threadId: document.threadId instanceof String ? document.threadId : null,
+                            content: `**Discord Outage:**`,
+                            embeds: [OutageEmbed],
+                            components: [OutagePageLinkButton]
+                        })
+                        .then(sentMessage => { SentMessageCollection.set(fetchedWebhook.id, sentMessage.id); })
+                        .catch(async err => {
+                            await LogDebug(err);
+                            return;
+                        });
                     })
-                    .then(sentMessage => { SentMessageCollection.set(fetchedWebhook.id, sentMessage.id); })
                     .catch(async err => {
                         await LogDebug(err);
                         return;
                     });
-                })
-                .catch(async err => {
-                    await LogDebug(err);
-                    return;
-                });
+                }
             });
 
             // Store
@@ -70,26 +74,30 @@ module.exports = {
         else
         {
             // Ongoing Outage
-            
+
             // Fetch webhooks, edit messages via said webhooks
             allDbEntries.forEach(async document => {
-                // Fetch webhook
-                await DiscordClient.fetchWebhook(document.webhookId)
-                .then(async fetchedWebhook => {
-                    await fetchedWebhook.editMessage(OutageCollection.get(fetchedWebhook.id), {
-                        allowedMentions: { parse: [] },
-                        embeds: [OutageEmbed],
-                        components: [OutagePageLinkButton]
+                // Ensure outage doesn't affect fetching webhooks or posting messages
+                if ( (await DiscordClient.guilds.fetch(document.serverId)).available != false )
+                {
+                    // Fetch webhook
+                    await DiscordClient.fetchWebhook(document.webhookId)
+                    .then(async fetchedWebhook => {
+                        await fetchedWebhook.editMessage(OutageCollection.get(fetchedWebhook.id), {
+                            allowedMentions: { parse: [] },
+                            embeds: [OutageEmbed],
+                            components: [OutagePageLinkButton]
+                        })
+                        .catch(async err => {
+                            await LogDebug(err);
+                            return;
+                        });
                     })
                     .catch(async err => {
                         await LogDebug(err);
                         return;
                     });
-                })
-                .catch(async err => {
-                    await LogDebug(err);
-                    return;
-                });
+                }
             });
         }
 
