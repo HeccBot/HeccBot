@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, Partials, EmbedBuilder, StringSelectMenuInteraction, ButtonBuilder, User, GuildMember, StringSelectMenuBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, Collection, Partials, EmbedBuilder, StringSelectMenuInteraction, ButtonBuilder, User, GuildMember, StringSelectMenuBuilder, ChatInputCommandInteraction, PermissionFlagsBits } = require("discord.js");
 const { StatuspageUpdates } = require("statuspage.js");
 const { DiscordStatusPageID } = require("./config.js");
 const { VoiceConnection, AudioPlayer } = require("@discordjs/voice");
@@ -89,5 +89,31 @@ module.exports =
         if ( !skipNicknames && (userMember instanceof GuildMember) && (userMember.nickname != null) ) { highestName = userMember.nickname; }
 
         return highestName;
+    },
+
+
+    /**
+     * Checks if the Bot can use External Custom Emoji in its Interaction responses
+     * @param {ChatInputCommandInteraction} interaction 
+     * @returns {Boolean}
+     */
+    checkExternalEmojiPermission(interaction)
+    {
+        return interaction.appPermissions.has(PermissionFlagsBits.UseExternalEmojis);
+    },
+
+
+    /**
+    * Convert raw Guild Feature Flags into Title Case
+    * @param {String} featureString 
+    * @returns {String}
+    */
+    titleCaseGuildFeature(featureString)
+    {
+        return featureString.toLowerCase()
+            .replace(/guild/, "server")
+            .split("_")
+            .map(subString => subString.charAt(0).toUpperCase() + subString.slice(1))
+            .join(" ");
     }
 }
