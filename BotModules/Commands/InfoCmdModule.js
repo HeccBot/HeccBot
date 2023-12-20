@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, GuildNSFWLevel, GuildMFALevel, GuildDefaultMessageNotifications, GuildExplicitContentFilter, GuildVerificationLevel, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { localize } = require("../LocalizationModule");
 const fetch = require("node-fetch");
 const { checkExternalEmojiPermission, DiscordClient, titleCaseGuildFeature, fetchDisplayName } = require("../../constants");
@@ -6,138 +6,6 @@ const { EMOJI_OWNER_CROWN, EMOJI_ACTIVE_DEVELOPER, EMOJI_EARLY_VERIFIED_BOT_DEV,
 
 if (!globalThis.fetch) { globalThis.fetch = fetch; }
 
-/**
- * Readable Guild Verification Level
- * @param {GuildVerificationLevel} guildVerificationLevel 
- * @param {String} locale Locale from Command
- * @returns {String}
- */
-function readableVerificationLevel(guildVerificationLevel, locale) {
-    let readableString = "";
-    switch (guildVerificationLevel)
-    {
-        case GuildVerificationLevel.None:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_VERIFICATION_NONE');
-            break;
-
-        case GuildVerificationLevel.Low:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_VERIFICATION_LOW');
-            break;
-
-        case GuildVerificationLevel.Medium:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_VERIFICATION_MEDIUM');
-            break;
-
-        case GuildVerificationLevel.High:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_VERIFICATION_HIGH');
-            break;
-
-        case GuildVerificationLevel.VeryHigh:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_VERIFICATION_VERY_HIGH');
-            break;
-    }
-    return readableString;
-}
-
-/**
- * Readable Guild Explicit Content Filter
- * @param {GuildExplicitContentFilter} guildExplicitContentLevel 
- * @param {String} locale Locale from Command
- * @returns {String}
- */
-function readableExplicitFilter(guildExplicitContentLevel, locale)
-{
-    let readableString = "";
-    switch (guildExplicitContentLevel)
-    {
-        case GuildExplicitContentFilter.Disabled:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_EXPLICIT_FILTER_DISABLED');
-            break;
-
-        case GuildExplicitContentFilter.MembersWithoutRoles:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_EXPLICIT_FILTER_ROLELESS');
-            break;
-
-        case GuildExplicitContentFilter.AllMembers:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_EXPLICIT_FILTER_EVERYONE');
-            break;
-    }
-    return readableString;
-}
-
-/**
- * Readable Default Message Notification
- * @param {GuildDefaultMessageNotifications} defaultMessageNotification 
- * @param {String} locale Locale from Command
- * @returns {String}
- */
-function readableDefaultNotification(defaultMessageNotification, locale)
-{
-    let readableString = "";
-    switch(defaultMessageNotification)
-    {
-        case GuildDefaultMessageNotifications.AllMessages:
-            readableString = localize(locale, 'INFO_READABLE_DEFAULT_NOTIFICATIONS_ALL_MESSAGES');
-            break;
-
-        case GuildDefaultMessageNotifications.OnlyMentions:
-            readableString = localize(locale, 'INFO_READABLE_DEFAULT_NOTIFICATIONS_ONLY_MENTIONS');
-            break;
-    }
-    return readableString;
-}
-
-/**
- * Readable MFA Level
- * @param {GuildMFALevel} mfaLevel 
- * @param {String} locale Locale from Command
- * @returns {String}
- */
-function readableMFALevel(mfaLevel, locale)
-{
-    let readableString = "";
-    switch(mfaLevel)
-    {
-        case GuildMFALevel.None:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_MFA_NONE');
-            break;
-
-        case GuildMFALevel.Elevated:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_MFA_ENABLED');
-            break;
-    }
-    return readableString;
-}
-
-/**
- * Readable NSFW Level
- * @param {GuildNSFWLevel} nsfwLevel 
- * @param {String} locale Locale from Command
- * @returns {String}
- */
-function readableNSFWLevel(nsfwLevel, locale)
-{
-    let readableString = "";
-    switch(nsfwLevel)
-    {
-        case GuildNSFWLevel.Default:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_DEFAULT');
-            break;
-
-        case GuildNSFWLevel.Safe:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_SAFE');
-            break;
-
-        case GuildNSFWLevel.AgeRestricted:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_RESTRICTED');
-            break;
-
-        case GuildNSFWLevel.Explicit:
-            readableString = localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_EXPLICIT');
-            break;
-    }
-    return readableString;
-}
 
 /**
  * Readable Boosting Tiers
@@ -650,6 +518,10 @@ ${ExternalEmojiPermission ? EMOJI_ROLE : ""} **${localize(interaction.locale, 'I
         if ( guildFeatures.length > 0 ) { ServerInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_SERVER_HEADER_FEATURE_FLAGS'), value: `${guildFeatures.sort().join(', ').slice(0, 1023)}` }); }
 
 
+        // Extra Info Buttons
+        const ExtraInfoActionRow = new ActionRowBuilder().addComponents(new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId(`info-server_extra`).setLabel(localize(interaction.locale, 'INFO_SERVER_BUTTON_MISC')));
+
+        
         // Asset Buttons!
         const AssetActionRow = new ActionRowBuilder();
         if ( HasIcon )
@@ -662,8 +534,8 @@ ${ExternalEmojiPermission ? EMOJI_ROLE : ""} **${localize(interaction.locale, 'I
         if ( HasDiscoverySplash ) { AssetActionRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_SERVER_BUTTON_DISCOVERY_SPLASH')).setURL(CurrentGuild.discoverySplashURL())); }
         
         // ACK
-        if ( AssetActionRow.components.length > 0 ) { await interaction.editReply({ embeds: [ServerInfoEmbed], components: [AssetActionRow] }); }
-        else { await interaction.editReply({ embeds: [ServerInfoEmbed] }); }
+        if ( AssetActionRow.components.length > 0 ) { await interaction.editReply({ embeds: [ServerInfoEmbed], components: [ExtraInfoActionRow, AssetActionRow] }); }
+        else { await interaction.editReply({ embeds: [ServerInfoEmbed], components: [ExtraInfoActionRow] }); }
 
         return;
     }

@@ -351,10 +351,23 @@ module.exports = {
     INFO_SERVER_NSFW_LEVEL: `Age-restricted Level:`,
     INFO_SERVER_DEFAULT_NOTIFICATIONS: `Default Notifications:`,
 
+    INFO_SERVER_ONBOARDING_IS_ENABLED: `Onboarding is Enabled:`,
+    INFO_SERVER_ONBOARDING_MODE: `Onboarding Mode:`,
+    INFO_SERVER_ONBOARDING_MODE_DEFAULT: `Default`,
+    INFO_SERVER_ONBOARDING_MODE_ADVANCED: `Advanced`,
+    INFO_SERVER_ONBOARDING_TOTAL_DEFAULT_CHANNELS: `Number of Default Channels:`,
+    INFO_SERVER_ONBOARDING_TOTAL_PROMPTS: `Total Number of Questions:`,
+    INFO_SERVER_ONBOARDING_TOTAL_PREJOIN_PROMPTS: `Number of Pre-Join Questions:`,
+    INFO_SERVER_ONBOARDING_TOTAL_POSTJOIN_PROMPTS: `Number of Post-Join Questions:`,
+
+
     INFO_SERVER_HEADER_GENERAL: `>> General Information`,
     INFO_SERVER_HEADER_CHANNELS: `>> Channels`,
-    INFO_SERVER_HEADER_SECURITY: `>> Security & Moderation`,
     INFO_SERVER_HEADER_FEATURE_FLAGS: `>> Server's Feature Flags`,
+    INFO_SERVER_HEADER_ONBOARDING: `>> Server Onboarding`,
+    INFO_SERVER_HEADER_MISCELLANEOUS: `>> Miscellaneous Information`,
+
+    INFO_SERVER_BUTTON_MISC: `Extra Info`,
 
     INFO_SERVER_BUTTON_ICON: `Icon`,
     INFO_SERVER_BUTTON_BANNER: `Banner`,
