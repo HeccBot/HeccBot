@@ -351,6 +351,12 @@ module.exports = {
     INFO_SERVER_NSFW_LEVEL: `Age-restricted Level:`,
     INFO_SERVER_DEFAULT_NOTIFICATIONS: `Default Notifications:`,
 
+    INFO_SERVER_THREADS_POSTS_TOTAL: `Number of Forum Posts:`,
+    INFO_SERVER_THREADS_PUBLIC_TOTAL: `Number of Public Threads:`,
+    INFO_SERVER_THREADS_NEWS_TOTAL: `Number of Announcement Threads:`,
+    INFO_SERVER_THREADS_FULL_TOTAL: `Total Number of Threads/Posts:`,
+    INFO_SERVER_THREADS_DISCLAIMER: `Thread & Post totals only counts the number of active/open Threads & Posts. Closed Threads/Posts, and Private Threads, are not included in these totals.`,
+
     INFO_SERVER_ONBOARDING_IS_ENABLED: `Onboarding is Enabled:`,
     INFO_SERVER_ONBOARDING_MODE: `Onboarding Mode:`,
     INFO_SERVER_ONBOARDING_MODE_DEFAULT: `Default`,
@@ -365,6 +371,7 @@ module.exports = {
     INFO_SERVER_HEADER_CHANNELS: `>> Channels`,
     INFO_SERVER_HEADER_FEATURE_FLAGS: `>> Server's Feature Flags`,
     INFO_SERVER_HEADER_ONBOARDING: `>> Server Onboarding`,
+    INFO_SERVER_HEADER_THREADS: `>> Active Threads Information`,
     INFO_SERVER_HEADER_MISCELLANEOUS: `>> Miscellaneous Information`,
 
     INFO_SERVER_BUTTON_MISC: `Extra Info`,

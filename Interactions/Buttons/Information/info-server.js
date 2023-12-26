@@ -1,4 +1,4 @@
-const { ButtonInteraction, GuildNSFWLevel, GuildMFALevel, GuildDefaultMessageNotifications, GuildExplicitContentFilter, GuildVerificationLevel, GuildOnboardingMode, EmbedBuilder } = require("discord.js");
+const { ButtonInteraction, GuildNSFWLevel, GuildMFALevel, GuildDefaultMessageNotifications, GuildExplicitContentFilter, GuildVerificationLevel, GuildOnboardingMode, EmbedBuilder, ChannelType, ForumChannel, MediaChannel } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 
 
@@ -216,12 +216,40 @@ module.exports = {
         }
 
 
+        // Thread Info
+        let threadInfoString = "";
+        let publicThreadCount = 0;
+        let newsThreadCount = 0;
+        let forumPostCount = 0;
+        let totalThreadCount = 0;
+        const FetchedThreads = (await interaction.guild.channels.fetchActiveThreads(false)).threads;
+
+        FetchedThreads.forEach(thread => {
+            // Threads in Announcement Channels
+            if ( thread.type === ChannelType.AnnouncementThread ) { newsThreadCount += 1; totalThreadCount += 1; }
+            // Forum/Media Channel Posts/Threads
+            else if ( thread.type === ChannelType.PublicThread && (thread.parent instanceof ForumChannel || thread.parent instanceof MediaChannel) ) { forumPostCount += 1; totalThreadCount += 1; }
+            // Threads in Text Channels
+            else if ( thread.type === ChannelType.PublicThread && !(thread.parent instanceof ForumChannel || thread.parent instanceof MediaChannel) ) { publicThreadCount += 1; totalThreadCount += 1; }
+        });
+
+        // Only include if there are active Threads!
+        if ( totalThreadCount > 0 )
+        {
+            if ( publicThreadCount > 0 ) { threadInfoString += `**${localize(interaction.locale, 'INFO_SERVER_THREADS_PUBLIC_TOTAL')}** ${publicThreadCount}`; }
+            if ( newsThreadCount > 0 ) { threadInfoString += `${threadInfoString.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_SERVER_THREADS_NEWS_TOTAL')}** ${newsThreadCount}`; }
+            if ( forumPostCount > 0 ) { threadInfoString += `${threadInfoString.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_SERVER_THREADS_POSTS_TOTAL')}** ${forumPostCount}`; }
+            threadInfoString += `${threadInfoString.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_SERVER_THREADS_FULL_TOTAL')}** ${totalThreadCount}\n*${localize(interaction.locale, 'INFO_SERVER_THREADS_DISCLAIMER')}*`;
+        }
+
+
         // Embed time!
         const ExtraInfoEmbed = new EmbedBuilder();
         
         if ( CurrentGuild.icon != null ) { ExtraInfoEmbed.setAuthor({ name: CurrentGuild.name, iconURL: CurrentGuild.iconURL() }); }
         else { ExtraInfoEmbed.setAuthor({ name: CurrentGuild.name }); }
 
+        if ( threadInfoString.length > 1 ) { ExtraInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_SERVER_HEADER_THREADS'), value: threadInfoString }); }
         if ( onboardingInfoString.length > 1 ) { ExtraInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_SERVER_HEADER_ONBOARDING'), value: onboardingInfoString }); }
         ExtraInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_SERVER_HEADER_MISCELLANEOUS'), value: miscInfoString });
 
