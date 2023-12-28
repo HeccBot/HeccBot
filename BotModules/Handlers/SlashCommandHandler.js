@@ -1,7 +1,7 @@
 const { ChatInputCommandInteraction, ApplicationCommandOptionType, DMChannel, Collection } = require("discord.js");
 const { Collections } = require("../../constants.js");
 const { localize } = require("../LocalizationModule.js");
-const { LogError, LogToUser } = require("../LoggingModule.js");
+const { LogError, LogToUserInteraction } = require("../LoggingModule.js");
 
 module.exports = {
     /**
@@ -130,7 +130,7 @@ async function Rootcommand(interaction, SlashCommand)
     catch (err)
     {
         await LogError(err);
-        await LogToUser(interaction, null, err);
+        await LogToUserInteraction(interaction, null, err);
     }
 
     return;
@@ -240,7 +240,7 @@ async function Subcommand(interaction, SlashCommand)
     catch (err)
     {
         await LogError(err);
-        await LogToUser(interaction, null, err);
+        await LogToUserInteraction(interaction, null, err);
     }
 
     return;
@@ -349,7 +349,7 @@ async function SubcommandGroup(interaction, SlashCommand)
     catch (err)
     {
         await LogError(err);
-        await LogToUser(interaction, null, err);
+        await LogToUserInteraction(interaction, null, err);
     }
 
     return;

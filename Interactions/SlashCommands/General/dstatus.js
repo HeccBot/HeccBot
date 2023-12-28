@@ -2,7 +2,7 @@ const { ChatInputCommandInteraction, ChatInputApplicationCommandData, Applicatio
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { DiscordClient, fetchDisplayName } = require("../../../constants.js");
 const { OutageFeedModel } = require("../../../Mongoose/Models.js");
-const { LogToUser, LogDebug } = require("../../../BotModules/LoggingModule.js");
+const { LogDebug, LogToUserInteraction } = require("../../../BotModules/LoggingModule.js");
 
 module.exports = {
     // Command's Name
@@ -191,7 +191,7 @@ async function subscribeToFeed(interaction)
                 reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
             })
             .catch(async err => {
-                await LogToUser(interaction, null, err);
+                await LogToUserInteraction(interaction, null, err);
                 return;
             });
         }
@@ -203,7 +203,7 @@ async function subscribeToFeed(interaction)
                 reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
             })
             .catch(async err => {
-                await LogToUser(interaction, null, err);
+                await LogToUserInteraction(interaction, null, err);
                 return;
             });
             threadId = InputChannel.id;

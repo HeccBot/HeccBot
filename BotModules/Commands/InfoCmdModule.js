@@ -1,8 +1,9 @@
-const { ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType } = require("discord.js");
 const { localize } = require("../LocalizationModule");
 const fetch = require("node-fetch");
 const { checkExternalEmojiPermission, DiscordClient, titleCaseGuildFeature, fetchDisplayName } = require("../../constants");
 const { EMOJI_OWNER_CROWN, EMOJI_ACTIVE_DEVELOPER, EMOJI_EARLY_VERIFIED_BOT_DEV, EMOJI_VERIFIED_BOT, EMOJI_STAFF, EMOJI_EARLY_SUPPORTER, EMOJI_PARTNERED_SERVER_OWNER, EMOJI_HYPESQUAD_EVENTS, EMOJI_HYPESQUAD_BALANCE, EMOJI_HYPESQUAD_BRILLIANCE, EMOJI_HYPESQUAD_BRAVERY, EMOJI_MOD_PROGRAM, EMOJI_BUG_HUNTER_TIER_2, EMOJI_BUG_HUNTER_TIER_1, EMOJI_TIER_ONE, EMOJI_TIER_TWO, EMOJI_TIER_THREE, EMOJI_BOOST, EMOJI_EMOJI, EMOJI_STICKER, EMOJI_ROLE, EMOJI_SCHEDULED_EVENT, EMOJI_MEMBERS, EMOJI_STATUS_ONINE, EMOJI_CHANNEL_CATEGORY, EMOJI_CHANNEL_TEXT, EMOJI_CHANNEL_VOICE, EMOJI_CHANNEL_NEWS, EMOJI_CHANNEL_STAGE, EMOJI_CHANNEL_FORUM, EMOJI_CHANNEL_MEDIA, EMOJI_STATUS_IDLE, EMOJI_CHANNEL_RULES, EMOJI_PARTNER, EMOJI_VERIFIED } = require("../../Resources/Emojis");
+const { LogDebug } = require("../LoggingModule");
 
 if (!globalThis.fetch) { globalThis.fetch = fetch; }
 
@@ -537,6 +538,98 @@ ${ExternalEmojiPermission ? EMOJI_ROLE : ""} **${localize(interaction.locale, 'I
         if ( AssetActionRow.components.length > 0 ) { await interaction.editReply({ embeds: [ServerInfoEmbed], components: [ExtraInfoActionRow, AssetActionRow] }); }
         else { await interaction.editReply({ embeds: [ServerInfoEmbed], components: [ExtraInfoActionRow] }); }
 
+        return;
+    },
+
+
+
+
+
+
+
+
+
+    /**
+     * Fetches information about the given Server Invite Link
+     * @param {ChatInputCommandInteraction} interaction 
+     */
+    async fetchInviteInfo(interaction)
+    {
+        // Defer
+        await interaction.deferReply({ ephemeral: true });
+
+        // Check for External Emojis Permission
+        const ExternalEmojiPermission = checkExternalEmojiPermission(interaction);
+
+        // Grab invite link
+        const InputInvite = interaction.options.getString("code", true);
+
+        // Validate given invite link/code
+        /** @type {Invite} */
+        let fetchedInvite = null;
+        try { fetchedInvite = await DiscordClient.fetchInvite(InputInvite); }
+        catch (err) {
+            await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_INVITE_INVALID') });
+            await LogDebug(err);
+        }
+
+
+        // Fetch parts of Invite data that will be referred back to constantly
+        const InviteGuild = ( fetchedInvite.guild || null );
+
+
+        // Construct embed
+        const InviteEmbed = new EmbedBuilder().setAuthor({ name: `${localize(interaction.locale, 'INFO_INVITE_HEADER_DATA')} ${fetchedInvite.code}` });
+
+        // General Invite Info
+        let generalInviteInfo = "";
+        if ( fetchedInvite.inviter != null ) { generalInviteInfo += `**${localize(interaction.locale, 'INFO_INVITE_CREATOR')}** ${fetchDisplayName(fetchedInvite.inviter, true)}\n**${localize(interaction.locale, 'INFO_INVITE_CREATOR_BOT')}** ${fetchedInvite.inviter.bot ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`; }
+        if ( fetchedInvite.createdAt?.getTime() != null ) { generalInviteInfo += `${generalInviteInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_INVITE_CREATED')}** <t:${Math.floor(fetchedInvite.createdAt.getTime() / 1000)}:R>`; }
+        if ( fetchedInvite.expiresAt?.getTime() != null ) { generalInviteInfo += `${generalInviteInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_INVITE_EXPIRES')}** <t:${Math.floor(fetchedInvite.expiresAt.getTime() / 1000)}:R>`; }
+        
+        if ( generalInviteInfo.length > 1 ) { InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_GENERAL'), value: generalInviteInfo }); }
+        
+        // Invite Target Info
+        let targetInviteInfo = "";
+        if ( fetchedInvite.channel != null ) { targetInviteInfo += `**${localize(interaction.locale, 'INFO_INVITE_CHANNEL_TYPE')}** ${readableChannelType(fetchedInvite.channel.type, interaction.locale)}\n**${localize(interaction.locale, 'INFO_INVITE_CHANNEL_NAME')}** ${fetchedInvite.channel.name}`; }
+        if ( fetchedInvite.targetType != null && fetchedInvite.targetType === InviteTargetType.Stream ) { targetInviteInfo += `${targetInviteInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_STREAM')}`; }
+        if ( fetchedInvite.targetType != null && fetchedInvite.targetType === InviteTargetType.EmbeddedApplication ) { targetInviteInfo += `${targetInviteInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY')}${(fetchedInvite.targetApplication != null) && (fetchedInvite.targetApplication.name != null) ? `\n**${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY_NAME')}** ${fetchedInvite.targetApplication.name}` : ""}`; }
+        
+        if ( targetInviteInfo.length > 1 ) { InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_TARGET'), value: targetInviteInfo }); }
+        
+        // Guild Info
+        if ( InviteGuild != null )
+        {
+            if ( InviteGuild.description != null ) { InviteEmbed.setDescription(InviteGuild.description); }
+            if ( InviteGuild.icon != null ) { InviteEmbed.setAuthor({ iconURL: InviteGuild.iconURL({ extension: 'png' }), name: `${localize(interaction.locale, 'INFO_INVITE_HEADER_DATA')} ${fetchedInvite.code}` }); }
+            
+            let guildInviteInfo = `**${localize(interaction.locale, 'INFO_INVITE_SERVER_NAME')}** ${InviteGuild.name}
+${ExternalEmojiPermission && InviteGuild.partnered ? `${EMOJI_PARTNER} ` : ""}**${localize(interaction.locale, 'INFO_INVITE_SERVER_PARTNERED')}** ${InviteGuild.partnered ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}
+${ExternalEmojiPermission && InviteGuild.verified ? `${EMOJI_VERIFIED} ` : ""}**${localize(interaction.locale, 'INFO_INVITE_SERVER_VERIFIED')}** ${InviteGuild.verified ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+            
+            if ( InviteGuild.premiumSubscriptionCount != null ) { guildInviteInfo += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_BOOST_COUNT')}** ${InviteGuild.premiumSubscriptionCount}` }
+            if ( fetchedInvite.memberCount ) { guildInviteInfo += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_APPROX_TOTAL_MEMBERS')}** ${fetchedInvite.memberCount}`; }
+            if ( fetchedInvite.presenceCount ) { guildInviteInfo += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_APPROX_ONLINE_MEMBERS')}** ${fetchedInvite.presenceCount}`; }
+            
+            InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_SERVER'), value: guildInviteInfo });
+
+            // Server Feature Flags, grabbing from raw API to ensure up-to-date data
+            let rawData = await DiscordClient.rest.get(Routes.invite(fetchedInvite.code));
+            const RawFeatures = rawData["guild"]["features"];
+            let guildFeatures = [];
+            RawFeatures.forEach(feature => guildFeatures.push(titleCaseGuildFeature(feature)));
+            if ( guildFeatures.length > 0 ) { InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_SERVER_FLAGS'), value: `${guildFeatures.sort().join(', ').slice(0, 1023)}` }); }
+        }
+
+
+        // Construct Button
+        const InviteActionRow = new ActionRowBuilder().addComponents([
+            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_JOIN_SERVER')).setURL(`https://discord.gg/${fetchedInvite.code}`)
+        ]);
+
+
+        // ACK
+        await interaction.editReply({ embeds: [InviteEmbed], components: [InviteActionRow] });
         return;
     }
 }

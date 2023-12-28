@@ -1,7 +1,7 @@
 const { PermissionFlagsBits, Message, DMChannel, Collection } = require("discord.js");
 const { DiscordClient, Collections } = require("../../constants.js");
 const Config = require("../../config.js");
-const { LogError, LogToUser } = require("../LoggingModule.js");
+const { LogError, LogToUserText } = require("../LoggingModule.js");
 const { localize } = require("../LocalizationModule.js");
 
 module.exports = {
@@ -193,7 +193,7 @@ module.exports = {
             catch (err)
             {
                 await LogError(err);
-                await LogToUser(message, null, err);
+                await LogToUserText(message, null, err);
             }
 
             return;

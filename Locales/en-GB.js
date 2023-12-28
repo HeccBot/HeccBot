@@ -455,14 +455,16 @@ module.exports = {
     INFO_INVITE_SERVER_PARTNERED: `Is Partnered:`,
     INFO_INVITE_SERVER_VERIFIED: `Is Verified:`,
     INFO_INVITE_SERVER_BOOST_COUNT: `Boost Count:`,
-    INFO_INVITE_SERVER_APPROX_TOTAL_MEMBERS: `Approximate Total Members`,
-    INFO_INVITE_SERVER_APPROX_ONLINE_MEMBERS: `Approximate Online Members`,
+    INFO_INVITE_SERVER_APPROX_TOTAL_MEMBERS: `Approximate Total Members:`,
+    INFO_INVITE_SERVER_APPROX_ONLINE_MEMBERS: `Approximate Online Members:`,
 
     INFO_INVITE_HEADER_DATA: `Data for Invite Code:`,
     INFO_INVITE_HEADER_GENERAL: `>> General Information`,
     INFO_INVITE_HEADER_TARGET: `>> Target Information`,
     INFO_INVITE_HEADER_SERVER: `>> Server Information`,
     INFO_INVITE_HEADER_SERVER_FLAGS: `>> Server's Feature Flags`,
+
+    INFO_INVITE_BUTTON_JOIN_SERVER: `Join Server`,
 
 
 

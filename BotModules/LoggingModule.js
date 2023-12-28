@@ -149,7 +149,7 @@ module.exports = {
      * @param {?String} message Required if no Error is given
      * @param {?Error} error Required if no Message is given
      */
-    async LogToUser(interaction, message, error)
+    async LogToUserInteraction(interaction, message, error)
     {
         // Just in case
         if ( message == null && error == null ) { console.error(`[ERROR] Failed to provide one of either 'message' or 'error' params when calling LogToUser(<Interaction>)`); return; }
@@ -179,7 +179,7 @@ module.exports = {
      * @param {?String} logMessage Required if no Error is given
      * @param {?Error} error Required if no Message is given
      */
-    async LogToUser(userMessage, logMessage, error)
+    async LogToUserText(userMessage, logMessage, error)
     {
         // Just in case
         if ( logMessage == null && error == null ) { console.error(`[ERROR] Failed to provide one of either 'logMessage' or 'error' params when calling LogToUser(<Message>)`); return; }
