@@ -1,8 +1,8 @@
-const { ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType } = require("discord.js");
+const { InteractionEditReplyOptions, ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType, GuildMember, GuildMemberFlags } = require("discord.js");
 const { localize } = require("../LocalizationModule");
 const fetch = require("node-fetch");
 const { checkExternalEmojiPermission, DiscordClient, titleCaseGuildFeature, fetchDisplayName } = require("../../constants");
-const { EMOJI_OWNER_CROWN, EMOJI_ACTIVE_DEVELOPER, EMOJI_EARLY_VERIFIED_BOT_DEV, EMOJI_VERIFIED_BOT, EMOJI_STAFF, EMOJI_EARLY_SUPPORTER, EMOJI_PARTNERED_SERVER_OWNER, EMOJI_HYPESQUAD_EVENTS, EMOJI_HYPESQUAD_BALANCE, EMOJI_HYPESQUAD_BRILLIANCE, EMOJI_HYPESQUAD_BRAVERY, EMOJI_MOD_PROGRAM, EMOJI_BUG_HUNTER_TIER_2, EMOJI_BUG_HUNTER_TIER_1, EMOJI_TIER_ONE, EMOJI_TIER_TWO, EMOJI_TIER_THREE, EMOJI_BOOST, EMOJI_EMOJI, EMOJI_STICKER, EMOJI_ROLE, EMOJI_SCHEDULED_EVENT, EMOJI_MEMBERS, EMOJI_STATUS_ONINE, EMOJI_CHANNEL_CATEGORY, EMOJI_CHANNEL_TEXT, EMOJI_CHANNEL_VOICE, EMOJI_CHANNEL_NEWS, EMOJI_CHANNEL_STAGE, EMOJI_CHANNEL_FORUM, EMOJI_CHANNEL_MEDIA, EMOJI_STATUS_IDLE, EMOJI_CHANNEL_RULES, EMOJI_PARTNER, EMOJI_VERIFIED } = require("../../Resources/Emojis");
+const { EMOJI_OWNER_CROWN, EMOJI_ACTIVE_DEVELOPER, EMOJI_EARLY_VERIFIED_BOT_DEV, EMOJI_VERIFIED_BOT, EMOJI_STAFF, EMOJI_EARLY_SUPPORTER, EMOJI_PARTNERED_SERVER_OWNER, EMOJI_HYPESQUAD_EVENTS, EMOJI_HYPESQUAD_BALANCE, EMOJI_HYPESQUAD_BRILLIANCE, EMOJI_HYPESQUAD_BRAVERY, EMOJI_MOD_PROGRAM, EMOJI_BUG_HUNTER_TIER_2, EMOJI_BUG_HUNTER_TIER_1, EMOJI_TIER_ONE, EMOJI_TIER_TWO, EMOJI_TIER_THREE, EMOJI_BOOST, EMOJI_EMOJI, EMOJI_STICKER, EMOJI_ROLE, EMOJI_SCHEDULED_EVENT, EMOJI_MEMBERS, EMOJI_STATUS_ONINE, EMOJI_CHANNEL_CATEGORY, EMOJI_CHANNEL_TEXT, EMOJI_CHANNEL_VOICE, EMOJI_CHANNEL_NEWS, EMOJI_CHANNEL_STAGE, EMOJI_CHANNEL_FORUM, EMOJI_CHANNEL_MEDIA, EMOJI_STATUS_IDLE, EMOJI_CHANNEL_RULES, EMOJI_PARTNER, EMOJI_VERIFIED, EMOJI_MEMBERSHIP_GATING, EMOJI_TIMEOUT, EMOJI_SUPPORTS_APP_COMMANDS, EMOJI_USES_AUTOMOD } = require("../../Resources/Emojis");
 const { LogDebug } = require("../LoggingModule");
 
 if (!globalThis.fetch) { globalThis.fetch = fetch; }
@@ -630,6 +630,183 @@ ${ExternalEmojiPermission && InviteGuild.verified ? `${EMOJI_VERIFIED} ` : ""}**
 
         // ACK
         await interaction.editReply({ embeds: [InviteEmbed], components: [InviteActionRow] });
+        return;
+    },
+
+
+
+
+
+
+
+
+
+    /**
+     * Fetches information about either the User running this Command, or a specified Guild Member (including Bots)
+     * @param {ChatInputCommandInteraction} interaction 
+     */
+    async fetchUserInfo(interaction)
+    {
+        await interaction.deferReply({ ephemeral: true });
+
+        // Use_External_Emojis Permission Check
+        const ExternalEmojiPermission = checkExternalEmojiPermission(interaction);
+
+        // Fetch Member
+        /** @type {GuildMember} */
+        let fetchedMember;
+        const InputMember = interaction.options.getMember("user");
+        if ( !InputMember || InputMember == null )
+        {
+            try {
+                fetchedMember = await interaction.guild.members.fetch(interaction.user.id);
+            } catch (err) {
+                await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_SELF') });
+            }
+        }
+        else
+        {
+            try {
+                fetchedMember = await interaction.guild.members.fetch(InputMember.id);
+            } catch (err) {
+                await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_OTHER') });
+            }
+        }
+
+
+        // Grab stuff
+        const FetchedUser = await fetchedMember.user.fetch();
+        
+        // Member Info
+        const MemberHighestRole = fetchedMember.roles.highest.id === interaction.guildId ? "@everyone" : `<@&${fetchedMember.roles.highest.id}>`;
+        const MemberRoleCount = fetchedMember.roles.cache.filter(role => role.id !== interaction.guildId).size;
+
+        // Assets
+        const HasMemberAvatar = fetchedMember.avatar == null ? false : true;
+        const HasGlobalAvatar = FetchedUser?.avatar == null ? false : true;
+        const HasGlobalBanner = FetchedUser?.banner == null ? false : true;
+        const HasAvatarDecoration = FetchedUser?.avatarDecoration == null ? false : true;
+
+        // User Flags
+        const UserFlagStrings = [];
+        let userFlagEmojis = [];
+        const RawUserFlags = FetchedUser.flags.toArray();
+        RawUserFlags.forEach(flag => {
+            UserFlagStrings.push(readableUserFlags(flag, interaction.locale));
+            userFlagEmojis.push(readableUserFlagsEmoji(flag));
+        });
+        // Filter out badgeless flags
+        userFlagEmojis = userFlagEmojis.filter(emojiString => emojiString !== "NULL");
+
+        // GuildMember Flags
+        const MemberFlagStrings = [];
+        if ( fetchedMember.flags.has(GuildMemberFlags.DidRejoin) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_REJOIN')); }
+        if ( fetchedMember.flags.has(GuildMemberFlags.StartedOnboarding) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_ONBOARDING_STARTED')); }
+        if ( fetchedMember.flags.has(GuildMemberFlags.CompletedOnboarding) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_ONBOARDING_COMPLETED')); }
+        if ( fetchedMember.flags.has(GuildMemberFlags.AutomodQuarantinedBio) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_BIO')); }
+        if ( fetchedMember.flags.has(GuildMemberFlags.AutomodQuarantinedUsernameOrGuildNickname) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_NAME')); }
+        if ( fetchedMember.flags.has(GuildMemberFlags.StartedHomeActions) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_STARTED')); }
+        if ( fetchedMember.flags.has(GuildMemberFlags.CompletedHomeActions) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_COMPLETED')); }
+
+
+        // Construct Embed
+        const UserInfoEmbed = new EmbedBuilder().setAuthor({ iconURL: fetchedMember.displayAvatarURL({ extension: 'png' }), name: fetchDisplayName(fetchedMember) })
+        .setColor(fetchedMember.displayHexColor);
+
+        // Member Info
+        let memberInformationString = "";
+
+        if ( FetchedUser.id === interaction.guild.ownerId ) { memberInformationString += `${ExternalEmojiPermission ? `${EMOJI_OWNER_CROWN} `: ""}**${localize(interaction.locale, 'INFO_USER_SERVER_OWNER')}** ${localize(interaction.locale, 'TRUE')}`; }
+        if ( fetchedMember.displayName != null ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}**${localize(interaction.locale, 'INFO_USER_DISPLAY_NAME')}** \`${fetchDisplayName(fetchedMember)}\``; }
+        if ( fetchedMember.joinedAt != null ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}**${localize(interaction.locale, 'INFO_USER_JOINED_SERVER')}** <t:${Math.floor(fetchedMember.joinedAt.getTime() / 1000)}:R>`; }
+        if ( MemberHighestRole != null ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}**${localize(interaction.locale, 'INFO_USER_HIGHEST_ROLE')}** ${MemberHighestRole}`; }
+        if ( MemberRoleCount > 0 ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}${ExternalEmojiPermission ? `${EMOJI_ROLE} ` : ""}**${localize(interaction.locale, 'INFO_USER_ROLE_COUNT')}** ${MemberRoleCount}`; }
+        if ( fetchedMember.premiumSince != null ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}${ExternalEmojiPermission ? `${EMOJI_BOOST} ` : ""}**${localize(interaction.locale, 'INFO_USER_BOOSTING_SERVER')}** <t:${Math.floor(fetchedMember.premiumSince.getTime() / 1000)}:R>`; }
+        if ( fetchedMember.pending === true ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}${ExternalEmojiPermission ? `${EMOJI_MEMBERSHIP_GATING} ` : ""}**${localize(interaction.locale, 'INFO_USER_PENDING_VERIFICATION')}**`; }
+        if ( fetchedMember.communicationDisabledUntil != null && MemberTimedOut.getTime() > Date.now() ) { memberInformationString += `${memberInformationString.length > 1 ? `\n`: ""}${ExternalEmojiPermission ? `${EMOJI_TIMEOUT} ` : ""}${localize(interaction.locale, 'INFO_USER_TIMED_OUT', `<t:${Math.floor(fetchedMember.communicationDisabledUntil.getTime() / 1000)}:R>`)}`; }
+        
+        if ( memberInformationString.length > 1 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_MEMBER'), value: memberInformationString }); }
+
+
+        // User Info
+        let userInformationString = "";
+
+        userInformationString += `**${localize(interaction.locale, 'INFO_USER_MENTION')}** <@${fetchedMember.user.id}>`;
+        userInformationString += `\n**${localize(interaction.locale, 'INFO_USER_ACCOUNT_CREATED')}** <t:${Math.floor(FetchedUser.createdAt.getTime() / 1000)}:R>`;
+        userInformationString += `\n**${localize(interaction.locale, 'INFO_USER_BOT')}** ${FetchedUser.id === "156482326887530498" ? ':thinking:' : `${FetchedUser.bot ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`}`;
+        if ( FetchedUser.id === "156482326887530498" ) { userInformationString += `\n**${localize(interaction.locale, 'INFO_USER_HECCBOT_CREATOR')}** ${localize(interaction.locale, 'TRUE')}`; }
+
+        UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_USER'), value: userInformationString });
+
+
+        // Bot Info (if specified User is a Bot Account)
+        let botAppFlagStrings = [];
+        let botIntentFlagStrings = [];
+
+        if ( FetchedUser.bot )
+        {
+            let botInformationString = "";
+
+            // Bot specific Information
+            if ( FetchedUser.client.application.botPublic != null ) { botInformationString += `**${localize(interaction.locale, 'INFO_USER_BOT_INVITIBLE')}** ${FetchedUser.client.application.botPublic ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`; }
+            if ( FetchedUser.client.application.botRequireCodeGrant != null ) { botInformationString += `${botInformationString.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_USER_BOT_OAUTH')}** ${FetchedUser.client.application.botRequireCodeGrant ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}` }
+
+            // Bot Application Flags
+            const BotAppFlags = FetchedUser.client.application.flags.toArray();
+            BotAppFlags.forEach(flag => {
+                // Emojis
+                if ( flag === "ApplicationCommandBadge" ) { userFlagEmojis.push(EMOJI_SUPPORTS_APP_COMMANDS); }
+                if ( flag === "ApplicationAutoModerationRuleCreateBadge" ) { userFlagEmojis.push(EMOJI_USES_AUTOMOD); }
+
+                // Plain Text
+                if ( BotIntentFlags.includes(flag) ) { botIntentFlagStrings.push(readableApplicationFlags(flag, interaction.locale)); }
+                else { botAppFlagStrings.push(readableApplicationFlags(flag, interaction.locale)); }
+            });
+
+            // Add Intents to Bot Info String
+            if ( botIntentFlagStrings.length > 0 ) { botInformationString += `${botInformationString.length > 1 ? `\n` : ""}${botIntentFlagStrings.sort().join(`\n`).slice(0, 1023)}`; }
+
+            // Add to Embed
+            if ( botInformationString.length > 1 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_BOT'), value: botInformationString }); }
+        }
+
+
+        // Guild Member Flags
+        if ( MemberFlagStrings.length > 0 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_MEMBER_FLAGS'), value: MemberFlagStrings.sort().join(', ').slice(0, 1023) }); }
+        
+        // User Flags & Badges
+        if ( UserFlagStrings.length > 0 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_USER_FLAGS'), value: UserFlagStrings.sort().join(', ').slice(0, 1023) }); }
+        if ( userFlagEmojis.length > 0 && ExternalEmojiPermission ) { UserInfoEmbed.setDescription(userFlagEmojis.join(' ')); }
+
+        // Bot/Application Flags (excluding Flags for Intents, those are handled above)
+        if ( botAppFlagStrings.length > 0 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_BOT_FLAGS'), value: botAppFlagStrings.sort().join(', ').slice(0, 1023) }); }
+
+
+        // Buttons!
+        const ExtraUserInfoRow = new ActionRowBuilder();
+        const UserAssetRow = new ActionRowBuilder();
+        const ActionRowResponse = [];
+
+        if ( MemberRoleCount > 0 ) { ExtraUserInfoRow.addComponents( new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId(`info-user-role_${FetchedUser.id}`).setLabel(localize(interaction.locale, 'INFO_USER_BUTTON_ROLES')).setEmoji(EMOJI_ROLE) ); }
+        if ( HasMemberAvatar ) { UserAssetRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_USER_BUTTON_MEMBER_AVATAR')).setURL(fetchedMember.avatarURL())); }
+        if ( HasGlobalAvatar ) { UserAssetRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_USER_BUTTON_GLOBAL_AVATAR')).setURL(FetchedUser.avatarURL())); }
+        if ( HasGlobalBanner ) { UserAssetRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_USER_BUTTON_GLOBAL_BANNER')).setURL(FetchedUser.bannerURL())); }
+        if ( HasAvatarDecoration ) { UserAssetRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_USER_BUTTON_AVATAR_DECORATION')).setURL(FetchedUser.avatarDecorationURL())); }
+
+        // Put together Command Response
+        /** @type {InteractionEditReplyOptions} */
+        let commandResponse = { embeds: [UserInfoEmbed] };
+
+        if ( ExtraUserInfoRow.components.length > 0 ) { ActionRowResponse.push(ExtraUserInfoRow); }
+        if ( UserAssetRow.components.length > 0 ) { ActionRowResponse.push(UserAssetRow); }
+        if ( ActionRowResponse.length > 0 ) { commandResponse.components = ActionRowResponse; }
+
+        // Only use if User tried putting in a different User that isn't in the Guild (Bot will fall back to doing the User who ran the Command anyways)
+        if ( (!InputMember || InputMember == null) && (interaction.options.data[0]?.options?.length > 0) ) { commandResponse.content = `:information_source: ${localize(interaction.locale, 'INFO_COMMAND_ERROR_USER_NOT_IN_GUILD')}`; }
+
+
+        // ACK
+        await interaction.editReply(commandResponse);
         return;
     }
 }

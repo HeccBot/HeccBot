@@ -1,6 +1,6 @@
 const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, ApplicationCommandOptionType } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule.js");
-const { fetchServerInfo, fetchInviteInfo } = require("../../../BotModules/Commands/InfoCmdModule.js");
+const { fetchServerInfo, fetchInviteInfo, fetchUserInfo } = require("../../../BotModules/Commands/InfoCmdModule.js");
 
 module.exports = {
     // Command's Name
@@ -191,6 +191,7 @@ module.exports = {
                 break;
 
             case "user":
+                await fetchUserInfo(interaction);
                 break;
 
             case "invite":

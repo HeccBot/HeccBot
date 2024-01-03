@@ -247,6 +247,14 @@ module.exports = {
     INFO_READABLE_USER_FLAG_VERIFIED_BOT: `Verified Bot`,
     INFO_READABLE_USER_FLAG_EARLY_VERIFIED_BOT_DEVELOPER: `Early Verified Bot Developer`,
 
+    INFO_READABLE_MEMBER_FLAG_REJOIN: `Did Rejoin`,
+    INFO_READABLE_MEMBER_FLAG_ONBOARDING_STARTED: `Started Onboarding`,
+    INFO_READABLE_MEMBER_FLAG_ONBOARDING_COMPLETED: `Completed Onboarding`,
+    INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_BIO: `Quarantied by AutoMod (Profile Bio Filter)`,
+    INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_NAME: `Quarantied by AutoMod (User/Display/Nick Name Filter)`,
+    INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_STARTED: `Started Guide ToDo Tasks`,
+    INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_COMPLETED: `Completed Guide ToDo Tasks`,
+
     INFO_READABLE_APP_FLAG_AUTOMOD_BADGE: `Uses AutoMod API`,
     INFO_READABLE_APP_FLAG_APP_COMMANDS_BADGE: `Supports Application Commands`,
     INFO_READABLE_APP_FLAG_EMBEDDED: `Embedded (Activity)`,
@@ -413,21 +421,21 @@ module.exports = {
     INFO_USER_ROLE_COUNT: `Role Count:`,
     INFO_USER_BOOSTING_SERVER: `Boosting Server Since:`,
     INFO_USER_PENDING_VERIFICATION: `Yet to pass Rules Screening`,
-    INFO_USER_TIMED_OUT: `Currently Timed-out (expires {{0}})`,
+    INFO_USER_TIMED_OUT: `**Currently Timed-out** (expires {{0}})`, // Adding Bolding Formatting here instead in code itself because don't want the bracketed bit being bolded
 
     INFO_USER_MENTION: `Mention:`,
     INFO_USER_ACCOUNT_CREATED: `Account Created:`,
     INFO_USER_BOT: `Is a Bot:`,
-    INFO_USER_HECCBOT_CREATOR: `Is Creator of HeccBot`,
+    INFO_USER_HECCBOT_CREATOR: `Is Creator of HeccBot:`,
 
-    INFO_USER_BOT_INVITIBLE: `Is Publicly Invitable to Servers:`,
+    INFO_USER_BOT_INVITIBLE: `Is Publicly Invitable:`,
     INFO_USER_BOT_OAUTH: `Requires OAuth Grant:`,
 
     INFO_USER_HEADER_MEMBER: `>> Member Information`,
     INFO_USER_HEADER_USER: `>> User Information`,
-    INFO_USER_HEADER_USER_FLAGS: `>> User's Flags`,
-    INFO_USER_HEADER_MEMBER_FLAGS: `>> Server Member's Flags`,
     INFO_USER_HEADER_BOT: `>> Bot Information`,
+    INFO_USER_HEADER_MEMBER_FLAGS: `>> Server Member's Flags`,
+    INFO_USER_HEADER_USER_FLAGS: `>> User's Flags`,
     INFO_USER_HEADER_BOT_FLAGS: `>> Bot's Flags`,
 
     INFO_USER_BUTTON_ROLES: `View Roles`,
@@ -473,6 +481,8 @@ module.exports = {
     INFO_COMMAND_ERROR_DMS_UNSUPPORTED: `Sorry, I cannot fetch information about DMs (Direct Messages) or Group DMs.`,
     INFO_COMMAND_ERROR_CHANNEL_FETCH_FAILED: `Sorry, there was an error trying to fetch information about that Channel.\nI may not have the "**View Channels**" Permission required to see that specified Channel.`,
     INFO_COMMAND_ERROR_ROLE_EVERYONE_UNSUPPORTED: `Sorry, I cannot bring up Role Information about @everyone`,
-    INFO_COMMAND_ERROR_USER_NOT_IN_GUILD: `Sorry, that User isn't a Member of this Server!`,
+    INFO_COMMAND_ERROR_USER_NOT_IN_GUILD: `Sorry, that User isn't a Member of this Server!\nHere's information about yourself instead.`,
+    INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_SELF: `Sorry, I was unable to fetch public Discord information about yourself. Please try again in a few minutes.`,
+    INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_OTHER: `Sorry, either that User is not a Member of this Server, or I was unable to fetch their public Discord information due to an error.`,
     INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server Invite, or that Invite doesn't exist on Discord.`,
 };
