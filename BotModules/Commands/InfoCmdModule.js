@@ -162,6 +162,60 @@ function readableUserFlags(userFlag, locale)
     return readableString;
 }
 
+
+
+/**
+ * Readable Guild Member Flags
+ * @param {String} memberFlag 
+ * @param {String} locale Locale from Command
+ * @returns {String}
+ */
+function readableMemberFlags(memberFlag, locale)
+{
+    let readableString = "";
+    switch(memberFlag)
+    {
+        case "AutomodQuarantinedBio":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_BIO');
+            break;
+
+        case "AutomodQuarantinedUsernameOrGuildNickname":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_NAME');
+            break;
+
+        case "BypassesVerification":
+            //readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_BYPASS_SERVER_VERIFICATION');
+            readableString = "NULL"; // Don't want this Flag showing to non-Server Mods, so hiding it for now.
+            break;
+
+        case "CompletedHomeActions":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_COMPLETED');
+            break;
+
+        case "CompletedOnboarding":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_ONBOARDING_COMPLETED');
+            break;
+
+        case "DidRejoin":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_REJOIN');
+            break;
+
+        case "StartedHomeActions":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_STARTED');
+            break;
+
+        case "StartedOnboarding":
+            readableString = localize(locale, 'INFO_READABLE_MEMBER_FLAG_ONBOARDING_STARTED');
+            break;
+
+        default:
+            readableString = userFlag;
+            break;
+    }
+    return readableString;
+}
+
+
 /**
  * Readable User Flags, returns Emoji strings
  * @param {String} userFlag 
@@ -699,14 +753,14 @@ ${ExternalEmojiPermission && InviteGuild.verified ? `${EMOJI_VERIFIED} ` : ""}**
         userFlagEmojis = userFlagEmojis.filter(emojiString => emojiString !== "NULL");
 
         // GuildMember Flags
-        const MemberFlagStrings = [];
-        if ( fetchedMember.flags.has(GuildMemberFlags.DidRejoin) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_REJOIN')); }
-        if ( fetchedMember.flags.has(GuildMemberFlags.StartedOnboarding) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_ONBOARDING_STARTED')); }
-        if ( fetchedMember.flags.has(GuildMemberFlags.CompletedOnboarding) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_ONBOARDING_COMPLETED')); }
-        if ( fetchedMember.flags.has(GuildMemberFlags.AutomodQuarantinedBio) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_BIO')); }
-        if ( fetchedMember.flags.has(GuildMemberFlags.AutomodQuarantinedUsernameOrGuildNickname) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_NAME')); }
-        if ( fetchedMember.flags.has(GuildMemberFlags.StartedHomeActions) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_STARTED')); }
-        if ( fetchedMember.flags.has(GuildMemberFlags.CompletedHomeActions) ) { MemberFlagStrings.push(localize(interaction.locale, 'INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_COMPLETED')); }
+        let memberFlagStrings = [];
+        const RawMemberFlags = fetchedMember.flags.toArray();
+        RawMemberFlags.forEach(flag => {
+            memberFlagStrings.push(readableMemberFlags(flag, interaction.locale));
+        });
+        // Filter out NULLs
+        memberFlagStrings = memberFlagStrings.filter(flag => flag !== "NULL");
+
 
 
         // Construct Embed
@@ -772,7 +826,7 @@ ${ExternalEmojiPermission && InviteGuild.verified ? `${EMOJI_VERIFIED} ` : ""}**
 
 
         // Guild Member Flags
-        if ( MemberFlagStrings.length > 0 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_MEMBER_FLAGS'), value: MemberFlagStrings.sort().join(', ').slice(0, 1023) }); }
+        if ( memberFlagStrings.length > 0 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_MEMBER_FLAGS'), value: memberFlagStrings.sort().join(', ').slice(0, 1023) }); }
         
         // User Flags & Badges
         if ( UserFlagStrings.length > 0 ) { UserInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_USER_HEADER_USER_FLAGS'), value: UserFlagStrings.sort().join(', ').slice(0, 1023) }); }

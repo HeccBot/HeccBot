@@ -254,6 +254,7 @@ module.exports = {
     INFO_READABLE_MEMBER_FLAG_AUTOMOD_QUARANTIED_NAME: `Quarantied by AutoMod (User/Display/Nick Name Filter)`,
     INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_STARTED: `Started Guide ToDo Tasks`,
     INFO_READABLE_MEMBER_FLAG_GUIDE_TODO_COMPLETED: `Completed Guide ToDo Tasks`,
+    INFO_READABLE_MEMBER_FLAG_BYPASS_SERVER_VERIFICATION: `Bypasses Server Verification Requirements`,
 
     INFO_READABLE_APP_FLAG_AUTOMOD_BADGE: `Uses AutoMod API`,
     INFO_READABLE_APP_FLAG_APP_COMMANDS_BADGE: `Supports Application Commands`,
