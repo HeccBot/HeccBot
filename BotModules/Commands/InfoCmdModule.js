@@ -1,4 +1,4 @@
-const { InteractionEditReplyOptions, ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType, GuildMember, GuildMemberFlags } = require("discord.js");
+const { InteractionEditReplyOptions, ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType, GuildMember, GuildMemberFlags, Role } = require("discord.js");
 const { localize } = require("../LocalizationModule");
 const fetch = require("node-fetch");
 const { checkExternalEmojiPermission, DiscordClient, titleCaseGuildFeature, fetchDisplayName } = require("../../constants");
@@ -357,6 +357,7 @@ function readableChannelType(channelType, locale)
     return readableString;
 }
 
+
 /**
  * Readable Bot Application Flags
  * @param {String} applicationFlag 
@@ -431,12 +432,39 @@ function readableApplicationFlags(applicationFlag, locale)
         case "VerificationPendingGuildLimit":
             readableString = localize(locale, 'INFO_READABLE_APP_FLAG_VERIFICATION_BLOCKED_BY_GROWTH');
             break;
+
+        default:
+            readableString = applicationFlag;
+            break;
     }
     return readableString;
 }
 
 /** Bot Flags to be included in seperate Embed Field to the others */
 const BotIntentFlags = [ "GatewayPresence", "GatewayPresenceLimited", "GatewayMessageContent", "GatewayMessageContentLimited", "GatewayGuildMembers", "GatewayGuildMembersLimited" ];
+
+
+/**
+ * Readable Role Flags
+ * @param {String} roleFlag 
+ * @param {String} locale Locale from Command
+ * @returns {String}
+ */
+function readableRoleFlags(roleFlag, locale)
+{
+    let readableString = "";
+    switch(roleFlag)
+    {
+        case "InPrompt":
+            readableString = localize(locale, 'INFO_ROLE_FLAG_PROMPT');
+            break;
+
+        default:
+            readableString = roleFlag;
+            break;
+    }
+    return readableString;
+}
 
 
 
@@ -861,6 +889,91 @@ ${ExternalEmojiPermission && InviteGuild.verified ? `${EMOJI_VERIFIED} ` : ""}**
 
         // ACK
         await interaction.editReply(commandResponse);
+        return;
+    },
+
+
+
+
+
+
+
+
+
+    /**
+     * Fetches information about the specified Server Role
+     * @param {ChatInputCommandInteraction} interaction 
+     */
+    async fetchRoleInfo(interaction)
+    {
+        await interaction.deferReply({ ephemeral: true });
+
+        // Grab Role & ensure it's actually existing in the Server
+        /** @type {?Role} */
+        const InputRole = interaction.options.getRole("role");
+
+        if ( !InputRole || InputRole == null )
+        {
+            await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_ROLE_NOT_FOUND') });
+            return;
+        }
+
+        // Reject atEveryone
+        if ( InputRole.id === interaction.guildId )
+        {
+            await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_ROLE_EVERYONE_UNSUPPORTED') });
+            return;
+        }
+
+
+        // Construct Embed
+        const RoleInfoEmbed = new EmbedBuilder().setColor(InputRole.hexColor);
+
+
+        // General Role Information
+        let generalRoleInfoString = `**${localize(interaction.locale, 'INFO_ROLE_CREATED')}** <t:${Math.floor(InputRole.createdAt.getTime() / 1000)}:R>`;
+        generalRoleInfoString += `\n**${localize(interaction.locale, 'INFO_ROLE_COLOR')}** ${InputRole.hexColor}`;
+        generalRoleInfoString += `\n**${localize(interaction.locale, 'INFO_ROLE_HOISTED')}** ${InputRole.hoist ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+        generalRoleInfoString += `\n**${localize(interaction.locale, 'INFO_ROLE_MANAGED')}** ${InputRole.managed ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+        generalRoleInfoString += `\n**${localize(interaction.locale, 'INFO_ROLE_MEMBERS')}** ${InputRole.members.size}`;
+        if ( InputRole.unicodeEmoji != null ) { generalRoleInfoString += `\n**${localize(interaction.locale, 'INFO_ROLE_ICON_EMOJI')}** ${InputRole.unicodeEmoji}`; }
+        generalRoleInfoString += `\n**${localize(interaction.locale, 'INFO_ROLE_ICON_CUSTOM')}** ${InputRole.icon != null ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+
+        RoleInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_ROLE_HEADER_GENERAL'), value: generalRoleInfoString });
+
+
+        // Role Custom Icon Check
+        if ( InputRole.icon != null ) { RoleInfoEmbed.setAuthor({ name: InputRole.name, iconURL: InputRole.iconURL({ extension: 'png' }) }); }
+        else { RoleInfoEmbed.setAuthor({ name: InputRole.name }); }
+
+
+        // Role Tags
+        if ( InputRole.tags != null )
+        {
+            let roleTagInfo = "";
+            let roleTags = InputRole.tags;
+
+            if ( roleTags.botId != undefined ) { roleTagInfo += `**${localize(interaction.locale, 'INFO_ROLE_BOT')}** <@${roleTags.botId}>`; }
+            if ( roleTags.integrationId != undefined ) { roleTagInfo += `${roleTagInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_ROLE_INTEGRATION')}** ${localize(interaction.locale, 'TRUE')}`; }
+            if ( roleTags.premiumSubscriberRole != undefined ) { roleTagInfo += `${roleTagInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_ROLE_SERVER_BOOST')}** ${localize(interaction.locale, 'TRUE')}`; }
+            if ( roleTags.subscriptionListingId != undefined ) { roleTagInfo += `${roleTagInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_ROLE_MONETIZATION')}** ${localize(interaction.locale, 'TRUE')}`; }
+            if ( roleTags.availableForPurchase != undefined ) { roleTagInfo += `${roleTagInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_ROLE_PURCHASABLE')}** ${localize(interaction.locale, 'TRUE')}`; }
+            if ( roleTags.guildConnections != undefined ) { roleTagInfo += `${roleTagInfo.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_ROLE_LINKED')}** ${localize(interaction.locale, 'TRUE')}`; }
+
+            if ( roleTagInfo.length > 1 ) { RoleInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_ROLE_HEADER_TAGS'), value: roleTagInfo }); }
+        }
+
+
+        // Role Flags
+        const RoleFlagStrings = [];
+        let rawRoleFlags = InputRole.flags.toArray();
+        rawRoleFlags.forEach(flag => { RoleFlagStrings.push(readableRoleFlags(flag, interaction.locale)); });
+
+        if ( RoleFlagStrings.length > 0 ) { RoleInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_ROLE_HEADER_FLAGS'), value: RoleFlagStrings.sort().join(', ').slice(0, 1023) }); }
+
+
+        // ACK
+        await interaction.editReply({ embeds: [RoleInfoEmbed] });
         return;
     }
 }
