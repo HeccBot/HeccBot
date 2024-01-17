@@ -1,4 +1,4 @@
-const { InteractionEditReplyOptions, ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType, GuildMember, GuildMemberFlags, Role } = require("discord.js");
+const { InteractionEditReplyOptions, ChatInputCommandInteraction, Routes, TextChannel, VoiceChannel, StageChannel, NewsChannel, CategoryChannel, ForumChannel, MediaChannel, EmbedBuilder, ChannelType, GuildPremiumTier, ActionRowBuilder, ButtonBuilder, ButtonStyle, Invite, InviteTargetType, GuildMember, GuildMemberFlags, Role, ThreadChannel, PermissionFlagsBits, SortOrderType, ThreadAutoArchiveDuration, ChannelFlags, VideoQualityMode } = require("discord.js");
 const { localize } = require("../LocalizationModule");
 const fetch = require("node-fetch");
 const { checkExternalEmojiPermission, DiscordClient, titleCaseGuildFeature, fetchDisplayName } = require("../../constants");
@@ -461,6 +461,57 @@ function readableRoleFlags(roleFlag, locale)
 
         default:
             readableString = roleFlag;
+            break;
+    }
+    return readableString;
+}
+
+
+/**
+ * Readable Channel Flags
+ * @param {String} channelFlag 
+ * @param {String} locale Locale from Command
+ * @returns {String}
+ */
+function readableChannelFlags(channelFlag, locale)
+{
+    let readableString = "";
+    switch(channelFlag)
+    {
+        case "ActiveChannelsRemoved":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_ACTIVE_CHANNELS_REMOVED');
+            break;
+
+        case "GuildFeedRemoved":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_GUILD_FEED_REMOVED');
+            break;
+
+        case "HideMediaDownloadOptions":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_DOWNLOAD_HIDDEN');
+            break;
+
+        case "IsGuildResourceChannel":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_RESOURCE');
+            break;
+
+        case "IsScheduledForDeletion":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_SCHEDULED_DELETION');
+            break;
+
+        case "IsSpam":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_SPAM');
+            break;
+
+        case "Pinned":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_PINNED');
+            break;
+
+        case "RequireTag":
+            readableString = localize(locale, 'INFO_CHANNEL_FLAG_REQUIRE_TAG');
+            break;
+
+        default:
+            readableString = channelFlag;
             break;
     }
     return readableString;
@@ -974,6 +1025,200 @@ ${ExternalEmojiPermission && InviteGuild.verified ? `${EMOJI_VERIFIED} ` : ""}**
 
         // ACK
         await interaction.editReply({ embeds: [RoleInfoEmbed] });
+        return;
+    },
+
+
+
+
+
+
+
+
+
+    /**
+     * Fetches information about the specified Channel in that Server (or, if not specified, the Channel this Command was used in)
+     * @param {ChatInputCommandInteraction} interaction 
+     */
+    async fetchChannelInfo(interaction)
+    {
+        await interaction.deferReply({ ephemeral: true });
+
+        // Fetch Channel
+        /** @type {TextChannel|CategoryChannel|ForumChannel|NewsChannel|StageChannel|ThreadChannel|VoiceChannel|MediaChannel} */
+        let fetchedChannel;
+        const InputChannel = interaction.options.getChannel("channel");
+
+        // Catch for KNOWN unsupported Channel Types (for InputChannel)
+        if ( InputChannel?.type === 14 ) { await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_CHANNEL_DIRECTORY_UNSUPPORTED') }); return; }
+
+        // Catch for KNOWN unsupported Channel Types (for when InputChannel is NOT provided)
+        if ( InputChannel == null && interaction.channel.type === 14 ) { await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_CHANNEL_DIRECTORY_UNSUPPORTED') }); return; }
+
+
+        // ***OLD*** Fetch Channel, depending on if provided in InputChannel or not
+        /* try
+        {
+            if ( !InputChannel || InputChannel == null ) { fetchedChannel = await interaction.channel.fetch(); }
+            else { fetchedChannel = await InputChannel.fetch(); }
+        }
+        catch (err)
+        {
+            await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_CHANNEL_FETCH_FAILED') });
+            return;
+        } */
+
+        // ***EXPERIMENTAL*** Is InputChannel specified or not?
+        if ( !InputChannel || InputChannel == null ) { fetchedChannel = interaction.channel; }
+        else { fetchedChannel = InputChannel; }
+
+
+        // Catch for DMs/GDMs, just in case
+        if ( fetchedChannel.type === 1 || fetchedChannel.type === 3 ) { await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_CHANNEL_DM_UNSUPPORTED') }); return; }
+
+
+        // Construct Embed
+        const ChannelInfoEmbed = new EmbedBuilder().setTitle(`#${fetchedChannel.name}`)
+        .setFooter({ text: localize(interaction.locale, 'CREATED') })
+        .setTimestamp(fetchedChannel.createdAt);
+        
+        // Channel Description
+        if ( fetchedChannel.topic != null ) { ChannelInfoEmbed.setDescription(fetchedChannel.topic); }
+
+
+        // General Channel Info shared across most/all Guild-based Channels
+        let generalChannelInfoString = "";
+
+        generalChannelInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_TYPE')}** ${readableChannelType(fetchedChannel.type, interaction.locale)}`;
+        generalChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_LINK')}** ${fetchedChannel.url}`;
+        if ( fetchedChannel.parentId != null )
+        {
+            if ( fetchedChannel.parent.type === ChannelType.GuildCategory ) { generalChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_PARENT_CATEGORY')}** ${fetchedChannel.parent.url}`; }
+            else { generalChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_PARENT_CHANNEL')}** ${fetchedChannel.parent.url}`; }
+        }
+        generalChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_CAN_EVERYONE_VIEW')}** ${fetchedChannel.permissionsFor(interaction.guildId).has(PermissionFlagsBits.ViewChannel) ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+        if ( fetchedChannel.type !== ChannelType.GuildCategory ) { generalChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_NSFW')}** ${fetchedChannel.nsfw ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`; }
+
+        ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_GENERAL'), value: generalChannelInfoString });
+
+
+        // Category Info
+        if ( fetchedChannel.type === ChannelType.GuildCategory )
+        {
+            let categoryInfoString = "";
+
+            categoryInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_CATEGORY_CACHED_CHILDREN')}** ${fetchedChannel.children.cache.size}`;
+
+            ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_CATEGORY'), value: categoryInfoString });
+        }
+
+
+        // Thread-based Channel Info
+        if ( fetchedChannel.type === ChannelType.GuildForum || fetchedChannel.type === ChannelType.GuildMedia )
+        {
+            // Forum/Media general info
+            let threadBasedInfoString = "";
+
+            threadBasedInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_DEFAULT_REACTION')}** ${fetchedChannel.defaultReactionEmoji != null ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+            if ( fetchedChannel.defaultSortOrder != null ) { threadBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_DEFAULT_SORT_ORDER')}** ${fetchedChannel.defaultSortOrder === SortOrderType.CreationDate ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_SORT_CREATION') : localize(interaction.locale, 'INFO_CHANNEL_FORUM_SORT_ACTIVITY')}`; }
+            if ( fetchedChannel.defaultAutoArchiveDuration != null ) { threadBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_DEFAULT_VISIBILITY_DURATION')}** ${fetchedChannel.defaultAutoArchiveDuration === ThreadAutoArchiveDuration.OneHour ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_HOUR') : fetchedChannel.defaultAutoArchiveDuration === ThreadAutoArchiveDuration.OneDay ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_DAY') : fetchedChannel.defaultAutoArchiveDuration === ThreadAutoArchiveDuration.ThreeDays ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_THREE_DAYS') : localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_WEEK')}`; }
+            if ( fetchedChannel.defaultThreadRateLimitPerUser != null ) { threadBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_DEFAULT_MESSAGE_SLOWMODE')}** ${fetchedChannel.defaultThreadRateLimitPerUser} ${localize(interaction.locale, 'SECONDS')}`; }
+            if ( fetchedChannel.rateLimitPerUser != null ) { threadBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_POST_CREATION_SLOWMODE')}** ${fetchedChannel.rateLimitPerUser} ${localize(interaction.locale, 'SECONDS')}`; }
+            threadBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_REQUIRES_TAGS')}** ${fetchedChannel.flags.has(ChannelFlags.RequireTag) ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+            threadBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_FORUM_TAG_AMOUNT')}** ${fetchedChannel.availableTags.length}`;
+
+            // Just for Channel Typing
+            if ( fetchedChannel.type === ChannelType.GuildForum ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_FORUM'), value: threadBasedInfoString }); }
+            else if ( fetchedChannel.type === ChannelType.GuildMedia ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_MEDIA'), value: threadBasedInfoString }); }
+
+            // Forum/Media Tag info
+            if ( fetchedChannel.availableTags.length > 0 )
+            {
+                let tagInfoString = "";
+                fetchedChannel.availableTags.forEach(tag => { tagInfoString += `${tag.name}, `; });
+                ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_FORUM_TAGS'), value: tagInfoString });
+            }
+        }
+        
+        
+        // Text-based Channel
+        if ( fetchedChannel.type === ChannelType.GuildText || fetchedChannel.type === ChannelType.GuildAnnouncement )
+        {
+            let textBasedInfoString = "";
+
+            if ( fetchedChannel.defaultAutoArchiveDuration != undefined ) { textBasedInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_DEFAULT_THREAD_VISIBILITY_DURATION')}** ${fetchedChannel.defaultAutoArchiveDuration === ThreadAutoArchiveDuration.OneHour ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_HOUR') : fetchedChannel.defaultAutoArchiveDuration === ThreadAutoArchiveDuration.OneDay ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_DAY') : fetchedChannel.defaultAutoArchiveDuration === ThreadAutoArchiveDuration.ThreeDays ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_THREE_DAYS') : localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_WEEK')}` }
+            if ( fetchedChannel.rateLimitPerUser != null) { textBasedInfoString += `${textBasedInfoString.length > 1 ? `\n` : ""}**${localize(interaction.locale, 'INFO_CHANNEL_MESSAGE_SLOWMODE')}** ${fetchedChannel.rateLimitPerUser} ${localize(interaction.locale, 'SECONDS')}`; }
+
+            // Just for Channel Typing
+            if ( fetchedChannel.type === ChannelType.GuildText ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_TEXT'), value: textBasedInfoString }); }
+            else if ( fetchedChannel.type === ChannelType.GuildAnnouncement ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_ANNOUNCEMENT'), value: textBasedInfoString }); }
+        }
+
+
+        // Voice-based Channel
+        if ( fetchedChannel.type === ChannelType.GuildVoice || fetchedChannel.type === ChannelType.GuildStageVoice )
+        {
+            // General Voice Information
+            let voiceBasedInfoString = "";
+
+            voiceBasedInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_AUDIO_BITRATE')}** ${Math.floor(fetchedChannel.bitrate / 1000)}${localize(interaction.locale, 'KBPS')}`;
+            if ( fetchedChannel.videoQualityMode != null ) { voiceBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_VIDEO_QUALITY_MODE')}** ${fetchedChannel.videoQualityMode === VideoQualityMode.Auto ? localize(interaction.locale, 'INFO_CHANNEL_VIDEO_QUALITY_AUTOMATIC') : localize(interaction.locale, 'INFO_CHANNEL_VIDEO_QUALITY_720')}`; }
+            if ( fetchedChannel.rateLimitPerUser != null ) { voiceBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_MESSAGE_SLOWMODE')}** ${fetchedChannel.rateLimitPerUser} ${localize(interaction.locale, 'SECONDS')}`; }
+            voiceBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_VOICE_FULL')}** ${fetchedChannel.full ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+            voiceBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_CONNECTED_MEMBERS')}** ${fetchedChannel.members.size}`;
+            voiceBasedInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_VOICE_LIMIT')}** ${fetchedChannel.userLimit === 0 ? localize(interaction.locale, 'NO_LIMIT') : `${fetchedChannel.userLimit}`}`;
+
+            // Just for Channel Typing
+            if ( fetchedChannel.type === ChannelType.GuildVoice ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_VOICE'), value: voiceBasedInfoString }); }
+            else if ( fetchedChannel.type === ChannelType.GuildStageVoice ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_STAGE'), value: voiceBasedInfoString }); }
+
+            // Live Stage Instance Information
+            if ( fetchedChannel.type === ChannelType.GuildStageVoice && fetchedChannel.stageInstance != null )
+            {
+                let stageInfoString = "";
+
+                stageInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_STAGE_LIVE_STARTED')}** <t:${Math.floor(fetchedChannel.stageInstance.createdAt.getTime() / 1000)}:R>`;
+                stageInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_STAGE_EVENT_CONNECTION')}** ${fetchedChannel.stageInstance.guildScheduledEventId != null ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
+                if ( fetchedChannel.topic != null ) { stageInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_STAGE_TOPIC')}** ${fetchedChannel.topic}`; }
+
+                ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_LIVE_STAGE'), value: stageInfoString });
+            }
+        }
+
+
+        // Thread Channel Info
+        if ( fetchedChannel.type === ChannelType.PublicThread || fetchedChannel.type === ChannelType.PrivateThread || fetchedChannel.type === ChannelType.AnnouncementThread )
+        {
+            let threadChannelInfoString = "";
+
+            // General Thread Info, for all Threads
+            threadChannelInfoString += `**${localize(interaction.locale, 'INFO_CHANNEL_THREAD_CREATOR')}** ${fetchedChannel.ownerId == null ? localize(interaction.locale, 'UNKNOWN') : `<@${fetchedChannel.ownerId}>`}`;
+            if ( fetchedChannel.archived != null ) { threadChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_THREAD_CLOSED')}** ${fetchedChannel.archived ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`; }
+            if ( fetchedChannel.locked != null ) { threadChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_THREAD_LOCKED')}** ${fetchedChannel.locked ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`; }
+            if ( fetchedChannel.autoArchiveDuration != null ) { threadChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_THREAD_VISIBILITY_DURATION')}** ${fetchedChannel.autoArchiveDuration === ThreadAutoArchiveDuration.OneHour ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_HOUR') : fetchedChannel.autoArchiveDuration === ThreadAutoArchiveDuration.OneDay ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_DAY') : fetchedChannel.autoArchiveDuration === ThreadAutoArchiveDuration.ThreeDays ? localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_THREE_DAYS') : localize(interaction.locale, 'INFO_CHANNEL_FORUM_VISIBILITY_ONE_WEEK')}`; }
+            if ( fetchedChannel.rateLimitPerUser != null ) { threadChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_MESSAGE_SLOWMODE')}** ${fetchedChannel.rateLimitPerUser} ${localize(interaction.locale, 'SECONDS')}`; }
+            if ( fetchedChannel.invitable != null && fetchedChannel.parent.type !== ChannelType.GuildForum ) { threadChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_THREAD_INVITIBLE')}** ${fetchedChannel.invitable ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`; }
+            // Specific to Forum/Media Threads
+            threadChannelInfoString += `\n**${localize(interaction.locale, 'INFO_CHANNEL_THREAD_APPLIED_TAGS')}** ${fetchedChannel.appliedTags.length}`;
+
+            // Just for the specific Thread Names
+            if ( fetchedChannel.parent.type === ChannelType.GuildForum ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_POST_FORUM'), value: threadChannelInfoString }); }
+            else if ( fetchedChannel.parent.type === ChannelType.GuildMedia ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_POST_MEDIA'), value: threadChannelInfoString }); }
+            else { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_THREAD'), value: threadChannelInfoString }); }
+        }
+
+
+        // Channel Flags
+        const ChannelFlagStrings = [];
+        let rawChannelFlags = fetchedChannel.flags.toArray();
+        rawChannelFlags.forEach(flag => { ChannelFlagStrings.push(readableChannelFlags(flag, interaction.locale)); });
+
+        if ( ChannelFlagStrings.length > 0 ) { ChannelInfoEmbed.addFields({ name: localize(interaction.locale, 'INFO_CHANNEL_HEADER_FLAGS'), value: ChannelFlagStrings.sort().join(', ').slice(0, 1023) }); }
+
+
+
+        // ACK
+        await interaction.editReply({ embeds: [ChannelInfoEmbed] });
         return;
     }
 }

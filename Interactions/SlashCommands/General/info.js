@@ -1,6 +1,6 @@
 const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, ApplicationCommandOptionType } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule.js");
-const { fetchServerInfo, fetchInviteInfo, fetchUserInfo, fetchRoleInfo } = require("../../../BotModules/Commands/InfoCmdModule.js");
+const { fetchServerInfo, fetchInviteInfo, fetchUserInfo, fetchRoleInfo, fetchChannelInfo } = require("../../../BotModules/Commands/InfoCmdModule.js");
 
 module.exports = {
     // Command's Name
@@ -203,6 +203,7 @@ module.exports = {
                 break;
 
             case "channel":
+                await fetchChannelInfo(interaction);
                 break;
         }
 

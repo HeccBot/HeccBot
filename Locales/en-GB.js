@@ -9,6 +9,7 @@ module.exports = {
     NO_LIMIT: `No limit`,
     KBPS: `kbps`,
     SECONDS: `seconds`,
+    UNKNOWN: `Unknown`,
 
     JUMP_TO_SOURCE_MESSAGE: `Jump to source Message`,
 
@@ -280,6 +281,8 @@ module.exports = {
     INFO_CHANNEL_LINK: `Channel Link:`,
     INFO_CHANNEL_PARENT_CHANNEL: `Parent Channel:`,
     INFO_CHANNEL_PARENT_CATEGORY: `Parent Category:`,
+    INFO_CHANNEL_CAN_EVERYONE_VIEW: `Can @everyone View Channel:`,
+    
     INFO_CHANNEL_NSFW: `Age-restricted:`,
     INFO_CHANNEL_DEFAULT_THREAD_VISIBILITY_DURATION: `Default Thread Visibility Duration:`,
     INFO_CHANNEL_MESSAGE_SLOWMODE: `Message Slowmode:`,
@@ -288,6 +291,8 @@ module.exports = {
     INFO_CHANNEL_VIDEO_QUALITY_MODE: `Video Quality Mode:`,
     INFO_CHANNEL_VIDEO_QUALITY_AUTOMATIC: `Automatic`,
     INFO_CHANNEL_VIDEO_QUALITY_720: `720p`,
+
+    INFO_CHANNEL_CATEGORY_CACHED_CHILDREN: `Cached Child Channels:`,
     
     INFO_CHANNEL_FORUM_DEFAULT_REACTION: `Has a Default Reaction:`,
     INFO_CHANNEL_FORUM_DEFAULT_SORT_ORDER: `Default Sort Order:`,
@@ -303,9 +308,7 @@ module.exports = {
     INFO_CHANNEL_FORUM_REQUIRES_TAGS: `Posts Requires Tags:`,
     INFO_CHANNEL_FORUM_TAG_AMOUNT: `Number of Tags:`,
 
-    INFO_CHANNEL_STAGE_FULL: `Is Stage Full:`,
-    INFO_CHANNEL_STAGE_LIMIT: `Stage Member Limit:`,
-    INFO_CHANNEL_STAGE_LIVE_STARTED: `Is Stage Live:`,
+    INFO_CHANNEL_STAGE_LIVE_STARTED: `Live Stage Started:`,
     INFO_CHANNEL_STAGE_EVENT_CONNECTION: `Connected to Scheduled Event:`,
     INFO_CHANNEL_STAGE_TOPIC: `Stage Topic:`,
 
@@ -315,26 +318,32 @@ module.exports = {
     INFO_CHANNEL_THREAD_LOCKED: `Locked:`,
     INFO_CHANNEL_THREAD_VISIBILITY_DURATION: `Visibility Duration:`,
     INFO_CHANNEL_THREAD_INVITIBLE: `Can Anyone Invite to Private Thread:`,
-    INFO_CHANNEL_THREAD_PINNED: `Is Post Pinned:`,
 
-    INFO_CHANNEL_VOICE_FULL: `Is Voice Full:`,
-    INFO_CHANNEL_VOICE_LIMIT: `Voice Member Limit:`,
+    INFO_CHANNEL_VOICE_FULL: `Is Full:`,
+    INFO_CHANNEL_VOICE_LIMIT: `Member Limit:`,
 
+    INFO_CHANNEL_FLAG_ACTIVE_CHANNELS_REMOVED: `Active Channels Removed`,
+    INFO_CHANNEL_FLAG_GUILD_FEED_REMOVED: `Server Feed Removed`,
+    INFO_CHANNEL_FLAG_DOWNLOAD_HIDDEN: `Media Download Options Hidden`,
     INFO_CHANNEL_FLAG_RESOURCE: `Is Guide Resource`,
     INFO_CHANNEL_FLAG_SCHEDULED_DELETION: `Is Scheduled for Deletion`,
     INFO_CHANNEL_FLAG_SPAM: `Is Likely Spam`,
+    INFO_CHANNEL_FLAG_PINNED: `Is Pinned Post`,
+    INFO_CHANNEL_FLAG_REQUIRE_TAG: `Requires Forum/Media Tags`,
 
     INFO_CHANNEL_HEADER_GENERAL: `>> General Information`,
     INFO_CHANNEL_HEADER_CATEGORY: `>> Category Information`,
     INFO_CHANNEL_HEADER_FORUM: `>> Forum Information`,
-    INFO_CHANNEL_HEADER_FORUM_TAGS: `>> Available Forum Tags`,
+    INFO_CHANNEL_HEADER_FORUM_TAGS: `>> Available Tags`,
     INFO_CHANNEL_HEADER_ANNOUNCEMENT: `>> Announcement Information`,
     INFO_CHANNEL_HEADER_STAGE: `>> Stage Information`,
     INFO_CHANNEL_HEADER_LIVE_STAGE: `>> Live Stage Information`,
     INFO_CHANNEL_HEADER_TEXT: `>> Text Information`,
     INFO_CHANNEL_HEADER_THREAD: `>> Thread Information`,
-    INFO_CHANNEL_HEADER_POST: `>> Forum Post Information`,
+    INFO_CHANNEL_HEADER_POST_FORUM: `>> Forum Post Information`,
+    INFO_CHANNEL_HEADER_POST_MEDIA: `>> Media Post Information`,
     INFO_CHANNEL_HEADER_VOICE: `>> Voice Information`,
+    INFO_CHANNEL_HEADER_MEDIA: `>> Media Information`,
     INFO_CHANNEL_HEADER_FLAGS: `>> Channel's Flags`,
 
 
@@ -488,4 +497,6 @@ module.exports = {
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_SELF: `Sorry, I was unable to fetch public Discord information about yourself. Please try again in a few minutes.`,
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_OTHER: `Sorry, either that User is not a Member of this Server, or I was unable to fetch their public Discord information due to an error.`,
     INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server Invite, or that Invite doesn't exist on Discord.`,
+    INFO_COMMAND_ERROR_CHANNEL_DIRECTORY_UNSUPPORTED: `Sorry, but the [Directory Channel](<https://support.discord.com/hc/en-us/articles/4406046651927>) type isn't supported by this Bot!`,
+    INFO_COMMAND_ERROR_CHANNEL_DM_UNSUPPORTED: `Sorry, but this Bot cannot be used to fetch information of Direct Messages (DMs) or Group Direct Messages (GDMs)!`,
 };
