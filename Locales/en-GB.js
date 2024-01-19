@@ -499,4 +499,13 @@ module.exports = {
     INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server Invite, or that Invite doesn't exist on Discord.`,
     INFO_COMMAND_ERROR_CHANNEL_DIRECTORY_UNSUPPORTED: `Sorry, but the [Directory Channel](<https://support.discord.com/hc/en-us/articles/4406046651927>) type isn't supported by this Bot!`,
     INFO_COMMAND_ERROR_CHANNEL_DM_UNSUPPORTED: `Sorry, but this Bot cannot be used to fetch information of Direct Messages (DMs) or Group Direct Messages (GDMs)!`,
+
+
+
+    // ******* JAIL COMMAND
+    JAIL_COMMAND_SUCCESS: `**{{0}}** was sent to jail by **{{1}}**!`,
+
+    JAIL_COMMAND_ERROR_CANNOT_JAIL_SELF: `You cannot send yourself to jail!`,
+    JAIL_COMMAND_ERROR_USER_NOT_IN_GUILD: `Sorry, but you cannot send a User to jail when they are not in this Server.`,
+    JAIL_COMMAND_ERROR_MISSING_ATTACH_FILES_PERMISSION: `Sorry, I seem to be missing the **Attach Files** Permission in this Channel! (I need it for this Command to work)`,
 };
