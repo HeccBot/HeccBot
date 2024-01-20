@@ -1,5 +1,4 @@
 const { ModalSubmitInteraction, ModalMessageModalSubmitInteraction } = require("discord.js");
-const { DiscordClient, Collections } = require("../../constants.js");
 
 module.exports = {
     // Modal's Name
