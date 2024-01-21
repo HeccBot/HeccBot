@@ -2,7 +2,7 @@
 
 # HeccBot
 
-A semi-private general-purpose Discord Bot made by TwilightZebby; originally for [Dr1fterX's](https://www.twitch.tv/Dr1fterX) Discord Server, but can be used in other Servers on a case-by-case basis.
+A general-purpose Discord Bot made by TwilightZebby, which focuses on actual "general" features (so no Moderation, Music, or Levelling features).
 
 ---
 
@@ -54,4 +54,6 @@ __User Context Commands__ are Commands used on a specific User in Servers, and c
 > That meme has long since vanished as per TwilightZebby's request. He humbly requests no one refer to him as a cow anymore because of the expiry of that meme. :)
 
 ## Why was the Bot renamed from "MooBot" to "HeccBot"?
-> Due to Discord changing their [Username System](https://dis.gd/usernames) in early 2023, it was thought that the name "MooBot" could not be used for this Bot anymore, since it is already taken by a verified Discord & Twitch Bot. Thus, TwilightZebby renamed this Bot to "HeccBot". However, Discord has since allowed Bots to stay on the old username system (with "username#0000" style names including discrims) - but TwilightZebby will keep the Bot named as "HeccBot" to help reduce conflicting names with the aforementioned Twitch Bot.
+> Due to Discord changing their [Username System](https://dis.gd/usernames) in early 2023, it was thought that the name "MooBot" could not be used for this Bot anymore, since it is already taken by a verified Discord & Twitch Bot.
+> 
+> Thus, TwilightZebby renamed this Bot to "HeccBot". However, Discord has since allowed Bots to stay on the old username system (with "username#0000" style names including discrims) - but TwilightZebby will keep the Bot named as "HeccBot" to help reduce conflicting names with the aforementioned Twitch Bot.
