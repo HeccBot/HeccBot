@@ -535,4 +535,120 @@ module.exports = {
     TEMPERATURE_COMMAND_ERROR_INVALID_TEMPERATURE: `:warning: {{0}}{{1}} is a temperature that cannot exist! (It is below Absolute Zero!)`,
     TEMPERATURE_COMMAND_ERROR_TEMPERATURE_NOT_FOUND: `Sorry, but I couldn't find any temperatures to convert from that Message.`,
     TEMPERATURE_COMMAND_ERROR_EXCEEDED_TEMPERATURE_LIMIT: `Sorry, but there are too many temperatures found in that Message!\nI have a maximum limit of 10 temperatures per Message that I can convert.`,
+
+
+
+    // ******* ROLE MENUS
+    ROLE_MENU_PREVIEW_EMPTY: `*Role Menu is currently empty. Please use the Select Menu below to configure this Role Menu.*`,
+    ROLE_MENU_SELECT_AN_ACTION: `Please select an action`,
+
+    ROLE_MENU_SET_MENU_TYPE: `Set Menu Type`,
+    ROLE_MENU_SET_MENU_TYPE_DESCRIPTION: `Change how this Menu will behave once saved`,
+    ROLE_MENU_CONFIGURE_EMBED: `Configure Embed`,
+    ROLE_MENU_CONFIGURE_EMBED_DESCRIPTION: `Set the Title, Description, and Colour of the Embed`,
+
+    ROLE_MENU_ADD_ROLE: `Add Role`,
+    ROLE_MENU_ADD_ROLE_DESCRIPTION: `Add a Role to this Menu`,
+    ROLE_MENU_REMOVE_ROLE: `Remove Role`,
+    ROLE_MENU_REMOVE_ROLE_DESCRIPTION: `Remove a Role from this Menu`,
+
+    ROLE_MENU_SAVE_AND_POST: `Save & Post`,
+    ROLE_MENU_SAVE_AND_POST_DESCRIPTION: `Saves this Menu, and posts it in chat for Members to use`,
+    ROLE_MENU_SAVE_AND_UPDATE: `Save & Update`,
+    ROLE_MENU_SAVE_AND_UPDATE_DESCRIPTION: `Saves this Menu, and updates it in chat for Members to use`,
+
+    ROLE_MENU_CANCEL_CREATION: `Cancel Creation`,
+    ROLE_MENU_CANCEL_CREATION_DESCRIPTION: `Cancels creation of this Role Menu`,
+    ROLE_MENU_CANCEL_CONFIGURATION: `Cancel Configuration`,
+    ROLE_MENU_CANCEL_CONFIGURATION_DESCRIPTION: `Cancels configuration of this Role Menu`,
+    
+    ROLE_MENU_ROLE_ADD_SEARCH: `Search for a Role to add`,
+    ROLE_MENU_ROLE_REMOVE_SEARCH: `Search for a Role to remove`,
+
+    ROLE_MENU_SELECT_MENU_TYPE: `Select a Menu Type`,
+    ROLE_MENU_MENU_TYPE_TOGGLE: `Toggle`,
+    ROLE_MENU_MENU_TYPE_SWAPPABLE: `Swappable`,
+    ROLE_MENU_MENU_TYPE_SINGLE: `Single-use`,
+    ROLE_MENU_TYPE_FOOTER: `Menu Type: {{0}}`,
+
+    ROLE_MENU_CONFIGURE_MENU_EMBED: `Configure Menu Embed`,
+    ROLE_MENU_EMBED_TITLE: `Embed Title`,
+    ROLE_MENU_EMBED_DESCRIPTION: `Embed Description`,
+    ROLE_MENU_EMBED_COLOR: `Embed Colour (in hex format)`,
+
+    ROLE_MENU_SELECT_BUTTON_COLOR: `Select a Button colour`,
+    ROLE_MENU_BUTTON_BLURPLE: `Blurple`,
+    ROLE_MENU_BUTTON_GREEN: `Green`,
+    ROLE_MENU_BUTTON_GREY: `Grey`,
+    ROLE_MENU_BUTTON_RED: `Red`,
+
+    ROLE_MENU_SET_BUTTON_LABEL: `Set Button Label`,
+    ROLE_MENU_EDIT_BUTTON_LABEL: `Edit Button Label`,
+    ROLE_MENU_BUTTON_LABEL: `Button Label (Required if no Emoji)`,
+    ROLE_MENU_BUTTON_EMOJI: `Button Emoji (Required if no Label)`,
+
+    ROLE_MENU_CREATE_INTRUCTIONS: `__**Role Menu Creation**__
+Use the Select Menu below to configure this Menu's Type, Embed and Role Buttons. Press an existing Role Button to edit its label and/or emoji.
+If including in Buttons, please make sure to have the relevant Emoji IDs ready (such as in a notepad program); as you won't be able to copy from a Discord Message while an Input Form is open.
+Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are supported.
+
+An auto-updating preview of what your new Role Menu will look like is shown below.`,
+
+    ROLE_MENU_CONFIGURATION_INTRUCTIONS: `__**Role Menu Configuration**__
+Use the Select Menu below to configure this Menu's Type, Embed and Role Buttons. Press an existing Role Button to edit its label and/or emoji.
+If including in Buttons, please make sure to have the relevant Emoji IDs ready (such as in a notepad program); as you won't be able to copy from a Discord Message while an Input Form is open.
+Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are supported.
+
+An auto-updating preview of what your updated Role Menu will look like is shown below.`,
+
+    ROLE_MENU_SET_MENU_TYPE_INSTRUCTIONS: `Please use the Select Menu below to pick which type of Role Menu you want.
+
+• **Toggle** - Your standard Role Menu Type. Behaves like a classic Reaction Role Menu, but with Buttons instead.
+• **Swappable** - Users can only have 1 Role per **Swappable** Menu. Attempting to select another Role on the same **Swappable** Menu would swap the two Roles instead. Useful for Colour Role Menus!
+• **Single-use** - Users can only use a **Single-use** Menu once, and are unable to revoke or swap out the selected Role from themselves. Useful for Team Roles in Events.`,
+
+    ROLE_MENU_ROLE_ADD_INSTRUCTIONS: `Please use the Role Select Menu below to pick which Role from this Server you would like to add to your Role Menu.`,
+    ROLE_MENU_ROLE_REMOVE_INSTRUCTIONS: `Please use the Role Select Menu below to pick which Role you would like to remove from your Role Menu.`,
+    ROLE_MENU_BUTTON_SET_INSTRUCTIONS: `**Selected Role: {{0}}**\nNext, please use the Select Menu below to pick which [colour of Button]({{1}}) you want to use for this Role.`,
+
+    ROLE_MENU_CREATION_CANCELLED: `Creation of this Role Menu has been cancelled. You may now dismiss or delete this Message.`,
+    ROLE_MENU_CREATION_SUCCESS: `Successfully created and posted your new Role Menu!\n\nIf you need to, you can edit or delete your Role Menu by using my [Message Context Commands]({{0}})`,
+    ROLE_MENU_CONFIGURATION_CANCELLED: `Configuration of this Role Menu has been cancelled. You may now dismiss or delete this Message.`,
+    ROLE_MENU_CONFIGURATION_SUCCESS: `Successfully saved your updated Role Menu!`,
+
+    DELETE_ROLE_MENU_COMMAND_VALIDATION: `Are you sure you want to delete this Role Menu?`,
+    DELETE_ROLE_MENU_COMMAND_SUCCESS: `Successfully deleted that Role Menu.`,
+    DELETE_ROLE_MENU_COMMAND_CANCELLED: `Cancelled deletion of that Role Menu.`,
+
+    ROLE_BUTTON_AUDIT_LOG_ENTRY: `Role Menu in {{0}}`,
+    ROLE_BUTTON_REVOKE_SUCCESS: `Successfully revoked the {{0}} Role from you.`,
+    ROLE_BUTTON_GRANT_SUCCESS: `Successfully granted the {{0}} Role to you.`,
+    ROLE_BUTTON_SWAP_SUCCESS: `Successfully swapped the {{0}} Role for the {{1}} Role for you.`,
+
+    ROLE_MENU_ERROR_CREATION_GENERIC: `An error occurred while trying to save your new Role Menu...`,
+    ROLE_MENU_ERROR_CONFIGURATION_GENERIC: `An error occurred while trying to save your updated Role Menu...`,
+    DELETE_ROLE_MENU_COMMAND_ERROR_GENERIC: `Sorry, there was an error trying to delete that Role Menu...`,
+
+    ROLE_MENU_ERROR_INVALID_CHANNEL: `Sorry, you can only create Button Role Menus inside of standard Text Channels.`,
+    ROLE_MENU_ERROR_MISSING_MANAGE_ROLES_PERMISSION: `I do not seem to have the **Manage Roles** Permission!\nPlease ensure I have been granted it in order for my Role Module to work.`,
+    ROLE_MENU_ERROR_MISSING_SEND_MESSAGES_PERMISSION: `Sorry, but I cannot create a Role Menu in this Channel without having the **Send Messages** Permission!`,
+    ROLE_MENU_ERROR_ACTIVE_CREATION: `Sorry, but there seems to already be an active Role Menu creation happening on this Server right now; either by yourself or someone else.\nPlease either wait for the User to finish creating their Role Menu, or wait for the inactive creation timer to expire (which is about one hour from initial use of this Slash Command).`,
+
+    ROLE_MENU_ERROR_ACTIVE_CONFIGURATION: `Sorry, but there seems to already be an active Role Menu configuration happening on this Server right now; either by yourself or someone else.\nPlease either wait for the User to finish configuring their Role Menu, or wait for the inactive configuration timer to expire (which is about one hour from initial use of this Context Command).`,
+    
+    ROLE_MENU_ERROR_BUTTON_LIMIT_EXCEEDED: `Sorry, but you cannot add more than 15 Role Buttons to a single Menu.`,
+    ROLE_MENU_ERROR_ROLE_NOT_ON_MENU: `{{0}} is __not__ on this Menu!`,
+    ROLE_MENU_ERROR_ROLE_ALREADY_ON_MENU: `{{0}} has already been added to this Role Menu!`,
+    ROLE_MENU_ERROR_ROLE_TOO_HIGH: `{{0}} is higher than this Bot's own highest Role ( {{1}} ). As such, this Bot won't be able to grant or revoke it for other Members.`,
+    ROLE_MENU_ERROR_CANNOT_HAVE_BLANK_BUTTON: `Sorry, but you cannot leave both the Label and the Emoji fields blank.\nPlease try again, ensuring you include at least one of either Label or Emoji (or both).`,
+    ROLE_MENU_ERROR_INVALID_EMOJI: `Sorry, but there was an error trying to validate your included Emoji.\nPlease try again, ensuring you use either an [Unicode Emoji]({{0}}), or a raw Discord Custom Emoji string (example: \`<:grass_block:601353406577246208>\`)`,
+    
+    EDIT_ROLE_MENU_COMMAND_ERROR_MESSAGE_INVALID: `Sorry, but that Message doesn't seem to contain any of my Role Menus.`,
+    EDIT_ROLE_MENU_COMMAND_ERROR_MISSING_MANAGE_ROLE_PERMISSION: `I do not seem to have the **Manage Roles** Permission!\nPlease ensure I have been granted it in order for my Button Role Module to work.`,
+    EDIT_ROLE_MENU_COMMAND_ERROR_MISSING_MESSAGE_HISTORY_PERMISSION: `Sorry, but I cannot edit an existing Role Menu in this Channel without having the **Read Message History** Permission!`,
+
+    ROLE_BUTTON_ERROR_REVOKE_FAILED: `Sorry, something went wrong while trying to revoke the {{0}} Role from you...`,
+    ROLE_BUTTON_ERROR_GRANT_FAILED: `Sorry, something went wrong while trying to grant the {{0}} Role to you...`,
+    ROLE_BUTTON_ERROR_SWAP_FAILED: `Sorry, something went wrong while trying to swap between the {{0}} and {{1}} Roles for you...`,
+    ROLE_BUTTON_ERROR_SINGLE_USE_ONLY: `Sorry! You cannot swap or revoke Roles from yourself using Single-use Role Menus.\nThese Single-use Role Menus are designed to only be usable once per User per Menu.\n\nThe Role you already have from this Menu is the {{0}} Role.`,
 };
