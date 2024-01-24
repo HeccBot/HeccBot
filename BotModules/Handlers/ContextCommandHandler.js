@@ -68,34 +68,34 @@ module.exports = {
                 if ( timeLeft >= 60 && timeLeft < 3600 )
                 {
                     timeLeft = timeLeft / 60; // For UX
-                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1)) });
+                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1)) });
                     return;
                 }
                 // HOURS
                 else if ( timeLeft >= 3600 && timeLeft < 86400 )
                 {
                     timeLeft = timeLeft / 3600; // For UX
-                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1)) });
+                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1)) });
                     return;
                 }
                 // DAYS
                 else if ( timeLeft >= 86400 && timeLeft < 2.628e+6 )
                 {
                     timeLeft = timeLeft / 86400; // For UX
-                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1)) });
+                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1)) });
                     return;
                 }
                 // MONTHS
                 else if ( timeLeft >= 2.628e+6 )
                 {
                     timeLeft = timeLeft / 2.628e+6; // For UX
-                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1)) });
+                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1)) });
                     return;
                 }
                 // SECONDS
                 else
                 {
-                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1)) });
+                    await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1)) });
                     return;
                 }
             }
