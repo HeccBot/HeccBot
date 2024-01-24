@@ -288,4 +288,4 @@ DiscordStatusClient.on("incident_update", async (incident) => {
 
 DiscordClient.login(Config.TOKEN); // Login to and start the Discord Bot Client
 DiscordStatusClient.start(); // Start listening for Discord Status Page Updates
-Mongoose.connect(Config.MongoString).catch(console.error); // Conect to DB
+Mongoose.connect(Config.MongoString).catch(console.error); // Connect to DB
