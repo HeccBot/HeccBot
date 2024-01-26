@@ -1,6 +1,7 @@
 const { ModalMessageModalSubmitInteraction, ButtonBuilder, ButtonStyle, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { Collections } = require("../../../constants");
+const { EMOJIPEDIA } = require("../../../Resources/Hyperlinks");
 const EmojiRegex = require("emoji-regex")();
 
 const DiscordEmojiRegex = new RegExp(/<a?:(?<name>[a-zA-Z0-9\_]+):(?<id>\d{15,21})>/);
@@ -61,7 +62,7 @@ module.exports = {
         {
             if ( !DiscordEmojiRegex.test(InputEmoji) && !EmojiRegex.test(InputEmoji) )
             {
-                await interaction.update({ content: `${localize(interaction.locale, 'ROLE_MENU_BUTTON_SET_INSTRUCTIONS', `<@&${InputRole.id}>`)}\n\n${localize(interaction.locale, 'ROLE_MENU_ERROR_INVALID_EMOJI', '<https://emojipedia.org>')}` });
+                await interaction.update({ content: `${localize(interaction.locale, 'ROLE_MENU_BUTTON_SET_INSTRUCTIONS', `<@&${InputRole.id}>`)}\n\n${localize(interaction.locale, 'ROLE_MENU_ERROR_INVALID_EMOJI', EMOJIPEDIA)}` });
                 return;
             }
         }

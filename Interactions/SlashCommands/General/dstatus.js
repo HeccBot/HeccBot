@@ -3,6 +3,7 @@ const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { DiscordClient, fetchDisplayName } = require("../../../constants.js");
 const { OutageFeedModel } = require("../../../Mongoose/Models.js");
 const { LogDebug, LogToUserInteraction } = require("../../../BotModules/LoggingModule.js");
+const { AVATAR_DISOUTAGE_FEED } = require("../../../Resources/Hyperlinks.js");
 
 module.exports = {
     // Command's Name
@@ -187,7 +188,7 @@ async function subscribeToFeed(interaction)
         {
             feedWebhook = await InputChannel.createWebhook({
                 name: `Dis-Outage Feed`,
-                avatar: `https://i.imgur.com/gXWXIpr.png`,
+                avatar: AVATAR_DISOUTAGE_FEED,
                 reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
             })
             .catch(async err => {
@@ -199,7 +200,7 @@ async function subscribeToFeed(interaction)
         {
             feedWebhook = await InputChannel.parent.createWebhook({
                 name: `Dis-Outage Feed`,
-                avatar: `https://i.imgur.com/gXWXIpr.png`,
+                avatar: AVATAR_DISOUTAGE_FEED,
                 reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
             })
             .catch(async err => {

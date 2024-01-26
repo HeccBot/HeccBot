@@ -3,6 +3,7 @@ const Canvas = require('@napi-rs/canvas');
 const { request } = require('undici');
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { LogToUserInteraction } = require("../../../BotModules/LoggingModule.js");
+const { IMAGE_CELL_BARS } = require("../../../Resources/Hyperlinks.js");
 
 module.exports = {
     // Command's Name
@@ -122,7 +123,7 @@ module.exports = {
         JailContext.drawImage(MemberAvatar, 26, 3, 128, 128);
 
         // Add in Jail Cell Bars image
-        const CellBarsRaw = (await request("https://i.imgur.com/x6Lrv4g.png")).body;
+        const CellBarsRaw = (await request(IMAGE_CELL_BARS)).body;
         const CellBarsImage = await Canvas.loadImage(await CellBarsRaw.arrayBuffer());
         JailContext.drawImage(CellBarsImage, 0, 0, JailConvas.width, JailConvas.height);
 
