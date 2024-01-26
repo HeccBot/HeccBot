@@ -1,4 +1,4 @@
-↖ *Want to jump to a specific heading? Use the navigation menu! (Which doesn't exist on GitHub's Mobile App sadly)*
+*Want to jump to a specific heading? Use the navigation menu! (Which doesn't exist on GitHub's Mobile App sadly)* ↗
 
 # HeccBot
 
