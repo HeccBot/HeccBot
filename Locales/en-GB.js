@@ -21,8 +21,8 @@ module.exports = {
 
 
     // ******* FOR HECCBOT DESCRIPTIONS, ETC
-    HECCBOT_DESCRIPTION_SHORT: `A general purpose Discord Bot. Features Action Commands, Button Role Menus, Polls, and more.`,
-    HECCBOT_DESCRIPTION_LONG: `A general purpose Discord Bot, actually focusing on "general" features.\nExamples of HeccBot's features includes: Button Role Menus, Polls, Action Commands, Temperature Conversions, ability to Role-lock Custom Emojis, and more!`,
+    HECCBOT_DESCRIPTION_SHORT: `The most general Discord Bot ever. Features Action Commands, Button Role Menus, Role-lockable Emojis, and more.`,
+    HECCBOT_DESCRIPTION_LONG: `The most general Discord Bot ever, focusing on actual "general" features - so you won't find moderation or levelling features here.\nExamples of HeccBot's features includes: Button Role Menus, Action Commands, Temperature Conversions, ability to Role-lock Custom Emojis, and more!`,
 
 
 
