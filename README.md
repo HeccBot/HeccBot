@@ -32,9 +32,39 @@ __User Context Commands__ are Commands used on a specific User in Servers, and c
 
 ---
 
-# Features
+# Features List
 
-*To be written*
+## General Features
+| Feature | Command(s) | Description |
+|---------|------------|-------------|
+| Help Command | `/help` | Provides information on HeccBot; can also show HeccBot's support server link, invite link, and extra information on HeccBot's Commands and Modules |
+| Discord Outage Feed | `/dstatus` | Posts in the specified Channel whenever a new outage notice is made on [Discord's Status Page](https://discordstatus.com) |
+| Information Commands | `/info` | Displays information about the specified Server, User, Channel, Role, or Server Invite |
+| Jail Command | `/jail` | Throws the specified User into jail |
+| Someone Command | `/someone` | Picks a random User in that Channel or Thread, and says their username in chat |
+| Temperature Conversions | `/temperature` \* | *(Slash Command)* Converts the given temperature. *(Message Command)* Converts the temperatures found in the selected Message |
+
+\* *These Commands also have Message Context Command forms.*
+
+## Action Commands
+| Command | Description |
+|------------|-------------|
+| `/bonk` \* | Bonks the specified User, Role, or everyone |
+| `/boop` | Boops the specified User, Role, or everyone |
+| `/headpat` \* | Gives the specified User, Role, or everyone a headpat |
+| `/hug` | Gives the specified User, Role, or everyone a hug |
+| `/kiss` | Gives a kiss to the specified User, Role, or everyone |
+
+\* *These Commands also have User Context Command forms.*
+
+## Management Features
+| Feature | Command(s) | Description |
+|---------|------------|-------------|
+| Role-lockable Emojis | `/lockemoji` | Upload a new custom Emoji to your Server, locking its usage behind a specified Role |
+| Role Menus \* | `/rolemenu` | Create self-assignable Role Menus that your Server Members can use to grant or revoke Roles for themselves |
+
+\* *Role Menus also have added Message Context Commands for ease in either editing or deleting already existing Role Menus made with HeccBot.*
+
 
 ---
 
