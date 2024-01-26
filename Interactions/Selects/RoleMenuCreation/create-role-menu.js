@@ -146,6 +146,8 @@ async function saveAndDisplay(interaction)
 
     // Fetch data
     const MenuDataCache = Collections.RoleMenuCreation.get(interaction.guildId);
+    if ( !MenuDataCache ) { await interaction.editReply({ embeds: [], components: [], content: localize(interaction.locale, 'ROLE_MENU_ERROR_NO_CACHE_FOUND_CREATION') }); return; }
+
     const EmbedDataCache = MenuDataCache.embed.setFooter({ text: localize(interaction.guildLocale, 'ROLE_MENU_TYPE_FOOTER', `${MenuDataCache.type}`) });
     const ButtonDataCache = MenuDataCache.buttons;
 
