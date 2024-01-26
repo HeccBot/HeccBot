@@ -10,7 +10,7 @@ body:
       label: Description of Bug
       description: >-
         What is the bug or issue you are experiencing with HeccBot? Please ensure
-        to be clear yet concise. 
+        you are clear yet concise. 
     validations:
       required: true
   - type: textarea
@@ -38,4 +38,4 @@ body:
     attributes:
       value: >-
         This template was generated with [Issue Forms
-        Creator](https://www.issue-forms-creator.app/)
+        Creator](https://issue-forms-creator.netlify.app/)

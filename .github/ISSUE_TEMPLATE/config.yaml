@@ -1,0 +1,10 @@
+contact_links:
+  - name: Feedback & Feature Requests
+    url: https://github.com/HeccBot/HeccBot/discussions/new/choose
+    about: Have ideas for HeccBot? Post it in our Discussions tab!
+  - name: Support Server
+    url: https://discord.gg/vyvCGC6R2E
+    about: Need real-time help & support? Head on over to our Support Server on Discord.
+  - name: Invite Bot
+    url: https://discord.com/api/oauth2/authorize?client_id=784058687412633601&permissions=274878221312&scope=applications.commands%20bot
+    about: Want to invite HeccBot to your own Server? Use this link here!
