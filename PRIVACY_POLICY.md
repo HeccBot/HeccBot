@@ -1,7 +1,7 @@
 # HeccBot - Privacy Policy
 Last Updated: 26th January 2024
 
-Effective: TBC
+Effective: 1st February 2024
 
 ---
 
@@ -46,7 +46,7 @@ If you decide to stop using **The Bot**, then **The Bot** will automatically rem
 
 If, as a User, you have left all Servers **The Bot** is in (and thus, no longer have any mutual Servers with **The Bot**), then **The Bot** will automatically remove all data connected to the User in question.
 
-The Developer of **The Bot**, TwilightZebby, is contactable for matters regarding **The Bot** via GitHub, preferrably via opening an Issue Ticket or Discussion on **The Bot**'s [GitHub Repo](https://github.com/HeccBot/HeccBot).
+The Developer of **The Bot**, TwilightZebby, is contactable for matters regarding **The Bot** via GitHub, preferrably via opening an Issue Ticket or Discussion on **The Bot**'s [GitHub Repo](https://github.com/HeccBot/HeccBot). You can also contact TwilightZebby via **The Bot**'s [Support Server](https://discord.gg/vyvCGC6R2E) on Discord.
 
 Please also see [Discord's own Privacy Policy](https://discord.com/privacy).
 
