@@ -37,7 +37,6 @@ __User Context Commands__ are Commands used on a specific User in Servers, and c
 ## General Features
 | Feature | Command(s) | Description |
 |---------|------------|-------------|
-| Help Command | `/help` | Provides information on HeccBot; can also show HeccBot's support server link, invite link, and extra information on HeccBot's Commands and Modules |
 | Discord Outage Feed | `/dstatus` | Posts in the specified Channel whenever a new outage notice is made on [Discord's Status Page](https://discordstatus.com) |
 | Information Commands | `/info` | Displays information about the specified Server, User, Channel, Role, or Server Invite |
 | Jail Command | `/jail` | Throws the specified User into jail |
@@ -65,6 +64,13 @@ __User Context Commands__ are Commands used on a specific User in Servers, and c
 
 \* *Role Menus also have added Message Context Commands for ease in either editing or deleting already existing Role Menus made with HeccBot.*
 
+## HeccBot Informational Commands
+| Command(s) | Description |
+|------------|-------------|
+| `/help` | Provides information on HeccBot; also shows HeccBot's support server link, invite link, and extra information on HeccBot's Commands and Modules |
+| `/invite` | Shows the invite link to invite HeccBot to your own Server |
+| `/support` | Shows HeccBot's Support Server invite link |
+| `/heccbot` | Used to subscribe to one or both of HeccBot's announcement feeds |
 
 ---
 
