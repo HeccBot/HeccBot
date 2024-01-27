@@ -122,6 +122,14 @@ module.exports = {
 
 
 
+    // ******* FOR INVITE AND SUPPORT COMMANDS
+    INVITE_COMMAND_RESPONSE: `Want to invite HeccBot to your own Server? Use its invite link below!`,
+    INVITE_COMMAND_BUTTON_LABEL: `Invite HeccBot`,
+    SUPPORT_COMMAND_RESPONSE: `Need help with using HeccBot? Want to report an issue or suggest a new idea for HeccBot?\nFeel free to join HeccBot's Support Server via the link below!`,
+    SUPPORT_COMMAND_BUTTON_LABEL: `Join Support Server`,
+    
+    
+    
     // ******* FOR ACTION COMMANDS
     ACTION_COMMAND_OTHER_USER_HEADPAT: `**{{0}}** gave **{{1}}** a headpat`,
     ACTION_COMMAND_OTHER_USER_HUG: `**{{0}}** cuddled **{{1}}**`,
