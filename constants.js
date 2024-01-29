@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, Collection, Partials, EmbedBuilder, StringSelectMenuInteraction, ButtonBuilder, User, GuildMember, StringSelectMenuBuilder, ChatInputCommandInteraction, PermissionFlagsBits } = require("discord.js");
 const { StatuspageUpdates } = require("statuspage.js");
 const { DiscordStatusPageID } = require("./config.js");
-const { VoiceConnection, AudioPlayer } = require("@discordjs/voice");
+//const { VoiceConnection, AudioPlayer } = require("@discordjs/voice");
 
 module.exports =
 {
@@ -31,22 +31,14 @@ module.exports =
         ButtonCooldowns: new Collection(),
         SelectCooldowns: new Collection(),
 
-        /** @type {Collection<String, {type: String, embed: EmbedBuilder, roles: Array<{id: String, style: String, emoji: ?String, label: ?String}>, buttons: Array<ButtonBuilder>, interaction: ?StringSelectMenuInteraction, timeout: NodeJS.Timeout}>} */
+        /** @type {Collection<String, {type: String, embed: EmbedBuilder, roles: Array<{id: String, style: String, emoji: ?String, label: ?String}>, buttons: Array<ButtonBuilder>, roleRequirements: Array<String>, interaction: ?StringSelectMenuInteraction, timeout: NodeJS.Timeout}>} */
         RoleMenuCreation: new Collection(),
-        /** @type {Collection<String, {type: String, originMessageId: String, embed: EmbedBuilder, roles: Array<{id: String, style: String, emoji: ?String, label: ?String}>, buttons: Array<ButtonBuilder>, interaction: ?StringSelectMenuInteraction, timeout: NodeJS.Timeout}>} */
+        /** @type {Collection<String, {type: String, originMessageId: String, embed: EmbedBuilder, roles: Array<{id: String, style: String, emoji: ?String, label: ?String}>, buttons: Array<ButtonBuilder>, roleRequirements: Array<String>, interaction: ?StringSelectMenuInteraction, timeout: NodeJS.Timeout}>} */
         RoleMenuConfiguration: new Collection(),
-
-        /** @type {Collection<String, {type: String, embed: EmbedBuilder, choices: Array<{name: String, label: ?String, emoji: ?String}>, select: StringSelectMenuBuilder, buttons: Array<ButtonBuilder>, interaction: ?StringSelectMenuInteraction, timeout: NodeJS.Timeout}>} */
-        PollCreation: new Collection(),
 
         /** Contains Message IDs for each Incident, mapped by Webhook IDs, all mapped by Incident IDs
          * @type {Collection<String, Collection<String, String>} */
-        DiscordStatusUpdates: new Collection(),
-
-        /** Holds the cache for the Karaoke Music Player, mapped by Guild IDs
-         * @type {Collection<String, {connection: VoiceConnection, player: AudioPlayer}}
-         */
-        KaraokeCache: new Collection()
+        DiscordStatusUpdates: new Collection()
     },
 
 

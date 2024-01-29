@@ -41,6 +41,14 @@ module.exports = {
             ])
         ]);
 
+        const AddRequirementSelect = new ActionRowBuilder().addComponents([
+            new RoleSelectMenuBuilder().setCustomId(`create-menu-add-requirement`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'ROLE_MENU_REQUIREMENT_ADD_SEARCH'))
+        ]);
+
+        const RemoveRequirementSelect = new ActionRowBuilder().addComponents([
+            new RoleSelectMenuBuilder().setCustomId(`create-menu-remove-requirement`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'ROLE_MENU_REQUIREMENT_REMOVE_SEARCH'))
+        ]);
+
 
         // Grab selected value
         const SelectedOption = interaction.values.shift();
@@ -101,6 +109,30 @@ module.exports = {
                 let menuDataRemove = Collections.RoleMenuCreation.get(interaction.guildId);
                 menuDataRemove.interaction = interaction;
                 Collections.RoleMenuCreation.set(interaction.guildId, menuDataRemove);
+                break;
+
+            // Add a Requirement to the Menu
+            case "add-requirement":
+                // ACK to User to choose which Role to add as a Requirement
+                await interaction.deferUpdate(); // So original is editable later
+                await interaction.followUp({ ephemeral: true, components: [AddRequirementSelect], content: localize(interaction.locale, 'ROLE_MENU_REQUIREMENT_ADD_INSTRUCTIONS') });
+
+                // Temp-store interaction so we can return to it
+                let menuDataRequirementAdd = Collections.RoleMenuCreation.get(interaction.guildId);
+                menuDataRequirementAdd.interaction = interaction;
+                Collections.RoleMenuCreation.set(interaction.guildId, menuDataRequirementAdd);
+                break;
+
+            // Remove a Requirement from the Menu
+            case "remove-requirement":
+                // ACK to User to choose which Role Requirement to remove
+                await interaction.deferUpdate(); // So original is editable later
+                await interaction.followUp({ ephemeral: true, components: [RemoveRequirementSelect], content: localize(interaction.locale, 'ROLE_MENU_REQUIREMENT_REMOVE_INSTRUCTIONS') });
+
+                // Temp-store interaction so we can return to it
+                let menuDataRequirementRemove = Collections.RoleMenuCreation.get(interaction.guildId);
+                menuDataRequirementRemove.interaction = interaction;
+                Collections.RoleMenuCreation.set(interaction.guildId, menuDataRequirementRemove);
                 break;
 
             // Save & Display new Role Menu
@@ -215,8 +247,26 @@ async function saveAndDisplay(interaction)
     }
 
 
+    // Check for set Role Requirements
+    let requirementString = "";
+
+    if ( MenuDataCache.roleRequirements.length === 1 )
+    {
+        requirementString = localize(interaction.locale, 'ROLE_MENU_RESTRICTION_SINGLE', `<@&${MenuDataCache.roleRequirements[0]}>`);
+    }
+    else if ( MenuDataCache.roleRequirements.length > 1 )
+    {
+        requirementString = localize(interaction.locale, 'ROLE_MENU_RESTRICTION_MULTIPLE', `<@&${MenuDataCache.roleRequirements.join("> / <@&")}>`);
+    }
+
+
     // Send Message with Menu
-    await interaction.channel.send({ embeds: [EmbedDataCache], components: buttonsArray, allowedMentions: { parse: [] } })
+    await interaction.channel.send({
+        embeds: [EmbedDataCache],
+        components: buttonsArray,
+        content: MenuDataCache.roleRequirements.length > 0 ? requirementString : undefined,
+        allowedMentions: { parse: [] }
+    })
     .then(async sentMessage => {
         // Clean up
         clearTimeout(MenuDataCache.timeout);

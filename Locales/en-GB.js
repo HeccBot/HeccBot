@@ -569,6 +569,10 @@ module.exports = {
     ROLE_MENU_ADD_ROLE_DESCRIPTION: `Add a Role to this Menu`,
     ROLE_MENU_REMOVE_ROLE: `Remove Role`,
     ROLE_MENU_REMOVE_ROLE_DESCRIPTION: `Remove a Role from this Menu`,
+    ROLE_MENU_ADD_REQUIREMENT: `Add a Requirement`,
+    ROLE_MENU_ADD_REQUIREMENT_DESCRIPTION: `Add a Required Role to use this Menu`,
+    ROLE_MENU_REMOVE_REQUIREMENT: `Remove a Requirement`,
+    ROLE_MENU_REMOVE_REQUIREMENT_DESCRIPTION: `Remove a set Required Role`,
 
     ROLE_MENU_SAVE_AND_POST: `Save & Post`,
     ROLE_MENU_SAVE_AND_POST_DESCRIPTION: `Saves this Menu, and posts it in chat for Members to use`,
@@ -582,6 +586,8 @@ module.exports = {
     
     ROLE_MENU_ROLE_ADD_SEARCH: `Search for a Role to add`,
     ROLE_MENU_ROLE_REMOVE_SEARCH: `Search for a Role to remove`,
+    ROLE_MENU_REQUIREMENT_ADD_SEARCH: `Search for a required Role to add`,
+    ROLE_MENU_REQUIREMENT_REMOVE_SEARCH: `Search for a required Role to remove`,
 
     ROLE_MENU_SELECT_MENU_TYPE: `Select a Menu Type`,
     ROLE_MENU_MENU_TYPE_TOGGLE: `Toggle`,
@@ -610,14 +616,14 @@ Use the Select Menu below to configure this Menu's Type, Embed and Role Buttons.
 If including in Buttons, please make sure to have the relevant Emoji IDs ready (such as in a notepad program); as you won't be able to copy from a Discord Message while an Input Form is open.
 Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are supported.
 
-An auto-updating preview of what your new Role Menu will look like is shown below.`,
+**An auto-updating preview of what your new Role Menu will look like is shown below.**`,
 
     ROLE_MENU_CONFIGURATION_INTRUCTIONS: `__**Role Menu Configuration**__
 Use the Select Menu below to configure this Menu's Type, Embed and Role Buttons. Press an existing Role Button to edit its label and/or emoji.
 If including in Buttons, please make sure to have the relevant Emoji IDs ready (such as in a notepad program); as you won't be able to copy from a Discord Message while an Input Form is open.
 Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are supported.
 
-An auto-updating preview of what your updated Role Menu will look like is shown below.`,
+**An auto-updating preview of what your updated Role Menu will look like is shown below.**`,
 
     ROLE_MENU_SET_MENU_TYPE_INSTRUCTIONS: `Please use the Select Menu below to pick which type of Role Menu you want.
 
@@ -628,6 +634,11 @@ An auto-updating preview of what your updated Role Menu will look like is shown 
     ROLE_MENU_ROLE_ADD_INSTRUCTIONS: `Please use the Role Select Menu below to pick which Role from this Server you would like to add to your Role Menu.`,
     ROLE_MENU_ROLE_REMOVE_INSTRUCTIONS: `Please use the Role Select Menu below to pick which Role you would like to remove from your Role Menu.`,
     ROLE_MENU_BUTTON_SET_INSTRUCTIONS: `**Selected Role: {{0}}**\nNext, please use the Select Menu below to pick which [colour of Button]({{1}}) you want to use for this Role.`,
+    ROLE_MENU_REQUIREMENT_ADD_INSTRUCTIONS: `Please use the Role Select Menu below to pick which Role from this Server you would like to add as a requirement to use your Role Menu.`,
+    ROLE_MENU_REQUIREMENT_REMOVE_INSTRUCTIONS: `Please use the Role Select Menu below to pick which Role Requirement you would like to remove from your Role Menu.`,
+
+    ROLE_MENU_RESTRICTION_SINGLE: `Only those with the {{0}} Role can use this Role Menu.`,
+    ROLE_MENU_RESTRICTION_MULTIPLE: `Only those with one of either {{0}} Roles can use this Role Menu.`,
 
     ROLE_MENU_CREATION_CANCELLED: `Creation of this Role Menu has been cancelled. You may now dismiss or delete this Message.`,
     ROLE_MENU_CREATION_SUCCESS: `Successfully created and posted your new Role Menu!\n\nIf you need to, you can edit or delete your Role Menu by using my [Message Context Commands]({{0}})`,
@@ -659,6 +670,8 @@ An auto-updating preview of what your updated Role Menu will look like is shown 
     ROLE_MENU_ERROR_BUTTON_LIMIT_EXCEEDED: `Sorry, but you cannot add more than 15 Role Buttons to a single Menu.`,
     ROLE_MENU_ERROR_ROLE_NOT_ON_MENU: `{{0}} is __not__ on this Menu!`,
     ROLE_MENU_ERROR_ROLE_ALREADY_ON_MENU: `{{0}} has already been added to this Role Menu!`,
+    ROLE_MENU_ERROR_REQUIREMENT_ROLE_NOT_ON_MENU: `{{0}} is __not__ on this Menu as a Requirement!`,
+    ROLE_MENU_ERROR_REQUIREMENT_ROLE_ALREADY_ON_MENU: `{{0}} has already been added as a Requirement to this Role Menu!`,
     ROLE_MENU_ERROR_ROLE_TOO_HIGH: `{{0}} is higher than this Bot's own highest Role ( {{1}} ). As such, this Bot won't be able to grant or revoke it for other Members.`,
     ROLE_MENU_ERROR_CANNOT_HAVE_BLANK_BUTTON: `Sorry, but you cannot leave both the Label and the Emoji fields blank.\nPlease try again, ensuring you include at least one of either Label or Emoji (or both).`,
     ROLE_MENU_ERROR_INVALID_EMOJI: `Sorry, but there was an error trying to validate your included Emoji.\nPlease try again, ensuring you use either an [Unicode Emoji]({{0}}), or a raw Discord Custom Emoji string (example: \`<:grass_block:601353406577246208>\`)`,

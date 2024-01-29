@@ -137,6 +137,7 @@ module.exports = {
                 embed: new EmbedBuilder(),
                 roles: [],
                 buttons: [],
+                roleRequirements: [],
                 interaction: null,
                 timeout: timeoutExpiry
             };
