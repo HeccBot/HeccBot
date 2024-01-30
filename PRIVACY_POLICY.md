@@ -1,7 +1,7 @@
 # HeccBot - Privacy Policy
 Last Updated: 26th January 2024
 
-Effective: 1st February 2024
+Effective: 5th February 2024
 
 ---
 
@@ -9,7 +9,9 @@ Effective: 1st February 2024
 **HeccBot** (henseforth "**The Bot**") does __not__, and will __never__, collect & store Messages, User Data, or Server Data without explicit notice & consent.
 Additionally, **The Bot** will __never__ sell or give away the Data that it does store.
 
-As of the current iteration, **The Bot** does not store any Messages. **The Bot**'s source code is viewable in **The Bot**'s GitHub Repo ( https://github.com/HeccBot/HeccBot ).
+The developers of **The Bot** firmly believes in a "we don't want your data keep it away from us" process - thus, **The Bot** will be developed as "stateless" as possible (i.e: without needing to store any information or data at all). If features and functions are not possible to develop "stateless", we will explicitly include them in this **Privacy Policy**, covering exactly what is needed to be stored, for what purpose, and how that data can be removed from **The Bot** on request.
+
+**The Bot**'s source code is viewable in **The Bot**'s GitHub Repo ( https://github.com/HeccBot/HeccBot ).
 
 ---
 
