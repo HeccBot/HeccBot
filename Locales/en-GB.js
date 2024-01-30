@@ -685,4 +685,17 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
     ROLE_BUTTON_ERROR_SWAP_FAILED: `Sorry, something went wrong while trying to swap between the {{0}} and {{1}} Roles for you...`,
     ROLE_BUTTON_ERROR_SINGLE_USE_ONLY: `Sorry! You cannot swap or revoke Roles from yourself using Single-use Role Menus.\nThese Single-use Role Menus are designed to only be usable once per User per Menu.\n\nThe Role you already have from this Menu is the {{0}} Role.`,
     ROLE_BUTTON_ERROR_REQUIREMENTS_NOT_MET: `Sorry, you do not meet the Requirements to use this Role Menu.\nYou can see what this Menu's Requirements are above the Menu itself.`,
+
+
+
+    // ******* HELP COMMAND
+    HELP_COMMAND_INDEX_HEADER: `HeccBot's Information`,
+    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below!`,
+    
+    HELP_COMMAND_INDEX_BUTTON_CHANGELOG: `Changelog`,
+    HELP_COMMAND_INDEX_BUTTON_PRIVACY: `Privacy Policy`,
+    HELP_COMMAND_INDEX_BUTTON_TERMS: `Terms of Service`,
+    HELP_COMMAND_INDEX_BUTTON_GITHUB: `GitHub`,
+    HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER: `Support Server`,
+    HELP_COMMAND_INDEX_BUTTON_INVITE_BOT: `Invite HeccBot`,
 };
