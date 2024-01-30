@@ -89,7 +89,7 @@ module.exports = {
         .setDescription(`${localize(interaction.locale, 'HECCBOT_DESCRIPTION_LONG')}\n\n${localize(interaction.locale, 'HELP_COMMAND_INDEX_MORE_INFORMATION')}`);
 
         // ACK!
-        await interaction.reply({ embeds: [HelpEmbed], components: HelpRows });
+        await interaction.reply({ ephemeral: true, embeds: [HelpEmbed], components: HelpRows });
         return;
     },
 

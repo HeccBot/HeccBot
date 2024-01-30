@@ -269,6 +269,26 @@ DiscordClient.on('interactionCreate', async (interaction) => {
 
 
 /******************************************************************************* */
+// DISCORD - GUILD DELETE EVENT
+const DatabaseModule = require("./BotModules/DatabaseModule.js");
+
+DiscordClient.on('guildDelete', async (guild) => {
+
+    // Purge guild from database as HeccBot is no longer in the Guild
+    await DatabaseModule.removeGuildFromDatabase(guild.id);
+
+    return;
+
+});
+
+
+
+
+
+
+
+
+/******************************************************************************* */
 // STATUSPAGE - INCIDENT UPDATE EVENT
 const OutageFeedModule = require("./BotModules/OutageFeedModule.js");
 
