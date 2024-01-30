@@ -1,7 +1,7 @@
 # HeccBot - Privacy Policy
 Last Updated: 26th January 2024
 
-Effective: 5th February 2024
+Effective: 1st February 2024
 
 ---
 
