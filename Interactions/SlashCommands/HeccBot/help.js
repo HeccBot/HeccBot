@@ -17,7 +17,7 @@ module.exports = {
     },
 
     // Command's Category
-    Category: "GENERAL",
+    Category: "HECCBOT",
 
     // Cooldown, in seconds
     //     Defaults to 3 seconds if missing

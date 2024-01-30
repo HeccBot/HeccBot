@@ -689,7 +689,6 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
 
 
     // ******* HELP COMMAND
-    HELP_COMMAND_INDEX_HEADER: `HeccBot's Information`,
     HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below!`,
     
     HELP_COMMAND_INDEX_BUTTON_CHANGELOG: `Changelog`,
@@ -698,4 +697,15 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
     HELP_COMMAND_INDEX_BUTTON_GITHUB: `GitHub`,
     HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER: `Support Server`,
     HELP_COMMAND_INDEX_BUTTON_INVITE_BOT: `Invite HeccBot`,
+
+
+
+    // ******* STAGEPUBLIC COMMAND
+    STAGE_COMMAND_AUTOCOMPLETE_NO_RESULTS: `No Scheduled Events found in Server`,
+
+    STAGE_COMMAND_SUCCESS: `Successfully started a public Stage instance in {{0}} - this Stage instance will appear in your Stage Listener's User Statuses!`,
+    STAGE_COMMAND_INVALID_EVENT: `Note: This Stage instance has not been connected to a Scheduled Event, as the provided Scheduled Event either doesn't exist on this Server, or was invalid.`,
+
+    STAGE_COMMAND_ERROR_MISSING_VIEW_CHANNELS_PERMISSION: `Sorry, but I need the "**View Channel**" Permission for that Stage in order to start public instances in it!`,
+    STAGE_COMMAND_ERROR_MISSING_STAGE_MOD_PERMISSIONS: `Sorry, but due to limitations set by Discord, I cannot start a public instance in that Stage without being given Stage Moderator Permissions (namely, "**Manage Channel**", "**Mute Members**", and "**Move Members**").`,
 };
