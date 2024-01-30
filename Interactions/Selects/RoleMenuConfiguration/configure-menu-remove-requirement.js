@@ -5,10 +5,10 @@ const { localize } = require("../../../BotModules/LocalizationModule");
 module.exports = {
     // Select's Name
     //     Used as its custom ID (or at least the start of it)
-    Name: "create-menu-remove-requirement",
+    Name: "configure-menu-remove-requirement",
 
     // Select's Description
-    Description: `Handles Role Select for removing a Requirement from a Menu during creation`,
+    Description: `Handles Role Select for removing a Requirement from a Menu during configuration`,
 
     // Cooldown, in seconds
     //     Defaults to 3 seconds if missing
@@ -26,7 +26,7 @@ module.exports = {
         const InputRole = interaction.roles.first();
 
         // Validate Role *has* already been added to this menu as a requirement
-        let menuCache = Collections.RoleMenuCreation.get(interaction.guildId);
+        let menuCache = Collections.RoleMenuConfiguration.get(interaction.guildId);
         let requirementCache = menuCache.roleRequirements;
         const OriginalInteraction = menuCache.interaction;
 
@@ -60,7 +60,7 @@ module.exports = {
         const MenuRow = new ActionRowBuilder();
 
         // Initial options
-        const MenuSelect = new StringSelectMenuBuilder().setCustomId(`create-role-menu`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'PLEASE_SELECT_AN_ACTION')).addOptions([
+        const MenuSelect = new StringSelectMenuBuilder().setCustomId(`configure-role-menu`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'PLEASE_SELECT_AN_ACTION')).addOptions([
             new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE')).setValue("set-type").setDescription(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE_DESCRIPTION')).setEmoji(`🔧`),
             new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED')).setValue("configure-embed").setDescription(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED_DESCRIPTION')).setEmoji(`<:StatusRichPresence:842328614883295232>`)
         ]);
@@ -73,8 +73,8 @@ module.exports = {
         if ( requirementCache.length > 0 ) { MenuSelect.addOptions(new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_REMOVE_REQUIREMENT')).setValue("remove-requirement").setDescription(localize(interaction.locale, 'ROLE_MENU_REMOVE_REQUIREMENT_DESCRIPTION')).setEmoji(`<:RequirementRemove:1201477188306878540>`)); }
         // Final options
         MenuSelect.addOptions([
-            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_POST')).setValue("save").setDescription(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_POST_DESCRIPTION')).setEmoji(`<:IconActivity:815246970457161738>`),
-            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CANCEL_CREATION')).setValue("cancel").setDescription(localize(interaction.locale, 'ROLE_MENU_CANCEL_CREATION_DESCRIPTION')).setEmoji(`❌`)
+            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE')).setValue("save").setDescription(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE_DESCRIPTION')).setEmoji(`<:IconActivity:815246970457161738>`),
+            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION')).setValue("cancel").setDescription(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION_DESCRIPTION')).setEmoji(`❌`)
         ]);
         
         MenuRow.addComponents(MenuSelect);
@@ -84,7 +84,7 @@ module.exports = {
         updateComponents.splice(updateComponents.length - 1, 1, MenuRow);
 
         // ACK Update
-        OriginalInteraction.editReply({ content: `${localize(interaction.locale, 'ROLE_MENU_CREATE_INTRUCTIONS')}${requirementString}`, components: updateComponents });
+        OriginalInteraction.editReply({ content: `${localize(interaction.locale, 'ROLE_MENU_CONFIGURATION_INTRUCTIONS')}${requirementString}`, components: updateComponents });
 
         // Clean up
         await interaction.deferUpdate();
@@ -92,7 +92,7 @@ module.exports = {
 
         menuCache.interaction = null;
         // Save to cache
-        Collections.RoleMenuCreation.set(interaction.guildId, menuCache);
+        Collections.RoleMenuConfiguration.set(interaction.guildId, menuCache);
         
         return;
     }

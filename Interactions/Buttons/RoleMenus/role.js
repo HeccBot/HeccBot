@@ -1,6 +1,9 @@
-const { ButtonInteraction } = require("discord.js");
+const { ButtonInteraction, PermissionFlagsBits, GuildMemberRoleManager } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { LogError } = require("../../../BotModules/LoggingModule");
+
+// RegEx
+const RoleMentionRegEx = new RegExp(/<@&(\d{17,20})>/g);
 
 module.exports = {
     // Button's Name
@@ -24,6 +27,38 @@ module.exports = {
     {
         // Just in case
         await interaction.deferReply({ ephemeral: true });
+
+        // Check for Menu Requirements
+        let menuMessageContent = interaction.message.content;
+        /** @type {Array<String>} */
+        let menuRequirements = [];
+
+        if ( menuMessageContent.trim() != "" )
+        {
+            let findMentions = Array.from(menuMessageContent.matchAll(RoleMentionRegEx), (m) => m[0]);
+            findMentions.forEach(tempMention => { menuRequirements.push(`${tempMention.slice(3, -1)}`); });
+        }
+
+        if ( menuRequirements.length > 0 )
+        {
+            // First, check for "Admin" Perm or Owner status, since those will bypass Menu Requirements
+            if ( !interaction.memberPermissions.has(PermissionFlagsBits.Administrator) || interaction.guild.ownerId !== interaction.user.id )
+            {
+                // Since User doesn't bypass, check against requirements
+                let meetsRequirements = false;
+                menuRequirements.forEach(roleId => {
+                    if ( (interaction.member?.roles instanceof GuildMemberRoleManager && interaction.member?.roles.cache.has(roleId))
+                        || (interaction.member?.roles instanceof Array && interaction.member?.roles.includes(roleId)) )
+                    {
+                        // DOES meet requirements!
+                        meetsRequirements = true;
+                    }
+                });
+
+                if ( !meetsRequirements ) { await interaction.editReply({ content: localize(interaction.locale, 'ROLE_BUTTON_ERROR_REQUIREMENTS_NOT_MET') }); return; }
+            }
+        }
+
 
         // Fetch Role ID
         const RoleID = interaction.customId.split("_").pop();

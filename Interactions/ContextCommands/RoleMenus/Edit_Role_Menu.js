@@ -4,6 +4,8 @@ const { DiscordClient, Collections } = require("../../../constants");
 
 // Role Menu Types
 const RoleMenuTypes = [ "TOGGLE", "SWAP", "SINGLE" ];
+// RegEx
+const RoleMentionRegEx = new RegExp(/<@&(\d{17,20})>/g);
 
 module.exports = {
     // Command's Name
@@ -56,27 +58,6 @@ module.exports = {
      */
     async execute(interaction)
     {
-        const MenuSelect = new ActionRowBuilder().addComponents([
-            new StringSelectMenuBuilder().setCustomId(`configure-role-menu`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'PLEASE_SELECT_AN_ACTION')).setOptions([
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE')).setValue("set-type").setDescription(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE_DESCRIPTION')).setEmoji(`🔧`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED')).setValue("configure-embed").setDescription(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED_DESCRIPTION')).setEmoji(`<:StatusRichPresence:842328614883295232>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_ADD_ROLE')).setValue("add-role").setDescription(localize(interaction.locale, 'ROLE_MENU_ADD_ROLE_DESCRIPTION')).setEmoji(`<:RoleAdd:1201474746810904607>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_REMOVE_ROLE')).setValue("remove-role").setDescription(localize(interaction.locale, 'ROLE_MENU_REMOVE_ROLE_DESCRIPTION')).setEmoji(`<:RoleRemove:1201476372997079040>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE')).setValue("save").setDescription(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE_DESCRIPTION')).setEmoji(`<:IconActivity:815246970457161738>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION')).setValue("cancel").setDescription(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION_DESCRIPTION')).setEmoji(`❌`)
-            ])
-        ]);
-
-        const MenuSelectRemoveRole = new ActionRowBuilder().addComponents([
-            new StringSelectMenuBuilder().setCustomId(`configure-role-menu`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'PLEASE_SELECT_AN_ACTION')).setOptions([
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE')).setValue("set-type").setDescription(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE_DESCRIPTION')).setEmoji(`🔧`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED')).setValue("configure-embed").setDescription(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED_DESCRIPTION')).setEmoji(`<:StatusRichPresence:842328614883295232>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_REMOVE_ROLE')).setValue("remove-role").setDescription(localize(interaction.locale, 'ROLE_MENU_REMOVE_ROLE_DESCRIPTION')).setEmoji(`<:RoleRemove:1201476372997079040>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE')).setValue("save").setDescription(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE_DESCRIPTION')).setEmoji(`<:IconActivity:815246970457161738>`),
-                new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION')).setValue("cancel").setDescription(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION_DESCRIPTION')).setEmoji(`❌`)
-            ])
-        ]);
-
         await interaction.deferReply({ ephemeral: true });
 
         // Check Message *is* a Role Menu with this Bot
@@ -174,9 +155,53 @@ module.exports = {
         });
 
 
+        // Check for Menu Requirements
+        /** @type {Array<String>} */
+        let originalRequirements = [];
+
+        if ( SourceMessage.content.trim() != "" )
+        {
+            let findMentions = Array.from(SourceMessage.content.matchAll(RoleMentionRegEx), (m) => m[0]);
+            findMentions.forEach(tempMention => { originalRequirements.push(`${tempMention.slice(3, -1)}`); });
+        }
+
+        // Set Requirements into String
+        let requirementString = `\n\n`;
+
+        if ( originalRequirements.length === 1 )
+        {
+            requirementString += localize(interaction.locale, 'ROLE_MENU_RESTRICTION_SINGLE', `<@&${originalRequirements[0]}>`);
+        }
+        else if ( originalRequirements.length > 1 )
+        {
+            requirementString += localize(interaction.locale, 'ROLE_MENU_RESTRICTION_MULTIPLE', `<@&${originalRequirements.join("> / <@&")}>`);
+        }
+
+
         // Add Select Menu
-        if ( roleCache.length === 15 ) { componentsArray.push(MenuSelectRemoveRole); }
-        else { componentsArray.push(MenuSelect); }
+        const MenuRow = new ActionRowBuilder();
+        
+        // Initial options
+        const MenuSelect = new StringSelectMenuBuilder().setCustomId(`configure-role-menu`).setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'PLEASE_SELECT_AN_ACTION')).addOptions([
+            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE')).setValue("set-type").setDescription(localize(interaction.locale, 'ROLE_MENU_SET_MENU_TYPE_DESCRIPTION')).setEmoji(`🔧`),
+            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED')).setValue("configure-embed").setDescription(localize(interaction.locale, 'ROLE_MENU_CONFIGURE_EMBED_DESCRIPTION')).setEmoji(`<:StatusRichPresence:842328614883295232>`)
+        ]);
+        // "Add Roles" option
+        if ( roleCache.length < 15 ) { MenuSelect.addOptions(new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_ADD_ROLE')).setValue("add-role").setDescription(localize(interaction.locale, 'ROLE_MENU_ADD_ROLE_DESCRIPTION')).setEmoji(`<:RoleAdd:1201474746810904607>`)); }
+        // "Remove Roles" option
+        if ( roleCache.length > 0 ) { MenuSelect.addOptions(new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_REMOVE_ROLE')).setValue("remove-role").setDescription(localize(interaction.locale, 'ROLE_MENU_REMOVE_ROLE_DESCRIPTION')).setEmoji(`<:RoleRemove:1201476372997079040>`)); }
+        // Role Requirement options
+        if ( originalRequirements.length < 5 ) { MenuSelect.addOptions(new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_ADD_REQUIREMENT')).setValue("add-requirement").setDescription(localize(interaction.locale, 'ROLE_MENU_ADD_REQUIREMENT_DESCRIPTION')).setEmoji(`<:RequirementAdd:1201477187522531348>`)); }
+        if ( originalRequirements.length > 0 ) { MenuSelect.addOptions(new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_REMOVE_REQUIREMENT')).setValue("remove-requirement").setDescription(localize(interaction.locale, 'ROLE_MENU_REMOVE_REQUIREMENT_DESCRIPTION')).setEmoji(`<:RequirementRemove:1201477188306878540>`)); }
+        // Final options
+        MenuSelect.addOptions([
+            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE')).setValue("save").setDescription(localize(interaction.locale, 'ROLE_MENU_SAVE_AND_UPDATE_DESCRIPTION')).setEmoji(`<:IconActivity:815246970457161738>`),
+            new StringSelectMenuOptionBuilder().setLabel(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION')).setValue("cancel").setDescription(localize(interaction.locale, 'ROLE_MENU_CANCEL_CONFIGURATION_DESCRIPTION')).setEmoji(`❌`)
+        ]);
+
+        MenuRow.addComponents(MenuSelect);
+        componentsArray.push(MenuRow);
+
 
         // Auto-expire cache after one hour
         let timeoutExpiry = setTimeout(() => { Collections.RoleMenuConfiguration.delete(interaction.guildId); }, 3.6e+6);
@@ -188,13 +213,14 @@ module.exports = {
             embed: ConfigEmbed,
             roles: roleCache,
             buttons: buttonCache,
+            roleRequirements: originalRequirements,
             interaction: null,
             timeout: timeoutExpiry
         };
         Collections.RoleMenuConfiguration.set(interaction.guildId, newDataObject);
 
         // ACK User to begin config process
-        await interaction.editReply({ components: componentsArray, embeds: [ConfigEmbed], content: localize(interaction.locale, 'ROLE_MENU_CONFIGURATION_INTRUCTIONS') });
+        await interaction.editReply({ components: componentsArray, embeds: [ConfigEmbed], content: `${localize(interaction.locale, 'ROLE_MENU_CONFIGURATION_INTRUCTIONS')}${requirementString}` });
 
         return;
     }
