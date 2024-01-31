@@ -213,7 +213,7 @@ async function subscribeToFeed(interaction)
         }
 
         // Save to JSON
-        OutageFeedJson[`${interaction.guildId}`] = { "DISCORD_FEED_WEBHOOK_ID": feedWebhook.id, "DISCORD_FEED_THREAD_ID": threadId };
+        OutageFeedJson[`${interaction.guildId}`] = { "SERVER_ID": interaction.guildId, "DISCORD_FEED_WEBHOOK_ID": feedWebhook.id, "DISCORD_FEED_THREAD_ID": threadId };
 
         fs.writeFile('./JsonFiles/Hidden/StatusSubscriptions.json', JSON.stringify(OutageFeedJson, null, 4), async (err) => {
             if ( err ) { await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_SUBSCRIPTION_GENERIC') }); return; }
