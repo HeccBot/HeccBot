@@ -1,7 +1,10 @@
-const { Client, GatewayIntentBits, Collection, Partials, EmbedBuilder, StringSelectMenuInteraction, ButtonBuilder, User, GuildMember, StringSelectMenuBuilder, ChatInputCommandInteraction, PermissionFlagsBits } = require("discord.js");
+const { Client, Options, GatewayIntentBits, Collection, Partials, EmbedBuilder, StringSelectMenuInteraction, ButtonBuilder, User, GuildMember, StringSelectMenuBuilder, ChatInputCommandInteraction, PermissionFlagsBits } = require("discord.js");
 const { StatuspageUpdates } = require("statuspage.js");
 const { DiscordStatusPageID } = require("./config.js");
 //const { VoiceConnection, AudioPlayer } = require("@discordjs/voice");
+
+// User IDs for HeccBot and my Testing Bot just to prevent them from being removed from caches
+let heccBotUserId = [ "795718481873469500", "784058687412633601" ];
 
 module.exports =
 {
@@ -10,7 +13,25 @@ module.exports =
         intents: [
             GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildIntegrations, GatewayIntentBits.GuildVoiceStates
         ],
-        partials: [ Partials.Message ]
+        partials: [ Partials.Message ],
+        // For performance. Numbers are in seconds
+        sweepers: {
+            ...Options.DefaultSweeperSettings,
+            messages: { interval: 3_600, lifetime: 1_800 },
+            users: {
+                interval: 3_600,
+                filter: () => user => !heccBotUserId.includes(user.id)
+            },
+            guildMembers: {
+                interval: 3_600,
+                filter: () => member => !heccBotUserId.includes(member.id)
+            },
+            threadMembers: {
+                interval: 86_400,
+                filter: () => member => !heccBotUserId.includes(member.id)
+            },
+            threads: { interval: 86_400, lifetime: 86_400 }
+        }
     }),
     // StatusPage Client
     DiscordStatusClient: new StatuspageUpdates(DiscordStatusPageID, 10000),
