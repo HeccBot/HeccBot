@@ -1,6 +1,6 @@
 const locales = {
-    'en-GB': require('../Locales/en-GB.js') //,
-    //'en-US': require('../Locales/en-US.js')
+    'en-GB': require('../Locales/en-GB.js'),
+    'en-US': require('../Locales/en-US.js')
 };
 
 module.exports.locales = locales;
