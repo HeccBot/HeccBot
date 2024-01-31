@@ -689,7 +689,7 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
 
 
     // ******* HELP COMMAND
-    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below!`,
+    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below, and more information about HeccBot's features in the Select Menu under those buttons!`,
     
     HELP_COMMAND_INDEX_BUTTON_CHANGELOG: `Changelog`,
     HELP_COMMAND_INDEX_BUTTON_PRIVACY: `Privacy Policy`,
@@ -697,6 +697,139 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
     HELP_COMMAND_INDEX_BUTTON_GITHUB: `GitHub`,
     HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER: `Support Server`,
     HELP_COMMAND_INDEX_BUTTON_INVITE_BOT: `Invite HeccBot`,
+
+    HELP_COMMAND_MENU_PLACEHOLDER: `Select a help page`,
+    HELP_COMMAND_MENU_ACTION_COMMANDS: `Action Commands`,
+    HELP_COMMAND_MENU_ROLE_MENU: `Role Menu Module`,
+    HELP_COMMAND_MENU_LOCK_EMOJI: `Lock Emoji Command`,
+    HELP_COMMAND_MENU_PUBLIC_STAGES: `Public Stage Command`,
+    HELP_COMMAND_MENU_DISCORD_OUTAGE_FEED: `Discord Outage Feed Module`,
+    HELP_COMMAND_MENU_INFORMATIONAL_COMMANDS: `Informational Commands`,
+    HELP_COMMAND_MENU_HECCBOT_COMMANDS: `HeccBot Feed Command`,
+    HELP_COMMAND_MENU_MISC_COMMANDS: `Miscellaneous Commands`,
+    HELP_COMMAND_MENU_PERMISSIONS: `Command Permissions`,
+    HELP_COMMAND_MENU_CONTEXT_COMMANDS: `What are "Context Commands"?`,
+
+    HELP_COMMAND_ACTIONS_PAGE: `# __HeccBot's Action Commands__
+
+HeccBot's Action Commands can be used either for roleplay purposes, or for a little bit of fun and/or chaos with your friends.
+Currently, HeccBot offers the following Action Commands:
+- \`/bonk\`
+- \`/boop\`
+- \`/headpat\`
+- \`/hug\`
+- \`/kiss\`
+
+Additionally, HeccBot also offers \`/bonk\` and \`/headpat\` in Context Command forms, if you want a quick access way of using those two Commands!
+
+While not officially considered part of the "Action" group of Commands, HeccBot also offers a \`/jail\` Command for similar purposes as the rest of the Action Commands.`,
+
+    HELP_COMMAND_ROLE_MENU_PAGE: `# __HeccBot's Role Menu Module__
+
+HeccBot offers a customisable Role Menu module, so you can allow your Server Members to self-assign (or self-revoke) Roles for themselves!
+- **To create a new Role Menu:** Use the \`/rolemenu create\` Command.
+- **To edit an existing Role Menu:** Use the "Edit Role Menu" Context Command.
+- **To delete an existing Role Menu:** You can either delete it as you would any other Message on Discord, or use the "Delete Role Menu" Context Command.
+
+## Role Menu Types
+HeccBot currently offers three different types of Role Menus you can create. These are described below:
+- **Toggleable:** Behaves like a classic Role Menu. Members can grant and revoke any and all Roles for themselves on a Toggleable Menu type.
+  - *Useful for Notification Roles, for example.*
+- **Swappable:** Members can only grant themselves one Role from a Swappable Menu. If they want another Role on the same Menu, it will be swapped with the previous Role they had.
+  - *Useful for Colour Roles, for example.*
+- **Single-Use:** Members can only use these Menus once (per Menu). They cannot swap the Role, grant another Role, or revoke a Role from a Single-use Menu.
+  - *Useful for Team Roles during events, for example.*
+
+## Menu Requirements
+Additionally, you can also set Requirements to your Role Menus!
+This means that Members would need to have one of the set Required Role(s) before they can use the Role Menu in question. An example use would be locking Colour Role Menus to your Twitch Subscribers or Server Boosters.
+
+Please note: The Server Owner, and those with the "Admin" Permission, will bypass any set Role Menu Requirements.`,
+
+    HELP_COMMAND_DISCORD_FEED_PAGE: `# __HeccBot's Discord Outage Feed Module__
+
+Want to be notified or kept up-to-date on any outages or issues Discord is having?
+You can use HeccBot to subscribe your Server to a feed of Discord's Outages and status issues!
+
+Just use \`/dstatus subscribe\` to set which Channel in your Server HeccBot should post Discord Outages in.
+You can use \`/dstatus unsubscribe\` later at any time to remove the Discord Outage Feed if you wish.`,
+
+    HELP_COMMAND_LOCK_EMOJI_PAGE: `# __HeccBot's Lock Emoji Command__
+    
+Don't stream to Twitch or don't want to lock all your Discord Emojis behind your Twitch Subscriber Roles?
+You can use HeccBot to lock your custom Discord Emojis to other Server Roles!
+**Use \`/lockemoji\` to upload a new custom Emoji**, locking it behind a specified Role in the process.
+
+Emojis locked behind Roles can only be used by Server Members with those Roles.
+Due to limitations set by Discord, even the Server Owner requires those Roles to be able to use those locked Emojis.`,
+
+    HELP_COMMAND_INFORMATIONAL_COMMANDS_PAGE: `# __HeccBot's Informational Commands__
+
+HeccBot offers a range of Informational Commands (found in \`/info\`), that can be used to see publicly available information (from Discord's Bot API) about the following:
+- Servers (that the Command is run in. \`/info server\`)
+- Users (in the Server the Command is run in. \`/info user\`)
+- Server Invites (\`/info invite\`)
+- Server Channels (\`/info channel\`)
+- Server Roles (\`/info role\`)
+
+To aid in preventing chat spam/advertisement with these Commands, all of them respond using a special Message Type that only the user of the Command can see.`,
+
+    HELP_COMMAND_PUBLIC_STAGES_PAGE: `# __HeccBot's Public Stage Command__
+
+Ever wanted your Server's Stages to appear in your Members' statuses or profiles during live Stages or events?
+You can use HeccBot's \`/stagepublic\` Command to do just that!
+
+This command will start a Public Stage Instance in the specified Stage on your Server - so that it appears on your Stage audience's statuses and/or profiles.
+HeccBot uses a leftover part of Discord's API in order to achieve this.
+
+**Since Discord's Stage Discovery was shut down years ago *(due to very high abuse of the feature)*, this Command does NOT and cannot make your Server or Stage "discoverable". Only make it appear in User statuses and profiles.**`,
+
+    HELP_COMMAND_HECCBOT_COMMAND_PAGE: `# __HeccBot's Feed Command__
+
+For those not in, or not wanting to join, HeccBot's Support Server - a special Command has been provided so you can still subscribe to HeccBot's announcement feeds.
+**Using \`/heccbot\`**, you can either:
+- Subscribe to HeccBot's news feed - where updates and announcements are posted about and for HeccBot,
+- and/or subscribe to its status feed - where outages and other status issues with HeccBot are posted.
+
+After subscribing, you can change where these feeds post, as well as unfollow them completely, in **Server Settings > Integrations > Channels Followed**.
+(*Sadly, this Settings page is only available on Desktop and Web versions of Discord.*)`,
+
+    HELP_COMMAND_MISC_COMMANDS_PAGE: `# __HeccBot's Miscellaneous Commands__
+This help page covers the rest of HeccBot's Commands not included in other help pages.
+
+## Someone Command
+You can use \`/someone\` to have a random Server Member's name said in chat.
+HeccBot will pick from the Server Members that have permissions to view the Channel this was used in, or are a member of the Thread/Forum Post this was used in.
+
+## Temperature Conversion Commands
+Want to quickly convert a temperature between degrees C, F, and/or K?
+HeccBot offers two ways to do so:
+- **\`/temperature\`** - for quickly converting a single provided Temperature for yourself
+- **"Convert Temperatures" Context Command** - for converting temperatures from any Message sent in chats.`,
+
+    HELP_COMMAND_PERMISSIONS_PAGE: `# __Command Permissions__
+
+All custom Slash and Context Commands provided by Discord Bots can be restricted to be usable by specific User/Roles, to usable in specific Channels, or usable by everywhere everywhere in **Server Settings > Integrations**.
+*(Note: this Settings page is only available on Desktop and Web versions of Discord)*
+
+Additionally, HeccBot also sets default permission requirements for some of its commands - for example: \`/lockemoji\` requires the "Manage Roles" Permission by default in order to be used by Server Members.
+These default permission requirements can be overridden in that same Integrations settings page mentioned above.
+
+You can read more about Discord's App/Bot Commands Permissions system on [their support article here](<https://support.discord.com/hc/en-us/articles/10952896421783>)`,
+
+    HELP_COMMAND_CONTEXT_COMMANDS_PAGE: `# __What are Context Commands?__
+By now, most Users on Discord are aware of Slash Commands (such as \`/boop\` for example) and how to use them, but not many are aware of Context Commands. Hence, this help page to explain what they are!
+There are two types of Context Commands on Discord, which are described as follows.
+
+## Message Context Commands
+These are Commands used on a specific Message in chats, and can be found:
+- **on Desktop & Web versions:** Right-click any Message > Apps
+- **on Mobile versions:** Long-press (press-and-hold) any Message > Apps
+
+## User Context Commands
+These are Commands used on a specific User in Servers, and can be found (providing you are in a Channel with a text chat):
+- **on Desktop & Web versions:** Right-click a Username/profile picture in chat or Members list sidebar > Apps
+- **on Mobile versions:** Long-press (press-and-hold) a Username in chat, or tap a profile picture in chat/Members list sidebar > Apps`,
 
 
 
