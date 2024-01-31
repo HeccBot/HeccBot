@@ -64,7 +64,7 @@ module.exports = {
         Data.descriptionLocalizations = this.LocalisedDescriptions;
         Data.type = ApplicationCommandType.ChatInput;
         Data.dmPermission = false;
-        Data.defaultMemberPermissions = PermissionFlagsBits.ManageGuild;
+        Data.defaultMemberPermissions = PermissionFlagsBits.ManageWebhooks;
         Data.options = [
             {
                 type: ApplicationCommandOptionType.Subcommand,

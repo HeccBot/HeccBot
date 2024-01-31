@@ -1,4 +1,4 @@
-const Mongoose = require("mongoose");
+//const Mongoose = require("mongoose");
 const { RateLimitError, DMChannel, PartialGroupDMChannel } = require("discord.js");
 const { Statuspage, StatuspageUpdates } = require("statuspage.js");
 const fs = require("node:fs");
@@ -151,7 +151,7 @@ DiscordClient.on('error', async (err) => { await LogError(err); return; });
 //DiscordClient.rest.on('rateLimited', async (RateLimitError) => { return console.log("***DISCORD RATELIMIT HIT: ", RateLimitError); });
 
 // Mongoose Errors
-Mongoose.connection.on('error', async err => { await LogError(err); return; });
+//Mongoose.connection.on('error', async err => { await LogError(err); return; });
 
 
 
@@ -308,4 +308,4 @@ DiscordStatusClient.on("incident_update", async (incident) => {
 
 DiscordClient.login(Config.TOKEN); // Login to and start the Discord Bot Client
 DiscordStatusClient.start(); // Start listening for Discord Status Page Updates
-Mongoose.connect(Config.MongoString).catch(console.error); // Connect to DB
+//Mongoose.connect(Config.MongoString).catch(console.error); // Connect to DB
