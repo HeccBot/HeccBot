@@ -1,7 +1,8 @@
 const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, TextChannel, ThreadChannel, ForumChannel, ChannelType } = require("discord.js");
+const fs = require('node:fs');
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { DiscordClient, fetchDisplayName } = require("../../../constants.js");
-const { OutageFeedModel } = require("../../../Mongoose/Models.js");
+//const { OutageFeedModel } = require("../../../Mongoose/Models.js");
 const { LogDebug, LogToUserInteraction } = require("../../../BotModules/LoggingModule.js");
 const { AVATAR_DISOUTAGE_FEED } = require("../../../Resources/Hyperlinks.js");
 
@@ -177,7 +178,61 @@ async function subscribeToFeed(interaction)
     }
 
     // Ensure not already subscribed
-    let checkDb = await OutageFeedModel.exists({ serverId: interaction.guildId });
+    // ********* JSON VERSION OF CODE
+    const OutageFeedJson = require('../../../JsonFiles/Hidden/StatusSubscriptions.json');
+    if ( !OutageFeedJson[`${interaction.guildId}`] || !OutageFeedJson[`${interaction.guildId}`]["DISCORD_FEED_WEBHOOK_ID"] )
+    {
+        // Create Webhook & subscribe to Feed
+        let feedWebhook;
+        let threadId = null;
+
+        if ( InputChannel instanceof TextChannel )
+        {
+            feedWebhook = await InputChannel.createWebhook({
+                name: `Dis-Outage Feed`,
+                avatar: AVATAR_DISOUTAGE_FEED,
+                reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
+            })
+            .catch(async err => {
+                await LogToUserInteraction(interaction, null, err);
+                return;
+            });
+        }
+        else
+        {
+            feedWebhook = await InputChannel.parent.createWebhook({
+                name: `Dis-Outage Feed`,
+                avatar: AVATAR_DISOUTAGE_FEED,
+                reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true))
+            })
+            .catch(async err => {
+                await LogToUserInteraction(interaction, null, err);
+                return;
+            });
+            threadId = InputChannel.id;
+        }
+
+        // Save to JSON
+        OutageFeedJson[`${interaction.guildId}`] = { "DISCORD_FEED_WEBHOOK_ID": feedWebhook.id, "DISCORD_FEED_THREAD_ID": threadId };
+
+        fs.writeFile('./JsonFiles/Hidden/StatusSubscriptions.json', JSON.stringify(OutageFeedJson, null, 4), async (err) => {
+            if ( err ) { await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_SUBSCRIPTION_GENERIC') }); return; }
+        });
+
+        // ACK to User
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS', `<#${InputChannel.id}>`) });
+        return;
+    }
+    else
+    {
+        await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED', `</dstatus unsubscribe:${interaction.commandId}>`) });
+        return;
+    }
+
+
+
+    // ********* PLACEHOLDER FOR WHEN I HAVE THE MONEY TO PAY FOR A FLUFFING DATABASE BECAUSE HOLY FLUFF DIGITALOCEAN ISN'T THE CHEAPEST WHEN IT COMES TO DATABASES
+    /* let checkDb = await OutageFeedModel.exists({ serverId: interaction.guildId });
     if ( checkDb == null )
     {
         // Create Webhook & subscribe to Feed
@@ -226,7 +281,7 @@ async function subscribeToFeed(interaction)
     {
         await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED', `</dstatus unsubscribe:${interaction.commandId}>`) });
         return;
-    }
+    } */
 }
 
 
@@ -240,21 +295,29 @@ async function subscribeToFeed(interaction)
 async function disableFeed(interaction)
 {
     // See if Server actually is subscribed right now
-    if ( await OutageFeedModel.exists({ serverId: interaction.guildId }) == null )
+    const OutageFeedJson = require('../../../JsonFiles/Hidden/StatusSubscriptions.json');
+    if ( !OutageFeedJson[`${interaction.guildId}`] || !OutageFeedJson[`${interaction.guildId}`]["DISCORD_FEED_WEBHOOK_ID"] )
     {
         await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_NOT_CURRENTLY_SUBSCRIBED') });
         return;
     }
 
+    /* if ( await OutageFeedModel.exists({ serverId: interaction.guildId }) == null )
+    {
+        await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_NOT_CURRENTLY_SUBSCRIBED') });
+        return;
+    } */
+
     await interaction.deferReply({ ephemeral: true });
 
     // Disable the feed!
     // First, remove Webhook if possible
-    let feedDbEntry = await OutageFeedModel.findOne({ serverId: interaction.guildId });
+    //let feedDbEntry = await OutageFeedModel.findOne({ serverId: interaction.guildId });
+    let feedDbEntry = OutageFeedJson[`${interaction.guildId}`]["DISCORD_FEED_WEBHOOK_ID"];
     let webhookDeletionMessage = null;
 
     try {
-        await DiscordClient.deleteWebhook(feedDbEntry.webhookId, { reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true)) });
+        await DiscordClient.deleteWebhook(feedDbEntry /* .webhookId */, { reason: localize(interaction.guildLocale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG', fetchDisplayName(interaction.user, true)) });
     }
     catch (err) {
         await LogDebug(err);
@@ -262,7 +325,21 @@ async function disableFeed(interaction)
     }
 
     // Delete from DB
-    await feedDbEntry.deleteOne()
+    // ********* JSON VERSION OF CODE
+    delete OutageFeedJson[`${interaction.guildId}`];
+
+    fs.writeFile('./JsonFiles/Hidden/StatusSubscriptions.json', JSON.stringify(OutageFeedJson, null, 4), async (err) => {
+        if ( err ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_UNSUBSCRIPTION_GENERIC') }); return; }
+    });
+
+
+    // ACK to User
+    await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS', `${webhookDeletionMessage != null ? `\n\n${webhookDeletionMessage}` : ""}`) });
+    return;
+
+
+    // ********* PLACEHOLDER FOR WHEN I HAVE THE MONEY TO PAY FOR A FLUFFING DATABASE BECAUSE HOLY FLUFF DIGITALOCEAN ISN'T THE CHEAPEST WHEN IT COMES TO DATABASES
+    /* await feedDbEntry.deleteOne()
     .then(async () => {
         await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS', `${webhookDeletionMessage != null ? `\n\n${webhookDeletionMessage}` : ""}`) });
         return;
@@ -270,7 +347,7 @@ async function disableFeed(interaction)
     .catch(async (err) => {
         await interaction.editReply({ content: localize(interaction.locale, 'DSTATUS_COMMAND_ERROR_UNSUBSCRIPTION_GENERIC') });
         return;
-    });
+    }); */
 
     return;
 }
