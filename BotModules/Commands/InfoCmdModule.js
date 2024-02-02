@@ -704,7 +704,16 @@ ${ExternalEmojiPermission ? EMOJI_ROLE : ""} **${localize(interaction.locale, 'I
         catch (err) {
             await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_INVITE_INVALID') });
             await LogDebug(err);
+            return;
         }
+
+        // Ensure it's a Server Invite, not a Friend or GroupDM Invite
+        // Raw fetch just to grab Invite Type field since that doesn't exist in DJS yet due to the PR on Discord's API Docs not being merged yet
+        const RawInviteData = await DiscordClient.rest.get(Routes.invite(fetchedInvite.code));
+        const InviteType = RawInviteData["type"];
+
+        if ( InviteType === 1 ) { await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_INVITE_TYPE_GROUP_DM_NOT_SUPPORTED') }); return; }
+        if ( InviteType === 2 ) { await interaction.editReply({ content: localize(interaction.locale, 'INFO_COMMAND_ERROR_INVITE_TYPE_FRIEND_NOT_SUPPORTED') }); return; }
 
 
         // Fetch parts of Invite data that will be referred back to constantly
