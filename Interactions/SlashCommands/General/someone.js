@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, GuildMember, ThreadMember, ThreadChannel } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, GuildMember, ThreadMember, ThreadChannel, ChannelType } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 
 module.exports = {
@@ -72,13 +72,21 @@ module.exports = {
     {
         /** @type {GuildMember|ThreadMember} */
         let randomMember;
+        // Just in case interaction.channel is null due to cache or not having access to that Channel (such as Threads)
+        if ( interaction.channel === null ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS') }); return; }
 
-        // If Command used in Threads
-        if ( interaction.channel instanceof ThreadChannel )
+        // If Command used in Public Threads
+        if ( interaction.channel.type === ChannelType.PublicThread )
         {
             // Fetch & grab a random Member of the Thread
             const ThreadMembers = await interaction.channel.members.fetch();
             randomMember = ThreadMembers.random();
+        }
+        // Private Threads not supported
+        else if ( interaction.channel.type === ChannelType.PrivateThread )
+        {
+            await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SOMEONE_COMMAND_ERROR_PRIVATE_THREADS_UNSUPPORTED') });
+            return;
         }
         // If Command used in literally any other Guild-based Channel Type
         else

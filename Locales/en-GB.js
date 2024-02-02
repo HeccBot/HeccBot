@@ -550,6 +550,9 @@ module.exports = {
     // ******* SOMEONE COMMAND
     SOMEONE_COMMAND_RESPONSE: `\`@someone\` *( {{0}} )*`,
 
+    SOMEONE_COMMAND_ERROR_PRIVATE_THREADS_UNSUPPORTED: `Sorry, this Command cannot be used inside of Private Threads.`,
+    SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS: `Sorry, I do not seem to be able to randomly pick a Member of this Channel.\nEither I don't have "**View Channel**" Permission for this Channel, or I am not a member of this Thread or Forum Post.`,
+
 
 
     // ******* TEMPERATURE COMMANDS
