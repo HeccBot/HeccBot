@@ -73,13 +73,18 @@ module.exports = {
         /** @type {GuildMember|ThreadMember} */
         let randomMember;
         // Just in case interaction.channel is null due to cache or not having access to that Channel (such as Threads)
-        if ( interaction.channel === null ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS') }); return; }
+        if ( interaction.channel === null ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SOMEONE_COMMAND_ERROR_CHANNEL_CHANNEL_NOT_FOUND') }); return; }
 
         // If Command used in Public Threads
         if ( interaction.channel.type === ChannelType.PublicThread )
         {
             // Fetch & grab a random Member of the Thread
-            const ThreadMembers = await interaction.channel.members.fetch();
+            const ThreadMembers = await interaction.channel.members.fetch()
+            .catch(async err => {
+                // Just in case of "Missing Access" error for SOME REASON IDK WHAT
+                await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS') });
+                return;
+            });
             randomMember = ThreadMembers.random();
         }
         // Private Threads not supported
