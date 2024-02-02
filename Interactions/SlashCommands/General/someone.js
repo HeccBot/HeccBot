@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, GuildMember, ThreadMember, ThreadChannel, ChannelType } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, GuildMember, ThreadMember, ThreadChannel, ChannelType, Collection } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 
 module.exports = {
@@ -85,6 +85,7 @@ module.exports = {
                 await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS') });
                 return;
             });
+            if ( !(ThreadMembers instanceof Collection) ) { return; }
             randomMember = ThreadMembers.random();
         }
         // Private Threads not supported
