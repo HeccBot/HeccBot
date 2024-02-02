@@ -63,16 +63,17 @@ __User Context Commands__ are Commands used on a specific User in Servers, and c
 |---------|------------|-------------|
 | Role-lockable Emojis | `/lockemoji` | Upload a new custom Emoji to your Server, locking its usage behind a specified Role |
 | Role Menus \* | `/rolemenu` | Create self-assignable Role Menus that your Server Members can use to grant or revoke Roles for themselves |
+| Make Stages Public | `/stagepublic` | Allows making a public Stage instance, which shows on your Stage Audience's statuses and profiles |
 
 \* *Role Menus also have added Message Context Commands for ease in either editing or deleting already existing Role Menus made with HeccBot.*
 
 ## HeccBot Informational Commands
 | Command | Description |
 |------------|-------------|
+| `/heccbot` | Used to subscribe to one or both of HeccBot's announcement feeds |
 | `/help` | Provides information on HeccBot; also shows HeccBot's support server link, invite link, and extra information on HeccBot's Commands and Modules |
 | `/invite` | Shows the invite link to invite HeccBot to your own Server |
 | `/support` | Shows HeccBot's Support Server invite link |
-| `/heccbot` | Used to subscribe to one or both of HeccBot's announcement feeds |
 
 ---
 
