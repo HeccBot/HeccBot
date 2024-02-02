@@ -466,6 +466,7 @@ module.exports = {
     INFO_USER_HEADER_MEMBER_FLAGS: `>> Server Member's Flags`,
     INFO_USER_HEADER_USER_FLAGS: `>> User's Flags`,
     INFO_USER_HEADER_BOT_FLAGS: `>> Bot's Flags`,
+    INFO_USER_HEADER_ROLES: `{{0}} Roles`,
 
     INFO_USER_BUTTON_ROLES: `View Roles`,
     INFO_USER_BUTTON_MEMBER_AVATAR: `Member Avatar`,
