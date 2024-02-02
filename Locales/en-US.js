@@ -466,6 +466,7 @@ module.exports = {
     INFO_USER_HEADER_MEMBER_FLAGS: `>> Server Member's Flags`,
     INFO_USER_HEADER_USER_FLAGS: `>> User's Flags`,
     INFO_USER_HEADER_BOT_FLAGS: `>> Bot's Flags`,
+    INFO_USER_HEADER_ROLES: `{{0}} Roles`,
 
     INFO_USER_BUTTON_ROLES: `View Roles`,
     INFO_USER_BUTTON_MEMBER_AVATAR: `Member Avatar`,
@@ -509,12 +510,18 @@ module.exports = {
     INFO_COMMAND_ERROR_DIRECTORY_UNSUPPORTED: `Sorry, the [Directory Channel](<https://support.discord.com/hc/en-us/articles/4406046651927>) type isn't supported by this Bot.`,
     INFO_COMMAND_ERROR_DMS_UNSUPPORTED: `Sorry, I cannot fetch information about DMs (Direct Messages) or Group DMs.`,
     INFO_COMMAND_ERROR_CHANNEL_FETCH_FAILED: `Sorry, there was an error trying to fetch information about that Channel.\nI may not have the "**View Channels**" Permission required to see that specified Channel.`,
+    
     INFO_COMMAND_ERROR_ROLE_EVERYONE_UNSUPPORTED: `Sorry, I cannot bring up Role Information about @everyone`,
     INFO_COMMAND_ERROR_ROLE_NOT_FOUND: `Sorry, but I couldn't find any Roles in this Server that matched your input.`,
+    
     INFO_COMMAND_ERROR_USER_NOT_IN_GUILD: `Sorry, that User isn't a Member of this Server!\nHere's information about yourself instead.`,
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_SELF: `Sorry, I was unable to fetch public Discord information about yourself. Please try again in a few minutes.`,
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_OTHER: `Sorry, either that User is not a Member of this Server, or I was unable to fetch their public Discord information due to an error.`,
+    
     INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server Invite, or that Invite doesn't exist on Discord.`,
+    INFO_COMMAND_ERROR_INVITE_TYPE_GROUP_DM_NOT_SUPPORTED: `Sorry, I don't support fetching information for Group DM Invites.`,
+    INFO_COMMAND_ERROR_INVITE_TYPE_FRIEND_NOT_SUPPORTED: `Sorry, I don't support fetching information for Friend Invites.`,
+    
     INFO_COMMAND_ERROR_CHANNEL_DIRECTORY_UNSUPPORTED: `Sorry, but the [Directory Channel](<https://support.discord.com/hc/en-us/articles/4406046651927>) type isn't supported by this Bot!`,
     INFO_COMMAND_ERROR_CHANNEL_DM_UNSUPPORTED: `Sorry, but this Bot cannot be used to fetch information of Direct Messages (DMs) or Group Direct Messages (GDMs)!`,
 
@@ -542,6 +549,9 @@ module.exports = {
 
     // ******* SOMEONE COMMAND
     SOMEONE_COMMAND_RESPONSE: `\`@someone\` *( {{0}} )*`,
+
+    SOMEONE_COMMAND_ERROR_PRIVATE_THREADS_UNSUPPORTED: `Sorry, this Command cannot be used inside of Private Threads.`,
+    SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS: `Sorry, I do not seem to be able to randomly pick a Member of this Channel.\nEither I don't have "**View Channel**" Permission for this Channel, or I am not a member of this Thread or Forum Post.`,
 
 
 
