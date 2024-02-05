@@ -117,7 +117,7 @@ module.exports = {
                     // Fetch webhook
                     await DiscordClient.fetchWebhook(item["DISCORD_FEED_WEBHOOK_ID"])
                     .then(async fetchedWebhook => {
-                        await fetchedWebhook.editMessage({
+                        await fetchedWebhook.editMessage(Collections.DiscordStatusUpdates.get(item["DISCORD_FEED_WEBHOOK_ID"]), {
                             allowedMentions: { parse: [] },
                             embeds: [OutageEmbed],
                             components: [OutagePageLinkButton]
