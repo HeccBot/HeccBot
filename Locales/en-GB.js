@@ -852,4 +852,10 @@ These are Commands used on a specific User in Servers, and can be found (providi
 
     STAGE_COMMAND_ERROR_MISSING_VIEW_CHANNELS_PERMISSION: `Sorry, but I need the "**View Channel**" Permission for that Stage in order to start public instances in it!`,
     STAGE_COMMAND_ERROR_MISSING_STAGE_MOD_PERMISSIONS: `Sorry, but due to limitations set by Discord, I cannot start a public instance in that Stage without being given Stage Moderator Permissions (namely, "**Manage Channel**", "**Mute Members**", and "**Move Members**").`,
+
+
+
+    // ******* COIN FLIP COMMAND
+    COIN_COMMAND_HEADS: `You flipped a coin and it landed on heads!`,
+    COIN_COMMAND_TAILS: `You flipped a coin and it landed on tails!`,
 };
