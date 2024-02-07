@@ -1,6 +1,6 @@
 {
   "name": "heccbot",
-  "version": "9.0.2",
+  "version": "9.1.0",
   "description": "A general purpose Discord Bot, focusing on general features so you won't see any Moderation or Levelling features here!",
   "main": "index.js",
   "scripts": {

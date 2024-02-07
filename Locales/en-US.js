@@ -816,7 +816,16 @@ HeccBot will pick from the Server Members that have permissions to view the Chan
 Want to quickly convert a temperature between degrees C, F, and/or K?
 HeccBot offers two ways to do so:
 - **\`/temperature\`** - for quickly converting a single provided Temperature for yourself
-- **"Convert Temperatures" Context Command** - for converting temperatures from any Message sent in chats.`,
+- **"Convert Temperatures" Context Command** - for converting temperatures from any Message sent in chats.
+
+## Rating Commands
+Want to rate other Users, or Servers, out of 100 for fun? Then use HeccBot's \`/rate\` Command!
+:warning: Please note that ratings are not stored or tracked at all, this Command is purely for fun and WILL display publicly in chats.
+
+## Other Commands
+- **\`coin\`** - Flips a coin to pseudo-randomly get Heads or Tails.
+- **\`dice\`** - Rolls the set amount of Dice to get random numbers. Supports D4, D6, D10, D12, D20, and D100.
+- **\`animal\`** - Gets a random picture of the specified animal. Supports cats and dogs.`,
 
     HELP_COMMAND_PERMISSIONS_PAGE: `# __Command Permissions__
 

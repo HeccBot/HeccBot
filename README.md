@@ -44,6 +44,10 @@ __User Context Commands__ are Commands used on a specific User in Servers, and c
 | Jail Command | `/jail` | Throws the specified User into jail |
 | Someone Command | `/someone` | Picks a random User in that Channel or Thread, and says their username in chat |
 | Temperature Conversions | `/temperature` \* | *(Slash Command)* Converts the given temperature. *(Message Command)* Converts the temperatures found in the selected Message |
+| Coin Flip Command | `/coin` | Flips a coin to pseudo-randomly get Heads or Tails |
+| Dice Command | `/dice` | Rolls a set of specified Dice (or just 1 Die) to get random numbers. Supports D4, D6, D10, D12, D20, and D100 Die types |
+| Rating Commands | `/rate` | Give a specific User, or the Server this is used in, a rating out of 100. These ratings are not stored or tracked! |
+| Animal Commands | `/animal` | Get a random picture of the specified animal. Currently supports: Cats, Dogs |
 
 \* *These Commands also have Message Context Command forms.*
 
