@@ -864,4 +864,12 @@ These are Commands used on a specific User in Servers, and can be found (providi
     // ******* DICE COMMAND
     DICE_COMMAND_SINGLE_ROLL: `You rolled a {{0}} Die and it landed on: {{1}}`,
     DICE_COMMAND_MULTIPLE_ROLLS: `You rolled {{0}} {{1}} Dice and they landed on: {{2}}`,
+
+
+
+    // ******* RATE COMMAND
+    RATE_COMMAND_USER_SUCCESS: `{{0}} just gave {{1}} a rating of {{2}}/100`,
+    RATE_COMMAND_SERVER_SUCCESS: `{{0}} just gave this Server ( **{{1}}** ) a rating of {{2}}/100`,
+
+    RATE_COMMAND_ERROR_USER_NOT_IN_SERVER: `Sorry, that User is not in this Server!`,
 };
