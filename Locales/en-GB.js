@@ -872,4 +872,12 @@ These are Commands used on a specific User in Servers, and can be found (providi
     RATE_COMMAND_SERVER_SUCCESS: `{{0}} just gave this Server ( **{{1}}** ) a rating of {{2}}/100`,
 
     RATE_COMMAND_ERROR_USER_NOT_IN_SERVER: `Sorry, that User is not in this Server!`,
+
+
+
+    // ******* ANIMAL COMMANDS
+    ANIMAL_COMMAND_CAT_SOURCE_FOOTER: `Sourced from cataas.com`,
+    ANIMAL_COMMAND_DOG_SOURCE_FOOTER: `Sourced from random.dog`,
+
+    ANIMAL_COMMAND_ERROR_DOG_NOT_FOUND: `Sorry, I'm not able to fetch a random dog picture at this time.\nPlease wait a few minutes and try again later.`,
 };
