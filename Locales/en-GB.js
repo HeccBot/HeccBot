@@ -901,4 +901,14 @@ These are Commands used on a specific User in Servers, and can be found (providi
     CLOSETHREAD_COMMAND_ERROR_NOT_IN_THREAD: `Sorry, this Command can only be used inside of Threads and Forum/Media Posts.`,
     CLOSETHREAD_COMMAND_ERROR_NOT_THREAD_OWNER: `Sorry, only the owner of this Thread/Post (or those with "**Manage Threads & Posts**" Permission) can close this Thread/Post.`,
     CLOSETHREAD_COMMAND_ERROR_MISSING_MANAGE_THREADS_PERMISSION: `Sorry, HeccBot needs the "**Manage Threads & Posts** Permission in order to close Threads/Posts for you.`,
+
+
+
+    // ******* LOCK THREAD COMMAND
+    LOCKTHREAD_COMMAND_SUCCESS_THREAD: `Successfully locked this Thread/Post.`,
+    LOCKTHREAD_COMMAND_AUDIT_LOG: `Thread/Post locked by {{0}}`,
+
+    LOCKTHREAD_COMMAND_ERROR_NOT_IN_THREAD: `Sorry, this Command can only be used inside of Threads and Forum/Media Posts.`,
+    LOCKTHREAD_COMMAND_ERROR_NOT_THREAD_OWNER: `Sorry, only the owner of this Thread/Post (or those with "**Manage Threads & Posts**" Permission) can lock this Thread/Post.`,
+    LOCKTHREAD_COMMAND_ERROR_MISSING_MANAGE_THREADS_PERMISSION: `Sorry, HeccBot needs the "**Manage Threads & Posts** Permission in order to lock Threads/Posts for you.`,
 };
