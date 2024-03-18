@@ -881,6 +881,8 @@ These are Commands used on a specific User in Servers, and can be found (providi
     RATE_COMMAND_SERVER_SUCCESS: `{{0}} just gave this Server ( **{{1}}** ) a rating of {{2}}/100`,
 
     RATE_COMMAND_ERROR_USER_NOT_IN_SERVER: `Sorry, that User is not in this Server!`,
+    RATE_COMMAND_ERROR_CANNOT_RATE_SELF: `Sorry, you cannot rate yourself!`,
+    RATE_COMMAND_ERROR_CANNOT_RATE_OWN_SERVER: `Sorry, you cannot rate Servers you own!`,
 
 
 

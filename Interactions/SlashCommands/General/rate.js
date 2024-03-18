@@ -144,6 +144,9 @@ module.exports = {
             // Ensure User is member of Server
             if ( !InputMember || InputMember == null ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'RATE_COMMAND_ERROR_USER_NOT_IN_SERVER') }); return; }
 
+            // Ensure not rating self
+            if ( InputMember.id === interaction.user.id ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'RATE_COMMAND_ERROR_CANNOT_RATE_SELF') }); return; }
+
             // Output!
             await interaction.reply({ allowedMentions: { parse: [] }, content: localize(interaction.guildLocale, 'RATE_COMMAND_USER_SUCCESS', fetchDisplayName(interaction.member), fetchDisplayName(InputMember), InputRating) });
             return;
@@ -151,7 +154,10 @@ module.exports = {
         // SERVER subcommand
         else if ( InputSubcommand === "server" )
         {
-            // Just go straight to output lol
+            // Ensure not rating Servers User owns
+            if ( interaction.user.id === interaction.guild?.ownerId ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'RATE_COMMAND_ERROR_CANNOT_RATE_OWN_SERVER') }); return; }
+
+            // Output!
             await interaction.reply({ allowedMentions: { parse: [] }, content: localize(interaction.guildLocale, 'RATE_COMMAND_SERVER_SUCCESS', fetchDisplayName(interaction.member), interaction.guild.name, InputRating) });
             return;
         }
