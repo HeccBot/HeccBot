@@ -891,4 +891,14 @@ These are Commands used on a specific User in Servers, and can be found (providi
     ANIMAL_COMMAND_DOG_SOURCE_FOOTER: `Sourced from random.dog`,
 
     ANIMAL_COMMAND_ERROR_DOG_NOT_FOUND: `Sorry, I'm not able to fetch a random dog picture at this time.\nPlease wait a few minutes and try again later.`,
+
+
+
+    // ******* CLOSE THREAD COMMAND
+    CLOSETHREAD_COMMAND_SUCCESS_THREAD: `Successfully closed this Thread/Post.`,
+    CLOSETHREAD_COMMAND_AUDIT_LOG: `Thread/Post closed by {{0}}`,
+
+    CLOSETHREAD_COMMAND_ERROR_NOT_IN_THREAD: `Sorry, this Command can only be used inside of Threads and Forum/Media Posts.`,
+    CLOSETHREAD_COMMAND_ERROR_NOT_THREAD_OWNER: `Sorry, only the owner of this Thread/Post (or those with "**Manage Threads & Posts**" Permission) can close this Thread/Post.`,
+    CLOSETHREAD_COMMAND_ERROR_MISSING_MANAGE_THREADS_PERMISSION: `Sorry, HeccBot needs the "**Manage Threads & Posts** Permission in order to close Threads/Posts for you.`,
 };
