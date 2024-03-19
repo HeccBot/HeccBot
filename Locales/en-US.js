@@ -707,7 +707,7 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
 
 
     // ******* HELP COMMAND
-    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below, and more information about HeccBot's features in the Select Menu under those buttons!`,
+    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below, and more information about HeccBot's features in the Select Menu under those buttons!\n\n:information_source: **Please note: These help pages have been written prior to the addition of HeccBot adding support for being a User App. These help pages will be updated before the stable release of HeccBot v10.0.0 (which is the next update!).`,
     
     HELP_COMMAND_INDEX_BUTTON_CHANGELOG: `Changelog`,
     HELP_COMMAND_INDEX_BUTTON_PRIVACY: `Privacy Policy`,
@@ -737,10 +737,10 @@ Currently, HeccBot offers the following Action Commands:
 - \`/headpat\`
 - \`/hug\`
 - \`/kiss\`
+- \`/yeet\`
+- \`/jail\`
 
-Additionally, HeccBot also offers \`/bonk\` and \`/headpat\` in Context Command forms, if you want a quick access way of using those two Commands!
-
-While not officially considered part of the "Action" group of Commands, HeccBot also offers a \`/jail\` Command for similar purposes as the rest of the Action Commands.`,
+Additionally, HeccBot also offers \`/bonk\` and \`/headpat\` in Context Command forms, if you want a quick access way of using those two Commands!`,
 
     HELP_COMMAND_ROLE_MENU_PAGE: `# __HeccBot's Role Menu Module__
 
@@ -836,7 +836,7 @@ Want to rate other Users, or Servers, out of 100 for fun? Then use HeccBot's \`/
 
     HELP_COMMAND_PERMISSIONS_PAGE: `# __Command Permissions__
 
-All custom Slash and Context Commands provided by Discord Bots can be restricted to be usable by specific User/Roles, to usable in specific Channels, or usable by everywhere everywhere in **Server Settings > Integrations**.
+All custom Slash and Context Commands provided by Discord Bots (that have been added to Servers) can be restricted to be usable by specific User/Roles, to usable in specific Channels, or usable by everywhere everywhere in **Server Settings > Integrations**.
 *(Note: this Settings page is only available on Desktop and Web versions of Discord)*
 
 Additionally, HeccBot also sets default permission requirements for some of its commands - for example: \`/lockemoji\` requires the "Manage Roles" Permission by default in order to be used by Server Members.
