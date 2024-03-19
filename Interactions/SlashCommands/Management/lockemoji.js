@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, PermissionsBitField } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { fetchDisplayName } = require("../../../constants.js");
 const { LogToUserInteraction } = require("../../../BotModules/LoggingModule.js");
@@ -56,16 +56,17 @@ module.exports = {
 
         Data.name = this.Name;
         Data.description = this.Description;
-        Data.descriptionLocalizations = this.LocalisedDescriptions;
+        Data.description_localizations = this.LocalisedDescriptions;
         Data.type = ApplicationCommandType.ChatInput;
-        Data.dmPermission = false;
-        Data.defaultMemberPermissions = PermissionFlagsBits.ManageRoles;
+        Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
+        Data.default_member_permissions = new PermissionsBitField(PermissionFlagsBits.ManageRoles).bitfield.toString();
         Data.options = [
             {
                 type: ApplicationCommandOptionType.Attachment,
                 name: "emoji",
                 description: "PNG or GIF of your Custom Emoji",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `PNG or GIF of your Custom Emoji`,
                     'en-US': `PNG or GIF of your Custom Emoji`
                 },
@@ -75,7 +76,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Role,
                 name: "role",
                 description: "Role to lock your Custom Emoji behind",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Role to lock your Custom Emoji behind`,
                     'en-US': `Role to lock your Custom Emoji behind`
                 },
