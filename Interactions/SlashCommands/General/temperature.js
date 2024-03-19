@@ -63,7 +63,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Integer,
                 name: "value",
                 description: "The temperature value you want to convert",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `The temperature value you want to convert`,
                     'en-US': `The temperature value you want to convert`
                 },
@@ -75,7 +75,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.String,
                 name: "scale",
                 description: "The temperature scale of the original value",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `The temperature scale of the original value`,
                     'en-US': `The temperature scale of the original value`
                 },
@@ -83,7 +83,7 @@ module.exports = {
                 choices: [
                     { 
                         name: "Celsius",
-                        nameLocalizations: {
+                        name_localizations: {
                             'en-GB': `Celsius`,
                             'en-US': `Celsius`
                         },
@@ -91,7 +91,7 @@ module.exports = {
                     },
                     { 
                         name: "Fahernheit",
-                        nameLocalizations: {
+                        name_localizations: {
                             'en-GB': `Fahernheit`,
                             'en-US': `Fahernheit`
                         },
@@ -99,7 +99,7 @@ module.exports = {
                     },
                     { 
                         name: "Kelvin",
-                        nameLocalizations: {
+                        name_localizations: {
                             'en-GB': `Kelvin`,
                             'en-US': `Kelvin`
                         },

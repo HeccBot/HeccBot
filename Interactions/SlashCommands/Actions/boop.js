@@ -65,7 +65,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.User,
                 name: "person",
                 description: "Person you want to boop",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Person you want to boop`,
                     'en-US': `Person you want to boop`
                 },
@@ -75,7 +75,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Boolean,
                 name: "gif",
                 description: "Should a random GIF be displayed? (default: false)",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Should a random GIF be displayed? (default: false)`,
                     'en-US': `Should a random GIF be displayed? (default: false)`
                 },
@@ -95,7 +95,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.String,
                 name: "reason",
                 description: "A custom message to be added onto the end of the default message",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `A custom message to be added onto the end of the default message`,
                     'en-US': `A custom message to be added onto the end of the default message`
                 },

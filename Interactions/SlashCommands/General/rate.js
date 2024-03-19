@@ -66,7 +66,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "user",
                 description: "Give another User a public rating",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Give another User a public rating",
                     'en-US': "Give another User a public rating"
                 },
@@ -75,7 +75,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.User,
                         name: "user",
                         description: "User you want to rate",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': "User you want to rate",
                             'en-US': "User you want to rate"
                         },
@@ -85,13 +85,13 @@ module.exports = {
                         type: ApplicationCommandOptionType.Integer,
                         name: "rating",
                         description: "Rating you want to give (out of 100)",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': "Rating you want to give (out of 100)",
                             'en-US': "Rating you want to give (out of 100)"
                         },
                         required: true,
-                        minValue: 0,
-                        maxValue: 100
+                        min_value: 0,
+                        max_value: 100
                     }
                 ]
             },
@@ -99,7 +99,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "server",
                 description: "Give this Server a public rating",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Give this Server a public rating",
                     'en-US': "Give this Server a public rating"
                 },
@@ -108,13 +108,13 @@ module.exports = {
                         type: ApplicationCommandOptionType.Integer,
                         name: "rating",
                         description: "Rating you want to give (out of 100)",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': "Rating you want to give (out of 100)",
                             'en-US': "Rating you want to give (out of 100)"
                         },
                         required: true,
-                        minValue: 0,
-                        maxValue: 100
+                        min_value: 0,
+                        max_value: 100
                     }
                 ]
             }

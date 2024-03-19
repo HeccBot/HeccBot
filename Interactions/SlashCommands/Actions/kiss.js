@@ -61,10 +61,10 @@ module.exports = {
         Data.contexts = [ 0, 2 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
         Data.options = [
             {
-                type: ApplicationCommandOptionType.Mentionable,
+                type: ApplicationCommandOptionType.User,
                 name: "person",
                 description: "Person you want to kiss",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Person you want to kiss`,
                     'en-US': `Person you want to kiss`
                 },
@@ -74,7 +74,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Boolean,
                 name: "gif",
                 description: "Should a random GIF be displayed? (default: false)",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Should a random GIF be displayed? (default: false)`,
                     'en-US': `Should a random GIF be displayed? (default: false)`
                 },
@@ -94,7 +94,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.String,
                 name: "reason",
                 description: "A custom message to be added onto the end of the default message",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `A custom message to be added onto the end of the default message`,
                     'en-US': `A custom message to be added onto the end of the default message`
                 },

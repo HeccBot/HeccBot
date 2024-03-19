@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, ChannelType, PermissionsBitField } = require("discord.js");
 const { DiscordClient, fetchDisplayName } = require("../../../constants");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { LogToUserInteraction } = require("../../../BotModules/LoggingModule");
@@ -60,13 +60,13 @@ module.exports = {
         Data.type = ApplicationCommandType.ChatInput;
         Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
         Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
-        Data.defaultMemberPermissions = PermissionFlagsBits.ManageWebhooks;
+        Data.default_member_permissions = new PermissionsBitField(PermissionFlagsBits.ManageWebhooks).bitfield.toString();
         Data.options = [
             {
                 type: ApplicationCommandOptionType.SubcommandGroup,
                 name: "news",
                 description: "Manage the subscription to HeccBot's News Feed",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Manage the subscription to HeccBot's News Feed`,
                     'en-US': `Manage the subscription to HeccBot's News Feed`
                 },
@@ -75,7 +75,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.Subcommand,
                         name: "subscribe",
                         description: "Subscribe to HeccBot's News & Updates Feed",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `Subscribe to HeccBot's News & Updates Feed`,
                             'en-US': `Subscribe to HeccBot's News & Updates Feed`
                         },
@@ -84,11 +84,11 @@ module.exports = {
                                 type: ApplicationCommandOptionType.Channel,
                                 name: "channel",
                                 description: "Channel to subscribe this feed to",
-                                descriptionLocalizations: {
+                                description_localizations: {
                                     'en-GB': `Channel to subscribe this feed to`,
                                     'en-US': `Channel to subscribe this feed to`
                                 },
-                                channelTypes: [ ChannelType.GuildText ],
+                                channel_types: [ ChannelType.GuildText ],
                                 required: true
                             }
                         ]
@@ -99,7 +99,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.SubcommandGroup,
                 name: "status",
                 description: "Manage the subscription to HeccBot's Status Feed",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Manage the subscription to HeccBot's Status Feed`,
                     'en-US': `Manage the subscription to HeccBot's Status Feed`
                 },
@@ -108,7 +108,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.Subcommand,
                         name: "subscribe",
                         description: "Subscribe to HeccBot's Status & Outages Feed",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `Subscribe to HeccBot's Status & Outages Feed`,
                             'en-US': `Subscribe to HeccBot's Status & Outages Feed`
                         },
@@ -117,7 +117,7 @@ module.exports = {
                                 type: ApplicationCommandOptionType.Channel,
                                 name: "channel",
                                 description: "Channel to subscribe this feed to",
-                                descriptionLocalizations: {
+                                description_localizations: {
                                     'en-GB': `Channel to subscribe this feed to`,
                                     'en-US': `Channel to subscribe this feed to`
                                 },

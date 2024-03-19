@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, ChannelType, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, ChannelType, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, PermissionsBitField } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { Collections } = require("../../../constants");
 
@@ -59,13 +59,13 @@ module.exports = {
         Data.type = ApplicationCommandType.ChatInput;
         Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
         Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
-        Data.default_member_permissions = String(PermissionFlagsBits.ManageRoles);
+        Data.default_member_permissions = new PermissionsBitField(PermissionFlagsBits.ManageRoles).bitfield.toString();
         Data.options = [
             {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "create",
                 description: "Create a new Button Role Menu",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Create a new Button Role Menu`,
                     'en-US': `Create a new Button Role Menu`
                 },

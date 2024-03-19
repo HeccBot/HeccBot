@@ -66,7 +66,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "cat",
                 description: "Shows a random picture of cats",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Shows a random picture of cats",
                     'en-US': "Shows a random picture of cats"
                 }
@@ -75,7 +75,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "dog",
                 description: "Shows a random picture of dogs",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Shows a random picture of dogs",
                     'en-US': "Shows a random picture of dogs"
                 }

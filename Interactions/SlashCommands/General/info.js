@@ -72,7 +72,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "server",
                 description: "Display information about this Server",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Display information about this Server`,
                     'en-US': `Display information about this Server`
                 },
@@ -81,7 +81,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "user",
                 description: "Display information about either yourself, or another User",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Display information about either yourself, or another User`,
                     'en-US': `Display information about either yourself, or another User`
                 },
@@ -90,7 +90,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.User,
                         name: "user",
                         description: "User to display information about",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `User to display information about`,
                             'en-US': `User to display information about`
                         },
@@ -102,7 +102,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "invite",
                 description: "Display information about a given Discord Server Invite",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Display information about a given Discord Server Invite`,
                     'en-US': `Display information about a given Discord Server Invite`
                 },
@@ -111,7 +111,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.String,
                         name: "code",
                         description: "The Discord Invite Code or Link",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `The Discord Invite Code or Link`,
                             'en-US': `The Discord Invite Code or Link`
                         },
@@ -124,7 +124,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "role",
                 description: "Display information about a Role from this Server",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Display information about a Role from this Server`,
                     'en-US': `Display information about a Role from this Server`
                 },
@@ -133,7 +133,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.Role,
                         name: "role",
                         description: "Role to display information about",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `Role to display information about`,
                             'en-US': `Role to display information about`
                         },
@@ -145,7 +145,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "channel",
                 description: "Display information about either this Channel, or a specified Channel",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Display information about either this Channel, or a specified Channel`,
                     'en-US': `Display information about either this Channel, or a specified Channel`
                 },
@@ -154,7 +154,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.Channel,
                         name: "channel",
                         description: "Channel to display information about",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `Channel to display information about`,
                             'en-US': `Channel to display information about`
                         },

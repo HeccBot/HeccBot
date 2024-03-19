@@ -63,7 +63,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.String,
                 name: "type",
                 description: "Type of Die to roll",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Type of Die to roll",
                     'en-US': "Type of Die to roll"
                 },
@@ -81,13 +81,13 @@ module.exports = {
                 type: ApplicationCommandOptionType.Integer,
                 name: "amount",
                 description: "Amount of Dice to roll",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Amount of Dice to roll",
                     'en-US': "Amount of Dice to roll"
                 },
                 required: true,
-                minValue: 1,
-                maxValue: 10
+                min_value: 1,
+                max_value: 10
             }
         ];
 

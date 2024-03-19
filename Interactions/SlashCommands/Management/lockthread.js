@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ChannelType } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ChannelType, PermissionsBitField } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { fetchDisplayName } = require("../../../constants");
 const { LogToUserInteraction } = require("../../../BotModules/LoggingModule");
@@ -63,7 +63,7 @@ module.exports = {
         Data.type = ApplicationCommandType.ChatInput;
         Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
         Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
-        Data.default_member_permissions = String(PermissionFlagsBits.ManageThreads);
+        Data.default_member_permissions = new PermissionsBitField(PermissionFlagsBits.ManageThreads).bitfield.toString();
 
         return Data;
     },
