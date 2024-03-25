@@ -11,7 +11,7 @@ You may *not* use **HeccBot** to violate any applicable laws or regulations, [Di
 
 ---
 
-The Developer of **HeccBot**, TwilightZebby, is contactable for matters regarding **HeccBot** via GitHub, preferrably via opening an Issue Ticket or Discussion on **HeccBot**'s [GitHub Repo](https://github.com/HeccBot/HeccBot). You can also contact TwilightZebby via **HeccBot**'s [Support Server](https://discord.gg/vyvCGC6R2E) on Discord.
+The Developer of **HeccBot**, TwilightZebby, is contactable for matters regarding **HeccBot** via GitHub, preferrably via opening an Issue Ticket or Discussion on **HeccBot**'s [GitHub Repo](https://github.com/HeccBot/HeccBot). You can also contact TwilightZebby via **HeccBot**'s [Support Server](https://discord.gg/4bFgUyWUMY) on Discord.
 
 Please also see [**HeccBot**'s Privacy Policy](https://github.com/HeccBot/HeccBot/blob/main/PRIVACY_POLICY.md).
 
