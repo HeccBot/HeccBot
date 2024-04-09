@@ -9,12 +9,12 @@ module.exports = {
     Name: "heccbot",
 
     // Command's Description
-    Description: `Subscribe this Server to HeccBot's Announcement Feeds`,
+    Description: `Subscribe this Server to HeccBot's Announcement Feed`,
 
     // Command's Localised Descriptions
     LocalisedDescriptions: {
-        'en-GB': `Subscribe this Server to HeccBot's Announcement Feeds`,
-        'en-US': `Subscribe this Server to HeccBot's Announcement Feeds`
+        'en-GB': `Subscribe this Server to HeccBot's Announcement Feed`,
+        'en-US': `Subscribe this Server to HeccBot's Announcement Feed`
     },
 
     // Command's Category
@@ -95,7 +95,7 @@ module.exports = {
                     }
                 ]
             },
-            {
+            /* {
                 type: ApplicationCommandOptionType.SubcommandGroup,
                 name: "status",
                 description: "Manage the subscription to HeccBot's Status Feed",
@@ -127,7 +127,7 @@ module.exports = {
                         ]
                     }
                 ]
-            }
+            } */
         ];
 
         return Data;
@@ -164,7 +164,7 @@ module.exports = {
 
         // Fetch Announcement Channels, just in case
         const HeccbotUpdatesChannel = await DiscordClient.channels.fetch("1017011633576497155");
-        const HeccbotStatusChannel = await DiscordClient.channels.fetch("1181955422832316456");
+        //const HeccbotStatusChannel = await DiscordClient.channels.fetch("1181955422832316456");
         
 
         // Subscribe the relevent feed
@@ -180,7 +180,7 @@ module.exports = {
                 return;
             });
         }
-        else if ( InputSubcommandGroup === "status" )
+        /* else if ( InputSubcommandGroup === "status" )
         {
             await HeccbotStatusChannel.addFollower(InputChannel.id, localize(interaction.guildLocale, 'HECCBOT_FEED_AUDIT_LOG', fetchDisplayName(interaction.user, true)))
             .then(async () => {
@@ -191,7 +191,7 @@ module.exports = {
                 await LogToUserInteraction(interaction, null, err);
                 return;
             });
-        }
+        } */
 
         return;
     },
