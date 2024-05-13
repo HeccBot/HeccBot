@@ -125,15 +125,14 @@ module.exports = {
     // ******* FOR INVITE AND SUPPORT COMMANDS
     INVITE_COMMAND_RESPONSE: `Want to invite HeccBot to your own Server? Use its invite link below!`,
     INVITE_COMMAND_BUTTON_LABEL: `Invite HeccBot`,
-    SUPPORT_COMMAND_RESPONSE: `Need help with using HeccBot? Want to report an issue or suggest a new idea for HeccBot?\nFeel free to join HeccBot's Support Server via the link below!`,
+    SUPPORT_COMMAND_RESPONSE: `Need help with using HeccBot? Want to report an issue or suggest a new idea for HeccBot?\nFeel free to join HeccBot's Support Server ("Twilight Domain") via the link below!`,
     SUPPORT_COMMAND_BUTTON_LABEL: `Join Support Server`,
 
 
 
     // ******* FOR HECCBOT ANNOUNCEMENT FEED SUBSCRIPTION COMMAND
-    HECCBOT_FEED_NEWS_SUCCESS: `Successfully subscribed {{0}} to my News/Update announcement feed!\n\nIf you want to change which Channel is subscribed, or want to remove this feed, go to **Server Settings > Integerations > Channels Followed** on Desktop/Web versions of Discord.`,
-    HECCBOT_FEED_STATUS_SUCCESS: `Successfully subscribed {{0}} to my Status/Outage announcement feed!\n\nIf you want to change which Channel is subscribed, or want to remove this feed, go to **Server Settings > Integerations > Channels Followed** on Desktop/Web versions of Discord.`,
-    HECCBOT_FEED_AUDIT_LOG: `Due to {{0}} using /heccbot`,
+    HECCBOT_FEED_NEWS_SUCCESS: `Successfully subscribed {{0}} to my News/Update announcement feed!\n\nIf you want to change which Channel is subscribed, or want to remove this feed, go to **Server Settings > Integrations > Channels Followed** on Desktop/Web versions of Discord.`,
+    HECCBOT_FEED_AUDIT_LOG: `Due to {{0}} using /news`,
 
     HECCBOT_FEED_ERROR_MISSING_MANAGE_WEBHOOKS_PERMISSION: `Sorry, but I need the "**Manage Webhooks**" Permission in {{0}} if you want me to add my announcement feed to that Channel!`,
     HECCBOT_FEED_ERROR_MISSING_VIEW_CHANNEL_PERMISSION: `Sorry, but I need the "**View Channel**" Permission in {{0}} if you want me to add my announcement feed to that Channel!`,

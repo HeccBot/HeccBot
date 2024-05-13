@@ -131,9 +131,8 @@ module.exports = {
 
 
     // ******* FOR HECCBOT ANNOUNCEMENT FEED SUBSCRIPTION COMMAND
-    HECCBOT_FEED_NEWS_SUCCESS: `Successfully subscribed {{0}} to my News/Update announcement feed!\n\nIf you want to change which Channel is subscribed, or want to remove this feed, go to **Server Settings > Integerations > Channels Followed** on Desktop/Web versions of Discord.`,
-    HECCBOT_FEED_STATUS_SUCCESS: `Successfully subscribed {{0}} to my Status/Outage announcement feed!\n\nIf you want to change which Channel is subscribed, or want to remove this feed, go to **Server Settings > Integerations > Channels Followed** on Desktop/Web versions of Discord.`,
-    HECCBOT_FEED_AUDIT_LOG: `Due to {{0}} using /heccbot`,
+    HECCBOT_FEED_NEWS_SUCCESS: `Successfully subscribed {{0}} to my News/Update announcement feed!\n\nIf you want to change which Channel is subscribed, or want to remove this feed, go to **Server Settings > Integrations > Channels Followed** on Desktop/Web versions of Discord.`,
+    HECCBOT_FEED_AUDIT_LOG: `Due to {{0}} using /news`,
 
     HECCBOT_FEED_ERROR_MISSING_MANAGE_WEBHOOKS_PERMISSION: `Sorry, but I need the "**Manage Webhooks**" Permission in {{0}} if you want me to add my announcement feed to that Channel!`,
     HECCBOT_FEED_ERROR_MISSING_VIEW_CHANNEL_PERMISSION: `Sorry, but I need the "**View Channel**" Permission in {{0}} if you want me to add my announcement feed to that Channel!`,
