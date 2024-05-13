@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, MessageContextMenuCommandInteraction } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 
 // REGEXS
@@ -106,7 +106,7 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {MessageContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {

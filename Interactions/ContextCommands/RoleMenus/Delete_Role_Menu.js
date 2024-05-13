@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, MessageContextMenuCommandInteraction, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
 const { DiscordClient } = require("../../../constants");
 const { localize } = require("../../../BotModules/LocalizationModule");
 
@@ -53,7 +53,7 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {MessageContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {

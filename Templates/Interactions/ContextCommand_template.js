@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction } = require("discord.js");
 
 module.exports = {
     // Command's Name
@@ -47,7 +47,7 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {UserContextMenuCommandInteraction|MessageContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {

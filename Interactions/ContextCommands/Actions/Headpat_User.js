@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, UserContextMenuCommandInteraction } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { DiscordClient } = require("../../../constants");
 
@@ -39,8 +39,8 @@ module.exports = {
         Data.name = this.Name;
         Data.description = "";
         Data.type = this.CommandType;
-        Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
-        Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
+        Data.integration_types = [ 0, 1 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0, 2 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
 
         return Data;
     },
@@ -49,39 +49,39 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {UserContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {
         // Grab Data
-        const PersonOption = interaction.options.getMember("user");
+        const PersonOption = interaction.options.getUser("user");
         let displayMessage = "";
 
         // Assemble message
         // @user (self)
         if ( PersonOption.id === interaction.user.id )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_HEADPAT`, interaction.member.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_HEADPAT`, interaction.user.displayName);
         }
         // @user (this bot)
         else if ( PersonOption.id === DiscordClient.user.id )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_HEADPAT`, interaction.member.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_HEADPAT`, interaction.user.displayName);
         }
         // @user (MeeYuck)
         else if ( PersonOption.id === '159985870458322944' )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_HEADPAT`, interaction.member.displayName, `<@159985870458322944>`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_HEADPAT`, interaction.user.displayName, `<@159985870458322944>`);
         }
         // @user (literally any bot that isn't this one)
-        else if ( PersonOption.user.bot )
+        else if ( PersonOption.bot )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_HEADPAT`, interaction.member.displayName, `${PersonOption.displayName}`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_HEADPAT`, interaction.user.displayName, `${PersonOption.displayName}`);
         }
         // @user (literally any other User that doesn't meet the above)
         else
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_HEADPAT`, interaction.member.displayName, `${PersonOption.displayName}`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_HEADPAT`, interaction.user.displayName, `${PersonOption.displayName}`);
         }
 
 
