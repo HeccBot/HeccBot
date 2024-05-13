@@ -81,16 +81,16 @@ module.exports = {
                 },
                 required: false
             },
-            /* {
+            {
                 type: ApplicationCommandOptionType.Boolean,
                 name: "button",
                 description: "Should the \"Return Boop\" Button be included? (default: true)",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Should the \"Return Boop\" Button be included? (default: true)`,
                     'en-US': `Should the \"Return Boop\" Button be included? (default: true)`
                 },
                 required: false
-            }, */
+            },
             {
                 type: ApplicationCommandOptionType.String,
                 name: "reason",

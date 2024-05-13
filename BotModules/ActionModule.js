@@ -85,8 +85,8 @@ module.exports = {
         const PersonOption = interaction.options.getUser("person", true);
         const GifOptionRaw = interaction.options.get("gif");
         const GifOption = GifOptionRaw == null ? undefined : GifOptionRaw.value;
-        //const ButtonOptionRaw = interaction.options.get("button");
-        //const ButtonOption = ButtonOptionRaw == null ? undefined : ButtonOptionRaw.value;
+        const ButtonOptionRaw = interaction.options.get("button");
+        const ButtonOption = ButtonOptionRaw == null ? undefined : ButtonOptionRaw.value;
         const ReasonOptionRaw = interaction.options.get("reason");
         const ReasonOption = ReasonOptionRaw == null ? undefined : ReasonOptionRaw.value;
 
@@ -94,9 +94,9 @@ module.exports = {
 
 
         // Create "Return Action" Button
-        /* const ReturnActionRow = new ActionRowBuilder().addComponents(
+        const ReturnActionRow = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId(`return-action_${interaction.commandName}_${interaction.user.id}_${PersonOption.id}`).setStyle(ButtonStyle.Primary).setLabel(localize(interaction.guildLocale, `ACTION_RETURN_BUTTON_LABEL_${interaction.commandName.toUpperCase()}`))
-        ); */
+        );
 
         // To know is the Button shouldn't be included - such as when told not to, when a GIF is requested, or when the Mention is *not* of a User or Member.
         let displayButton = false;
@@ -184,8 +184,7 @@ module.exports = {
         }
 
         // Hide Return Action Button if requested
-        //if ( ButtonOption === false ) { displayButton = false; }
-        displayButton = false; // ALWAYS disable this button for now, until full support for User Apps is added to DJS
+        if ( ButtonOption === false ) { displayButton = false; }
 
 
 
