@@ -54,15 +54,16 @@ module.exports = {
 
         Data.name = this.Name;
         Data.description = this.Description;
-        Data.descriptionLocalizations = this.LocalisedDescriptions;
+        Data.description_localizations = this.LocalisedDescriptions;
         Data.type = ApplicationCommandType.ChatInput;
-        Data.dmPermission = true;
+        Data.integration_types = [ 0, 1 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0, 2 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
         Data.options = [
             {
                 type: ApplicationCommandOptionType.Integer,
                 name: "value",
                 description: "The temperature value you want to convert",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `The temperature value you want to convert`,
                     'en-US': `The temperature value you want to convert`
                 },
@@ -74,7 +75,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.String,
                 name: "scale",
                 description: "The temperature scale of the original value",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `The temperature scale of the original value`,
                     'en-US': `The temperature scale of the original value`
                 },
@@ -82,7 +83,7 @@ module.exports = {
                 choices: [
                     { 
                         name: "Celsius",
-                        nameLocalizations: {
+                        name_localizations: {
                             'en-GB': `Celsius`,
                             'en-US': `Celsius`
                         },
@@ -90,7 +91,7 @@ module.exports = {
                     },
                     { 
                         name: "Fahernheit",
-                        nameLocalizations: {
+                        name_localizations: {
                             'en-GB': `Fahernheit`,
                             'en-US': `Fahernheit`
                         },
@@ -98,7 +99,7 @@ module.exports = {
                     },
                     { 
                         name: "Kelvin",
-                        nameLocalizations: {
+                        name_localizations: {
                             'en-GB': `Kelvin`,
                             'en-US': `Kelvin`
                         },

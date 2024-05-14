@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction, PermissionFlagsBits, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, MessageContextMenuCommandInteraction, PermissionFlagsBits, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 const { DiscordClient, Collections } = require("../../../constants");
 
@@ -44,8 +44,9 @@ module.exports = {
         Data.name = this.Name;
         Data.description = "";
         Data.type = this.CommandType;
-        Data.dmPermission = false;
-        Data.defaultMemberPermissions = PermissionFlagsBits.ManageRoles;
+        Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
+        Data.default_member_permissions = new PermissionsBitField(PermissionFlagsBits.ManageRoles).bitfield.toString();
 
         return Data;
     },
@@ -54,7 +55,7 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {MessageContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {

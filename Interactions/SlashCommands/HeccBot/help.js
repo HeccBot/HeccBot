@@ -55,9 +55,10 @@ module.exports = {
 
         Data.name = this.Name;
         Data.description = this.Description;
-        Data.descriptionLocalizations = this.LocalisedDescriptions;
+        Data.description_localizations = this.LocalisedDescriptions;
         Data.type = ApplicationCommandType.ChatInput;
-        Data.dmPermission = true;
+        Data.integration_types = [ 0, 1 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0, 2 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
 
         return Data;
     },
@@ -75,8 +76,8 @@ module.exports = {
         const PrivacyButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_PRIVACY')).setURL("https://github.com/HeccBot/HeccBot/blob/main/PRIVACY_POLICY.md");
         const TermsButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_TERMS')).setURL("https://github.com/HeccBot/HeccBot/blob/main/TERMS_OF_SERVICE.md");
         const GithubButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_GITHUB')).setURL("https://github.com/HeccBot/HeccBot/");
-        const SupportButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER')).setURL("https://discord.gg/vyvCGC6R2E");
-        const InviteButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_INVITE_BOT')).setURL("https://discord.com/api/oauth2/authorize?client_id=784058687412633601&permissions=274878221312&scope=applications.commands%20bot");
+        const SupportButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER')).setURL("https://discord.gg/4bFgUyWUMY");
+        const InviteButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_INVITE_BOT')).setURL("https://discord.com/api/oauth2/authorize?client_id=784058687412633601");
 
         // Construct Select
         const HelpSelect = new StringSelectMenuBuilder().setCustomId("help-pages").setMinValues(1).setMaxValues(1).setPlaceholder(localize(interaction.locale, 'HELP_COMMAND_MENU_PLACEHOLDER')).addOptions([
@@ -90,6 +91,7 @@ module.exports = {
             new StringSelectMenuOptionBuilder().setValue("misc-commands").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_MISC_COMMANDS')),
             new StringSelectMenuOptionBuilder().setValue("permissions").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_PERMISSIONS')),
             new StringSelectMenuOptionBuilder().setValue("context-commands").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_CONTEXT_COMMANDS')),
+            new StringSelectMenuOptionBuilder().setValue("user-apps").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_USER_APPS')),
         ]);
 
         // Slap into Rows

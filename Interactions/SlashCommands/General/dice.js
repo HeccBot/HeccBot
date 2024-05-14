@@ -54,15 +54,16 @@ module.exports = {
 
         Data.name = this.Name;
         Data.description = this.Description;
-        Data.descriptionLocalizations = this.LocalisedDescriptions;
+        Data.description_localizations = this.LocalisedDescriptions;
         Data.type = ApplicationCommandType.ChatInput;
-        Data.dmPermission = true;
+        Data.integration_types = [ 0, 1 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0, 2 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
         Data.options = [
             {
                 type: ApplicationCommandOptionType.String,
                 name: "type",
                 description: "Type of Die to roll",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Type of Die to roll",
                     'en-US': "Type of Die to roll"
                 },
@@ -80,13 +81,13 @@ module.exports = {
                 type: ApplicationCommandOptionType.Integer,
                 name: "amount",
                 description: "Amount of Dice to roll",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': "Amount of Dice to roll",
                     'en-US': "Amount of Dice to roll"
                 },
                 required: true,
-                minValue: 1,
-                maxValue: 10
+                min_value: 1,
+                max_value: 10
             }
         ];
 

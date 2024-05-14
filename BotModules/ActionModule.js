@@ -81,13 +81,16 @@ module.exports = {
     async SlashAction(interaction)
     {
         // Grab data
-        const PersonOption = interaction.options.getMentionable("person", true);
+        //const PersonOption = interaction.options.getMentionable("person", true);
+        const PersonOption = interaction.options.getUser("person", true);
         const GifOptionRaw = interaction.options.get("gif");
         const GifOption = GifOptionRaw == null ? undefined : GifOptionRaw.value;
         const ButtonOptionRaw = interaction.options.get("button");
         const ButtonOption = ButtonOptionRaw == null ? undefined : ButtonOptionRaw.value;
         const ReasonOptionRaw = interaction.options.get("reason");
         const ReasonOption = ReasonOptionRaw == null ? undefined : ReasonOptionRaw.value;
+
+        const ActionGifs = require("../JsonFiles/Hidden/ActionGifLinks.json");
 
 
         // Create "Return Action" Button
@@ -106,41 +109,69 @@ module.exports = {
 
         // Assemble the message!
         // @everyone and @here
-        if ( (PersonOption instanceof Role) && (PersonOption.id === PersonOption.guild.id) )
+        /* if ( (PersonOption instanceof Role) && (PersonOption.id === PersonOption.guild.id) )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_EVERYONE_${interaction.commandName.toUpperCase()}`, interaction.member.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_EVERYONE_${interaction.commandName.toUpperCase()}`, interaction.user.displayName);
         }
         // @role
         else if ( (PersonOption instanceof Role) && (PersonOption.id !== PersonOption.guild.id) )
         {
             forceDisplayEmbed = true;
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_ROLE_${interaction.commandName.toUpperCase()}`, interaction.member.displayName, `<@&${PersonOption.id}>`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_ROLE_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `<@&${PersonOption.id}>`);
         }
         // @user (self)
         else if ( (PersonOption instanceof GuildMember) && (PersonOption.id === interaction.user.id) )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_${interaction.commandName.toUpperCase()}`, interaction.member.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_${interaction.commandName.toUpperCase()}`, interaction.user.displayName);
         }
         // @user (this bot)
         else if ( (PersonOption instanceof GuildMember) && (PersonOption.id === DiscordClient.user.id) )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_${interaction.commandName.toUpperCase()}`, interaction.member.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_${interaction.commandName.toUpperCase()}`, interaction.user.displayName);
         }
         // @user (MeeYuck)
         else if ( (PersonOption instanceof GuildMember) && (PersonOption.id === '159985870458322944') )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_${interaction.commandName.toUpperCase()}`, interaction.member.displayName, `<@159985870458322944>`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `<@159985870458322944>`);
         }
         // @user (literally any bot that isn't HeccBot or MeeYuck)
         else if ( (PersonOption instanceof GuildMember) && PersonOption.user.bot )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_${interaction.commandName.toUpperCase()}`, interaction.member.displayName, `${PersonOption.displayName}`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `${PersonOption.displayName}`);
         }
         // @user (literally any other User that doesn't meet the above)
         else
         {
             displayButton = true;
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_${interaction.commandName.toUpperCase()}`, interaction.member.displayName, `${PersonOption.displayName}`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `${PersonOption.displayName}`);
+        } */
+
+
+        // @user (self)
+        if ( PersonOption.id === interaction.user.id )
+        {
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_${interaction.commandName.toUpperCase()}`, interaction.user.displayName);
+        }
+        // @user (this bot)
+        else if ( PersonOption.id === DiscordClient.user.id )
+        {
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_${interaction.commandName.toUpperCase()}`, interaction.user.displayName);
+        }
+        // @user (MeeYuck)
+        else if ( PersonOption.id === '159985870458322944' )
+        {
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `<@159985870458322944>`);
+        }
+        // @user (literally any bot that isn't HeccBot or MeeYuck)
+        else if ( PersonOption.bot )
+        {
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `${PersonOption.displayName}`);
+        }
+        // @user (literally any other User that doesn't meet the above)
+        else
+        {
+            displayButton = true;
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_${interaction.commandName.toUpperCase()}`, interaction.user.displayName, `${PersonOption.displayName}`);
         }
 
 

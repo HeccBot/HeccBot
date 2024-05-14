@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction } = require("discord.js");
 
 module.exports = {
     // Command's Name
@@ -37,7 +37,8 @@ module.exports = {
         Data.name = this.Name;
         Data.description = "";
         Data.type = this.CommandType;
-        Data.dmPermission = false;
+        Data.integrationTypes = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
 
         return Data;
     },
@@ -46,7 +47,7 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {UserContextMenuCommandInteraction|MessageContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {

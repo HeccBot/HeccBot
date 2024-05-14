@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandData, ContextMenuCommandInteraction } = require("discord.js");
+const { ApplicationCommandType, ApplicationCommandData, MessageContextMenuCommandInteraction } = require("discord.js");
 const { localize } = require("../../../BotModules/LocalizationModule");
 
 // REGEXS
@@ -96,7 +96,8 @@ module.exports = {
         Data.name = this.Name;
         Data.description = "";
         Data.type = this.CommandType;
-        Data.dmPermission = false;
+        Data.integration_types = [ 0, 1 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0, 2 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
 
         return Data;
     },
@@ -105,7 +106,7 @@ module.exports = {
 
     /**
      * Executes the Context Command
-     * @param {ContextMenuCommandInteraction} interaction 
+     * @param {MessageContextMenuCommandInteraction} interaction 
      */
     async execute(interaction)
     {
@@ -114,6 +115,7 @@ module.exports = {
 
         // Error checks
         if ( SourceMessage.author.bot || SourceMessage.system || SourceMessage.author.system ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_SYSTEM_AND_BOT_MESSAGES_UNSUPPORTED') }); return; }
+        if ( SourceMessage.poll != null ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'TEMPERATURE_COMMAND_ERROR_POLLS_NOT_SUPPORTED') }); return; }
         if ( !SourceMessage.content || SourceMessage.content == '' ) { await interaction.reply({ ephemeral: true, content: localize(interaction.locale, 'CONTEXT_COMMAND_ERROR_MISSING_CONTENT') }); return; }
 
 

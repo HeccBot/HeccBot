@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, TextChannel, ThreadChannel, ForumChannel, ChannelType } = require("discord.js");
+const { ChatInputCommandInteraction, ChatInputApplicationCommandData, ApplicationCommandType, AutocompleteInteraction, PermissionFlagsBits, ApplicationCommandOptionType, TextChannel, ThreadChannel, ForumChannel, ChannelType, PermissionsBitField } = require("discord.js");
 const fs = require('node:fs');
 const { localize } = require("../../../BotModules/LocalizationModule.js");
 const { DiscordClient, fetchDisplayName } = require("../../../constants.js");
@@ -61,16 +61,17 @@ module.exports = {
 
         Data.name = this.Name;
         Data.description = this.Description;
-        Data.descriptionLocalizations = this.LocalisedDescriptions;
+        Data.description_localizations = this.LocalisedDescriptions;
         Data.type = ApplicationCommandType.ChatInput;
-        Data.dmPermission = false;
-        Data.defaultMemberPermissions = PermissionFlagsBits.ManageWebhooks;
+        Data.integration_types = [ 0 ]; // 0 for GUILD_INSTALL, 1 for USER_INSTALL, can include both but must have at least one of them included
+        Data.contexts = [ 0 ]; // 0 for GUILD, 1 for BOT_DM (DMs with the Bot), 2 for PRIVATE_CHANNEL (DMs/GDMs that don't include Bot). Must include at least one, PRIVATE_CHANNEL can only be used if integrationTypes includes USER_INSTALL
+        Data.default_member_permissions = new PermissionsBitField(PermissionFlagsBits.ManageWebhooks).bitfield.toString();
         Data.options = [
             {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "subscribe",
                 description: "Subscribe to receiving Discord Outage updates in this Server",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Subscribe to receiving Discord Outage updates in this Server`,
                     'en-US': `Subscribe to receiving Discord Outage updates in this Server`
                 },
@@ -79,7 +80,7 @@ module.exports = {
                         type: ApplicationCommandOptionType.Channel,
                         name: "channel",
                         description: "Channel to receive Discord Outage updates in",
-                        descriptionLocalizations: {
+                        description_localizations: {
                             'en-GB': `Channel to receive Discord Outage updates in`,
                             'en-US': `Channel to receive Discord Outage updates in`
                         },
@@ -92,7 +93,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "unsubscribe",
                 description: "Disable receiving Discord Outage updates in this Server",
-                descriptionLocalizations: {
+                description_localizations: {
                     'en-GB': `Disable receiving Discord Outage updates in this Server`,
                     'en-US': `Disable receiving Discord Outage updates in this Server`
                 },

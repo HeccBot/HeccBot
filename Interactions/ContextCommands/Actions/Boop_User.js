@@ -5,10 +5,10 @@ const { DiscordClient } = require("../../../constants");
 module.exports = {
     // Command's Name
     //     Can use sentence casing and spaces
-    Name: "Headpat User",
+    Name: "Boop User",
 
     // Command's Description
-    Description: `Gives a User a headpat`,
+    Description: `Give this User a little boop!`,
 
     // Command's Category
     Category: "ACTION",
@@ -61,27 +61,27 @@ module.exports = {
         // @user (self)
         if ( PersonOption.id === interaction.user.id )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_HEADPAT`, interaction.user.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_SELF_USER_BOOP`, interaction.user.displayName);
         }
         // @user (this bot)
         else if ( PersonOption.id === DiscordClient.user.id )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_HEADPAT`, interaction.user.displayName);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_HECCBOT_BOOP`, interaction.user.displayName);
         }
         // @user (MeeYuck)
         else if ( PersonOption.id === '159985870458322944' )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_HEADPAT`, interaction.user.displayName, `<@159985870458322944>`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_MEE6_BOOP`, interaction.user.displayName, `<@159985870458322944>`);
         }
         // @user (literally any bot that isn't this one)
         else if ( PersonOption.bot )
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_HEADPAT`, interaction.user.displayName, `${PersonOption.displayName}`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_BOTS_BOOP`, interaction.user.displayName, `${PersonOption.displayName}`);
         }
         // @user (literally any other User that doesn't meet the above)
         else
         {
-            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_HEADPAT`, interaction.user.displayName, `${PersonOption.displayName}`);
+            displayMessage = localize(interaction.guildLocale, `ACTION_COMMAND_OTHER_USER_BOOP`, interaction.user.displayName, `${PersonOption.displayName}`);
         }
 
 
