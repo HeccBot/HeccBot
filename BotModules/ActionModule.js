@@ -3,6 +3,10 @@ const { localize } = require("./LocalizationModule");
 const { DiscordClient } = require("../constants");
 
 
+/** Actions that will NEVER have the Return Action Button show */
+const ButtonlessActions = [ "jail", "yeet", "cookie" ];
+
+
 // REGEXS
 const EveryoneMentionRegEx = new RegExp(/@(everyone|here)/g);
 const RoleMentionRegEx = new RegExp(/<@&(\d{17,20})>/g);
@@ -185,6 +189,8 @@ module.exports = {
 
         // Hide Return Action Button if requested
         if ( ButtonOption === false ) { displayButton = false; }
+        // Hide if Buttonless Action
+        if ( ButtonlessActions.includes(interaction.commandName.toLowerCase()) ) { displayButton = false; }
 
 
 
