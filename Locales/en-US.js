@@ -707,7 +707,7 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
 
 
     // ******* HELP COMMAND
-    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below, and more information about HeccBot's features in the Select Menu under those buttons!\n\n:information_source: **Please note: These help pages have been written prior to the addition of HeccBot adding support for being a User App. These help pages will be updated before the stable release of HeccBot v10.0.0 (which is the next update!).`,
+    HELP_COMMAND_INDEX_MORE_INFORMATION: `You can find HeccBot's official links in the buttons below, and more information about HeccBot's features in the Select Menu under those buttons!`,
     
     HELP_COMMAND_INDEX_BUTTON_CHANGELOG: `Changelog`,
     HELP_COMMAND_INDEX_BUTTON_PRIVACY: `Privacy Policy`,
@@ -727,6 +727,7 @@ Additionally, both Custom Discord Emojis, and standard Unicode Emojis, are suppo
     HELP_COMMAND_MENU_MISC_COMMANDS: `Miscellaneous Commands`,
     HELP_COMMAND_MENU_PERMISSIONS: `Command Permissions`,
     HELP_COMMAND_MENU_CONTEXT_COMMANDS: `What are "Context Commands"?`,
+    HELP_COMMAND_MENU_USER_APPS: `What are User Apps?`,
 
     HELP_COMMAND_ACTIONS_PAGE: `# __HeccBot's Action Commands__
 
@@ -740,7 +741,7 @@ Currently, HeccBot offers the following Action Commands:
 - \`/yeet\`
 - \`/jail\`
 
-Additionally, HeccBot also offers \`/bonk\` and \`/headpat\` in Context Command forms, if you want a quick access way of using those two Commands!`,
+Additionally, HeccBot also offers \`/bonk\`, \`/headpat\`, and \`/boop\` in Context Command forms, if you want a quick access way of using those Commands!`,
 
     HELP_COMMAND_ROLE_MENU_PAGE: `# __HeccBot's Role Menu Module__
 
@@ -783,7 +784,7 @@ Due to limitations set by Discord, even the Server Owner requires those Roles to
 
     HELP_COMMAND_INFORMATIONAL_COMMANDS_PAGE: `# __HeccBot's Informational Commands__
 
-HeccBot offers a range of Informational Commands (found in \`/info\`), that can be used to see publicly available information (from Discord's Bot API) about the following:
+HeccBot offers a range of Informational Commands (found in \`/info\`), that can be used to see publicly available information (from Discord's API) about the following:
 - Servers (that the Command is run in. \`/info server\`)
 - Users (in the Server the Command is run in. \`/info user\`)
 - Server Invites (\`/info invite\`)
@@ -805,11 +806,9 @@ HeccBot uses a leftover part of Discord's API in order to achieve this.
     HELP_COMMAND_HECCBOT_COMMAND_PAGE: `# __HeccBot's Feed Command__
 
 For those not in, or not wanting to join, HeccBot's Support Server - a special Command has been provided so you can still subscribe to HeccBot's announcement feeds.
-**Using \`/heccbot\`**, you can either:
-- Subscribe to HeccBot's news feed - where updates and announcements are posted about and for HeccBot,
-- and/or subscribe to its status feed - where outages and other status issues with HeccBot are posted.
+**Using \`/news\`**, you can subscribe to HeccBot's news feed - where updates and announcements are posted about and for HeccBot!
 
-After subscribing, you can change where these feeds post, as well as unfollow them completely, in **Server Settings > Integrations > Channels Followed**.
+After subscribing, you can change where this feed posts, as well as unfollow it completely, in **Server Settings > Integrations > Channels Followed**.
 (*Sadly, this Settings page is only available on Desktop and Web versions of Discord.*)`,
 
     HELP_COMMAND_MISC_COMMANDS_PAGE: `# __HeccBot's Miscellaneous Commands__
@@ -836,13 +835,13 @@ Want to rate other Users, or Servers, out of 100 for fun? Then use HeccBot's \`/
 
     HELP_COMMAND_PERMISSIONS_PAGE: `# __Command Permissions__
 
-All custom Slash and Context Commands provided by Discord Bots (that have been added to Servers) can be restricted to be usable by specific User/Roles, to usable in specific Channels, or usable by everywhere everywhere in **Server Settings > Integrations**.
+All custom Slash and Context Commands provided by Discord Server Apps can be restricted to be usable by specific User/Roles, to usable in specific Channels, or usable by everywhere everywhere in **Server Settings > Integrations**.
 *(Note: this Settings page is only available on Desktop and Web versions of Discord)*
 
 Additionally, HeccBot also sets default permission requirements for some of its commands - for example: \`/lockemoji\` requires the "Manage Roles" Permission by default in order to be used by Server Members.
 These default permission requirements can be overridden in that same Integrations settings page mentioned above.
 
-You can read more about Discord's App/Bot Commands Permissions system on [their support article here](<https://support.discord.com/hc/en-us/articles/10952896421783>)`,
+You can read more about Discord's Server App Commands Permissions system on [their support article here](<https://support.discord.com/hc/en-us/articles/10952896421783>)`,
 
     HELP_COMMAND_CONTEXT_COMMANDS_PAGE: `# __What are Context Commands?__
 By now, most Users on Discord are aware of Slash Commands (such as \`/boop\` for example) and how to use them, but not many are aware of Context Commands. Hence, this help page to explain what they are!
@@ -857,6 +856,21 @@ These are Commands used on a specific Message in chats, and can be found:
 These are Commands used on a specific User in Servers, and can be found (providing you are in a Channel with a text chat):
 - **on Desktop & Web versions:** Right-click a Username/profile picture in chat or Members list sidebar > Apps
 - **on Mobile versions:** Long-press (press-and-hold) a Username in chat, or tap a profile picture in chat/Members list sidebar > Apps`,
+
+    HELP_COMMAND_USER_APPS_PAGE: `# __What are User Apps?__
+User Apps are a newer type of Apps (previously "Bots") - in short: they are special Apps that can be added to your *account* instead of (or in addition to) Servers.
+If you have a User App added to your account, you will be able to use that App's Commands (Slash or Context) anywhere in Discord - be it in Servers, DMs, or Group DMs, even if the App itself isn't in that space.
+
+## Disclaimers & Notes
+- User Apps can**not** view/read *any* messages if it itself is not actually in that space - with the exception of explicitly using a Message Context Command it has, which will allow the User App to view that one single Message.
+  - *In other words: User Apps can**not** read your DMs, Group DMs, Server Staff Channels, etc.*
+
+- You can remove a User App from your account at any time via **User Settings > Authorized Apps**.
+
+- User Apps can**not** do anything with/to your account. They can only respond to their own Commands being used.
+
+- Currently, Discord has User Apps in an experimental phase. As such, there are currently limitations in place (such as forcing public responses private for Servers with more than 25 members).
+  - There is no ETA (Estimated Time of Arrival) for when Discord will release their User Apps feature out of this experiment phase. There's never an ETA with Discord :)`,
 
 
 

@@ -91,6 +91,7 @@ module.exports = {
             new StringSelectMenuOptionBuilder().setValue("misc-commands").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_MISC_COMMANDS')),
             new StringSelectMenuOptionBuilder().setValue("permissions").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_PERMISSIONS')),
             new StringSelectMenuOptionBuilder().setValue("context-commands").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_CONTEXT_COMMANDS')),
+            new StringSelectMenuOptionBuilder().setValue("user-apps").setLabel(localize(interaction.locale, 'HELP_COMMAND_MENU_USER_APPS')),
         ]);
 
         // Slap into Rows
