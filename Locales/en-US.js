@@ -570,6 +570,7 @@ module.exports = {
     TEMPERATURE_COMMAND_ERROR_INVALID_TEMPERATURE: `:warning: {{0}}{{1}} is a temperature that cannot exist! (It is below Absolute Zero!)`,
     TEMPERATURE_COMMAND_ERROR_TEMPERATURE_NOT_FOUND: `Sorry, but I couldn't find any temperatures to convert from that Message.`,
     TEMPERATURE_COMMAND_ERROR_EXCEEDED_TEMPERATURE_LIMIT: `Sorry, but there are too many temperatures found in that Message!\nI have a maximum limit of 10 temperatures per Message that I can convert.`,
+    TEMPERATURE_COMMAND_ERROR_POLLS_NOT_SUPPORTED: `Sorry, I currently do not support converting temperatures inside of Polls.`,
 
 
 
