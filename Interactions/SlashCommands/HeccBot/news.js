@@ -6,7 +6,7 @@ const { LogToUserInteraction } = require("../../../BotModules/LoggingModule");
 module.exports = {
     // Command's Name
     //     Use full lowercase
-    Name: "heccbot",
+    Name: "news",
 
     // Command's Description
     Description: `Subscribe this Server to HeccBot's Announcement Feed`,
