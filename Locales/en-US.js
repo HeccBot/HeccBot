@@ -875,7 +875,7 @@ If you have a User App added to your account, you will be able to use that App's
 
 - User Apps can**not** do anything with/to your account. They can only respond to their own Commands being used.
 
-- Currently, Discord has User Apps in an experimental phase. As such, there are currently limitations in place (such as forcing public responses private for smaller Servers).
+- Currently, Discord has User Apps in an experimental phase. As such, there are currently limitations in place (such as forcing public responses private for larger Servers).
   - There is no ETA (Estimated Time of Arrival) for when Discord will release their User Apps feature out of this experiment phase. There's never an ETA with Discord :)`,
 
 
