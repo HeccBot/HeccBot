@@ -560,15 +560,6 @@ module.exports = {
 
 
 
-    // ******* SOMEONE COMMAND
-    SOMEONE_COMMAND_RESPONSE: `\`@someone\` *( {{0}} )*`,
-
-    SOMEONE_COMMAND_ERROR_PRIVATE_THREADS_UNSUPPORTED: `Sorry, this Command cannot be used inside of Private Threads.`,
-    SOMEONE_COMMAND_ERROR_CHANNEL_MISSING_ACCESS: `Sorry, I do not seem to be able to randomly pick a Member of this Channel.`,
-    SOMEONE_COMMAND_ERROR_CHANNEL_CHANNEL_NOT_FOUND: `Sorry, I do not seem to be able to randomly pick a Member of this Channel.\nEither I don't have "**View Channel**" Permission for this Channel, or I am not a member of this Thread or Forum Post.`,
-
-
-
     // ******* TEMPERATURE COMMANDS
     TEMPERATURE_COMMAND_CONVERTED: `{{0}}{{1}} is about {{2}}{{3}} or {{4}}{{5}}`,
     TEMPERATURE_COMMAND_SUCCESS_SINGLAR: `Here is your converted temperature:`,
@@ -820,10 +811,6 @@ After subscribing, you can change where this feed posts, as well as unfollow it 
 
     HELP_COMMAND_MISC_COMMANDS_PAGE: `# __HeccBot's Miscellaneous Commands__
 This help page covers the rest of HeccBot's Commands not included in other help pages.
-
-## Someone Command
-You can use \`/someone\` to have a random Server Member's name said in chat.
-HeccBot will pick from the Server Members that have permissions to view the Channel this was used in, or are a member of the Thread/Forum Post this was used in.
 
 ## Temperature Conversion Commands
 Want to quickly convert a temperature between degrees C, F, and/or K?
