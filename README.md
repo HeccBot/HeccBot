@@ -2,9 +2,10 @@
 
 # HeccBot
 
-A general-purpose Discord Bot made by TwilightZebby, which focuses on actual "general" features (so no Moderation, Music, or Levelling features).
+A general-purpose Discord Bot made by TwilightZebby.
 
 - [Invite HeccBot to your Server](https://discord.com/api/oauth2/authorize?client_id=784058687412633601&permissions=274878221312&scope=applications.commands%20bot)
+- [Add HeccBot as a User App to your Account](https://discord.com/api/oauth2/authorize?client_id=784058687412633601&scope=applications.commands&integration_type=1)
 
 ---
 
