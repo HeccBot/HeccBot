@@ -76,7 +76,7 @@ module.exports = {
         const PrivacyButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_PRIVACY')).setURL("https://github.com/HeccBot/HeccBot/blob/main/PRIVACY_POLICY.md");
         const TermsButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_TERMS')).setURL("https://github.com/HeccBot/HeccBot/blob/main/TERMS_OF_SERVICE.md");
         const GithubButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_GITHUB')).setURL("https://github.com/HeccBot/HeccBot/");
-        const SupportButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER')).setURL("https://discord.gg/4bFgUyWUMY");
+        const SupportButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_SUPPORT_SERVER')).setURL("https://discord.gg/BdXQjkADgd");
         const InviteButton = new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'HELP_COMMAND_INDEX_BUTTON_INVITE_BOT')).setURL("https://discord.com/api/oauth2/authorize?client_id=784058687412633601");
 
         // Construct Select
