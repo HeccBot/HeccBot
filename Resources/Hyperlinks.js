@@ -1,5 +1,5 @@
 module.exports = {
-    HECCBOT_SUPPORT_SERVER_INVITE: `https://discord.gg/4bFgUyWUMY`,
+    HECCBOT_SUPPORT_SERVER_INVITE: `https://discord.gg/BdXQjkADgd`,
     
     IMAGE_CONTEXT_COMMANDS: "https://i.imgur.com/m1uBo5J.png",
     IMAGE_BUTTON_COLORS: "https://i.imgur.com/NDgzcYa.png",

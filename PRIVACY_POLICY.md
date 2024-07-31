@@ -50,7 +50,7 @@ If, as a User, you have left all Servers **HeccBot** is in as a Server App (and 
 
 If you have added **HeccBot** to your Discord Account as a User App, and you no longer want it as a User App, you can freely remove it again at any time by navigating to Discord's User Settings -> Authorized Apps, and revoking **HeccBot** from that page.
 
-The Developer of **HeccBot**, TwilightZebby, is contactable for matters regarding **HeccBot** via GitHub, preferrably via opening an Issue Ticket or Discussion on **HeccBot**'s [GitHub Repo](https://github.com/HeccBot/HeccBot). You can also contact TwilightZebby via **HeccBot**'s [Support Server](https://discord.gg/4bFgUyWUMY) on Discord.
+The Developer of **HeccBot**, TwilightZebby, is contactable for matters regarding **HeccBot** via GitHub, preferrably via opening an Issue Ticket or Discussion on **HeccBot**'s [GitHub Repo](https://github.com/HeccBot/HeccBot). You can also contact TwilightZebby via **HeccBot**'s [Support Server](https://discord.gg/BdXQjkADgd) on Discord.
 
 Please also see [Discord's own Privacy Policy](https://discord.com/privacy).
 
