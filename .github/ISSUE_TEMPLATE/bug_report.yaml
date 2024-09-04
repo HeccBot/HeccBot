@@ -1,5 +1,5 @@
 name: Bug Report
-description: Template for reporting Bugs or Issues found with HeccBot
+description: Template for reporting Bugs or Issues found with this Discord App
 title: '[Bug]: '
 labels:
   - bug
@@ -9,7 +9,7 @@ body:
     attributes:
       label: Description of Bug
       description: >-
-        What is the bug or issue you are experiencing with HeccBot? Please ensure
+        What is the bug or issue you are experiencing? Please ensure
         you are clear yet concise. 
     validations:
       required: true

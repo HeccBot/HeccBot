@@ -1,7 +1,7 @@
 {
-  "name": "heccbot",
-  "version": "10.0.0",
-  "description": "A general purpose Discord Bot, focusing on general features so you won't see any Moderation or Levelling features here!",
+  "name": "twilite",
+  "version": "11.0.0",
+  "description": "A multi-purpose Discord App that can be installed to both Servers and Users",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,31 +15,27 @@
     "discord-bot",
     "discordjs",
     "nodejs",
-    "discord-js",
-    "node-js",
-    "general-purpose"
+    "general-purpose",
+    "multi-purpose",
+    "discord-app",
+    "discord-server-app",
+    "discord-user-app"
   ],
   "author": "TwilightZebby",
-  "license": "SEE LICENSE IN https://github.com/TwilightZebby/issues",
+  "license": "SEE LICENSE IN https://github.com/TwilightZebby/license/blob/main/license.md",
   "bugs": {
     "url": "https://github.com/HeccBot/HeccBot/issues"
   },
   "homepage": "https://github.com/HeccBot/HeccBot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.9.0",
-    "@discordjs/voice": "^0.16.1",
-    "@napi-rs/canvas": "^0.1.44",
-    "bufferutil": "^4.0.8",
-    "discord.js": "^14.15.3",
-    "emoji-regex": "^10.3.0",
-    "erlpack": "^0.1.4",
-    "ffmpeg-static": "^5.2.0",
-    "mongoose": "^8.0.2",
-    "node-fetch": "^2.7.0",
-    "play-dl": "^1.9.7",
-    "sodium-native": "^4.0.4",
-    "statuspage.js": "^1.0.17",
-    "utf-8-validate": "^6.0.3",
-    "zlib-sync": "^0.1.9"
+    "@discordjs/collection": "^2.1.1",
+    "@discordjs/core": "^2.0.0",
+    "@discordjs/rest": "^2.4.0",
+    "@discordjs/ws": "^2.0.0",
+    "@napi-rs/canvas": "^0.1.54",
+    "discord-api-types": "^0.37.99",
+    "emoji-regex": "^10.4.0",
+    "mongoose": "^8.6.1",
+    "node-fetch": "^3.3.2"
   }
 }
