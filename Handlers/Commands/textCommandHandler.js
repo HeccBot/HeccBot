@@ -1,9 +1,8 @@
 import { GatewayMessageCreateDispatchData } from 'discord-api-types/v10';
 import { API } from '@discordjs/core';
-import { APP_DEVELOPER_USER_ID, DISCORD_APP_USER_ID, TEXT_COMMAND_PREFIX } from '../../config';
-import { UtilityCollections } from '../../Utility/utilityConstants';
-import { localize } from '../../Utility/localizeResponses';
-import { logError } from '../../Utility/loggingModule';
+import { APP_DEVELOPER_USER_ID, DISCORD_APP_USER_ID, TEXT_COMMAND_PREFIX } from '../../config.js';
+import { UtilityCollections } from '../../Utility/utilityConstants.js';
+import { logError } from '../../Utility/loggingModule.js';
 
 
 /**

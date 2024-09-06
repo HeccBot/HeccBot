@@ -1,6 +1,6 @@
-import { LOG_WEBHOOK_ID, LOG_WEBHOOK_TOKEN } from "../config";
-import { debugMode } from "./utilityConstants";
 import { API } from "@discordjs/core";
+import { LOG_WEBHOOK_ID, LOG_WEBHOOK_TOKEN } from "../config.js";
+import { debugMode } from "./utilityConstants.js";
 
 
 /**

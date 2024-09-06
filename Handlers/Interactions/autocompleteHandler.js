@@ -1,8 +1,7 @@
-import { APIApplicationCommandAutocompleteInteraction, APIUser } from 'discord-api-types/v10';
 import { API } from '@discordjs/core';
-import { UtilityCollections } from '../../Utility/utilityConstants';
-import { logError } from '../../Utility/loggingModule';
-import { localize } from '../../Utility/localizeResponses';
+import { UtilityCollections } from '../../Utility/utilityConstants.js';
+import { logError } from '../../Utility/loggingModule.js';
+import { localize } from '../../Utility/localizeResponses.js';
 
 
 // *******************************
@@ -10,7 +9,7 @@ import { localize } from '../../Utility/localizeResponses';
 
 /**
  * Handles & Runs Autocompletes
- * @param {APIApplicationCommandAutocompleteInteraction} interaction 
+ * @param {import('discord-api-types/v10').APIApplicationCommandAutocompleteInteraction} interaction 
  * @param {API} api 
  * 
  * @returns {Boolean|'INVALID_COMMAND'|'COOLDOWN_ACTIVE'|'ERROR_GENERIC'} True if Interaction found, or custom error otherwise
@@ -28,7 +27,7 @@ export async function handleAutocomplete(interaction, api) {
 
 
     // Since `user` and `member` fields can be missing depending on the context the Interaction was invoked in - do a check here for ease
-    /** @type {APIUser} */
+    /** @type {import('discord-api-types/v10').APIUser} */
     let interactionUser;
     
     if ( interaction.user == undefined ) { interactionUser = interaction.member.user; }

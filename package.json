@@ -3,6 +3,7 @@
   "version": "11.0.0",
   "description": "A multi-purpose Discord App that can be installed to both Servers and Users",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

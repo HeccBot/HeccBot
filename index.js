@@ -1,19 +1,18 @@
 import { GatewayDispatchEvents, PresenceUpdateStatus } from '@discordjs/core';
-
+import { InteractionType, MessageType } from 'discord-api-types/v10';
+import { isChatInputApplicationCommandInteraction, isContextMenuApplicationCommandInteraction, isMessageComponentButtonInteraction, isMessageComponentSelectMenuInteraction } from 'discord-api-types/utils';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-import { DiscordGateway, DiscordClient, UtilityCollections } from './Utility/utilityConstants';
-import { InteractionType, MessageType } from 'discord-api-types/v10';
-import { handleTextCommand } from './Handlers/Commands/textCommandHandler';
-import { isChatInputApplicationCommandInteraction, isContextMenuApplicationCommandInteraction, isMessageComponentButtonInteraction, isMessageComponentSelectMenuInteraction } from 'discord-api-types/utils';
-import { handleSlashCommand } from './Handlers/Commands/slashCommandHandler';
-import { handleContextCommand } from './Handlers/Commands/contextCommandHandler';
-import { handleButton } from './Handlers/Interactions/buttonHandler';
-import { handleSelect } from './Handlers/Interactions/selectHandler';
-import { handleAutocomplete } from './Handlers/Interactions/autocompleteHandler';
-import { handleModal } from './Handlers/Interactions/modalHandler';
-import { logInfo } from './Utility/loggingModule';
+import { DiscordClient, UtilityCollections } from './Utility/utilityConstants.js';
+import { handleTextCommand } from './Handlers/Commands/textCommandHandler.js';
+import { handleSlashCommand } from './Handlers/Commands/slashCommandHandler.js';
+import { handleContextCommand } from './Handlers/Commands/contextCommandHandler.js';
+import { handleButton } from './Handlers/Interactions/buttonHandler.js';
+import { handleSelect } from './Handlers/Interactions/selectHandler.js';
+import { handleAutocomplete } from './Handlers/Interactions/autocompleteHandler.js';
+import { handleModal } from './Handlers/Interactions/modalHandler.js';
+import { logInfo } from './Utility/loggingModule.js';
 
 
 
@@ -31,7 +30,7 @@ import { logInfo } from './Utility/loggingModule';
 const TextCommandFiles = fs.readdirSync('./Commands/TextCommands').filter(file => file.endsWith('.js'));
 
 for ( const File of TextCommandFiles ) {
-    const TempFile = require(`./Commands/TextCommands/${File}`);
+    const TempFile = await import(`./Commands/TextCommands/${File}`);
     UtilityCollections.TextCommands.set(TempFile.name, TempFile);
 }
 
@@ -45,7 +44,7 @@ for ( const Folder of SlashFolders ) {
 
     for ( const File of SlashCommandFiles ) {
         const FilePath = path.join(SlashCommandPath, File);
-        const TempFile = require(FilePath);
+        const TempFile = await import(FilePath);
         if ( 'execute' in TempFile && 'registerData' in TempFile ) { UtilityCollections.SlashCommands.set(TempFile.name, TempFile); }
         else { console.warn(`[WARNING] The Slash Command at ${FilePath} is missing required "execute" or "registerData" methods.`); }
     }
@@ -61,7 +60,7 @@ for ( const Folder of ContextFolders ) {
 
     for ( const File of ContextCommandFiles ) {
         const FilePath = path.join(ContextCommandPath, File);
-        const TempFile = require(FilePath);
+        const TempFile = await import(FilePath);
         if ( 'execute' in TempFile && 'registerData' in TempFile ) { UtilityCollections.ContextCommands.set(TempFile.name, TempFile); }
         else { console.warn(`[WARNING] The Context Command at ${FilePath} is missing required "execute" or "registerData" methods.`); }
     }
@@ -77,7 +76,7 @@ for ( const Folder of ButtonFolders ) {
 
     for ( const File of ButtonFiles ) {
         const FilePath = path.join(ButtonPath, File);
-        const TempFile = require(FilePath);
+        const TempFile = await import(FilePath);
         if ( 'execute' in TempFile ) { UtilityCollections.Buttons.set(TempFile.name, TempFile); }
         else { console.warn(`[WARNING] The Button at ${FilePath} is missing required "execute" method.`); }
     }
@@ -93,7 +92,7 @@ for ( const Folder of SelectFolders ) {
 
     for ( const File of SelectFiles ) {
         const FilePath = path.join(SelectPath, File);
-        const TempFile = require(FilePath);
+        const TempFile = await import(FilePath);
         if ( 'execute' in TempFile ) { UtilityCollections.Selects.set(TempFile.name, TempFile); }
         else { console.warn(`[WARNING] The Select at ${FilePath} is missing required "execute" method.`); }
     }
@@ -109,7 +108,7 @@ for ( const Folder of ModalFolders ) {
 
     for ( const File of ModalFiles ) {
         const FilePath = path.join(ModalPath, File);
-        const TempFile = require(FilePath);
+        const TempFile = await import(FilePath);
         if ( 'execute' in TempFile ) { UtilityCollections.Modals.set(TempFile.name, TempFile); }
         else { console.warn(`[WARNING] The Modal at ${FilePath} is missing required "execute" method.`); }
     }
@@ -218,17 +217,3 @@ DiscordClient.on(GatewayDispatchEvents.InteractionCreate, async ({ data: interac
 
     return;
 });
-
-
-
-
-
-
-
-
-
-
-
-// *******************************
-//  Connection Methods
-DiscordGateway.connect();

@@ -1,5 +1,5 @@
 const appLocales = {
-    'en-GB': require('../Locales/en-GB.js')
+    'en-GB': await import('../Locales/en-GB.cjs')
 };
 
 

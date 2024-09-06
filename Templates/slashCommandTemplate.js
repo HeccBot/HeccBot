@@ -1,8 +1,8 @@
-import { LocalizationMap, RESTPostAPIApplicationCommandsJSONBody, APIChatInputApplicationCommandInteraction, APIApplicationCommandAutocompleteInteraction, ApplicationCommandType, InteractionContextType, ApplicationIntegrationType, APIUser } from 'discord-api-types/v10';
+import { ApplicationCommandType, InteractionContextType, ApplicationIntegrationType } from 'discord-api-types/v10';
 import { API, MessageFlags } from '@discordjs/core';
 
 
-module.exports = {
+export const SlashTemplate = {
     /** Command's Name, in fulllowercase (can include hyphens)
      * @type {String}
      */
@@ -14,7 +14,7 @@ module.exports = {
     description: "Command Description",
 
     /** Command's Localised Descriptions
-     * @type {LocalizationMap}
+     * @type {import('discord-api-types/v10').LocalizationMap}
      */
     localizedDescriptions: {
         'en-GB': 'British Description',
@@ -38,10 +38,10 @@ module.exports = {
     
 
     /** Get the Command's data in a format able to be registered with via Discord's API
-     * @returns {RESTPostAPIApplicationCommandsJSONBody}
+     * @returns {import('discord-api-types/v10').RESTPostAPIApplicationCommandsJSONBody}
      */
     getRegisterData() {
-        /** @type {RESTPostAPIApplicationCommandsJSONBody} */
+        /** @type {import('discord-api-types/v10').RESTPostAPIApplicationCommandsJSONBody} */
         const CommandData = {};
 
         CommandData.name = this.name;
@@ -59,9 +59,9 @@ module.exports = {
     },
 
     /** Handles given Autocomplete Interactions, should this Command use Autocomplete Options
-     * @param {APIApplicationCommandAutocompleteInteraction} interaction 
+     * @param {import('discord-api-types/v10').APIApplicationCommandAutocompleteInteraction} interaction 
      * @param {API} api
-     * @param {APIUser} interactionUser 
+     * @param {import('discord-api-types/v10').APIUser} interactionUser 
      */
     async handleAutoComplete(interaction, api, interactionUser) {
         await api.interactions.createAutocompleteResponse(interaction.id, interaction.token, { choices: [ {name: "Not implemented yet!", value: "NOT_IMPLEMENTED"} ] });
@@ -70,9 +70,9 @@ module.exports = {
     },
 
     /** Runs the Command
-     * @param {APIChatInputApplicationCommandInteraction} interaction 
+     * @param {import('discord-api-types/v10').APIChatInputApplicationCommandInteraction} interaction 
      * @param {API} api
-     * @param {APIUser} interactionUser 
+     * @param {import('discord-api-types/v10').APIUser} interactionUser 
      * @param {String} usedCommandName 
      */
     async executeCommand(interaction, api, interactionUser, usedCommandName) {

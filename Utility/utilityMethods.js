@@ -1,5 +1,4 @@
-import { APIUser, APIGuildMember, API } from '@discordjs/core';
-import { APIInteraction, PermissionFlagsBits } from 'discord-api-types/v10';
+import { PermissionFlagsBits } from 'discord-api-types/v10';
 
 
 // *******************************
@@ -9,7 +8,7 @@ import { APIInteraction, PermissionFlagsBits } from 'discord-api-types/v10';
  * Checks the Tag/Discrim of the given APIUser, to see if they're on the new Username System or not.
  * 
  * Note: This shouldn't be used as much now that all non-App/Bot Users HAVE been fully migrated at this point
- * @param {APIUser} user 
+ * @param {import('discord-api-types/v10').APIUser} user 
  * 
  * @returns {Boolean} True if on the new Username System
  */
@@ -20,7 +19,7 @@ export function checkPomelo(user) {
 
 /**
  * Gets the highest-level display name for the provided User or Member
- * @param {APIUser|APIGuildMember} userMember 
+ * @param {import('discord-api-types/v10').APIUser|import('discord-api-types/v10').APIGuildMember} userMember 
  * @param {Boolean?} ignoreNicknames Set as True to ignore Guild Nicknames, if using APIGuildMember
  * 
  * @returns {String} The highest-level display name - be it the Guild Nickname, User's Display Name, or User's Username
@@ -49,7 +48,7 @@ export function getHighestName(userMember, ignoreNicknames) {
 
 /**
  * Checks if the App can use External Server Emojis in its Interaction responses
- * @param {APIInteraction} interaction 
+ * @param {import('discord-api-types/v10').APIInteraction} interaction 
  * 
  * @returns {Boolean} True if App does have USE_EXTERNAL_EMOJIS Permission
  */

@@ -2,7 +2,7 @@ import { GatewayMessageCreateDispatchData, MessageReferenceType } from 'discord-
 import { API } from '@discordjs/core';
 
 
-module.exports = {
+export const TextTemplate = {
     /** Command's Name, in fulllowercase (can include hyphens)
      * @type {String}
      */

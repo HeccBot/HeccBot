@@ -1,8 +1,8 @@
 import { REST } from '@discordjs/rest';
 import { WebSocketManager } from '@discordjs/ws';
 import { GatewayIntentBits, Client } from '@discordjs/core';
-import { DISCORD_TOKEN } from '../config';
 import { Collection } from '@discordjs/collection';
+import { DISCORD_TOKEN } from '../config.js';
 
 
 // REST Manager
@@ -11,19 +11,20 @@ const DiscordRest = new REST({ version: '10' }).setToken(DISCORD_TOKEN);
 /** Required Intents */
 const RequestedIntents = GatewayIntentBits.Guilds | GatewayIntentBits.GuildIntegrations | GatewayIntentBits.GuildMessages | GatewayIntentBits.GuildVoiceStates;
 
+/** WebSocket Manager for interacting with Discord API. */
+const DiscordGateway = new WebSocketManager({
+    token: DISCORD_TOKEN,
+    intents: RequestedIntents,
+    rest: DiscordRest,
+});
+
+DiscordGateway.connect();
 
 // *******************************
 //  Exports
 
-/** WebSocket Manager for interacting with Discord API. Only exporting so I can use `.connect()` in index file */
-export const DiscordGateway = new WebSocketManager({
-    token: DISCORD_TOKEN,
-    intents: RequestedIntents,
-    DiscordRest,
-});
-
 /** Client for Discord's API events & stuff */
-export const DiscordClient = new Client({ DiscordRest, DiscordGateway });
+export const DiscordClient = new Client({ rest: DiscordRest, gateway: DiscordGateway });
 
 /** Utility & Command/Interaction Collections */
 export const UtilityCollections = {
