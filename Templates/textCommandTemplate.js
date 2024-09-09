@@ -1,4 +1,4 @@
-import { GatewayMessageCreateDispatchData, MessageReferenceType } from 'discord-api-types/v10';
+import { MessageReferenceType } from 'discord-api-types/v10';
 import { API } from '@discordjs/core';
 
 
@@ -49,7 +49,7 @@ export const TextTemplate = {
     minimumPermission: 'APP_DEVELOPER',
 
     /** Runs the Command
-     * @param {GatewayMessageCreateDispatchData} message 
+     * @param {import('discord-api-types/v10').GatewayMessageCreateDispatchData} message 
      * @param {API} api
      * @param {Array<String>} commandArguments
      */
