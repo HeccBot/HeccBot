@@ -110,7 +110,7 @@ export async function handleSelect(interaction, api) {
         await logError(err, api);
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'SELECT_ERROR_GENERIC', timeLeft.toFixed(1))
+            content: localize('en-GB', 'SELECT_ERROR_GENERIC')
         });
     }
 

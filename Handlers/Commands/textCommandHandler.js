@@ -154,7 +154,7 @@ export async function handleTextCommand(message, api) {
 
 
     // Attempt to execute Command
-    try { await Command.execute(message, api, Arguments); }
+    try { await Command.executeCommand(message, api, Arguments); }
     catch (err) {
         await logError(err, api);
         await api.channels.createMessage(message.channel_id, {

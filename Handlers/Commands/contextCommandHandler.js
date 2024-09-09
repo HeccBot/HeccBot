@@ -103,12 +103,12 @@ export async function handleContextCommand(interaction, api) {
 
 
     // Attempt to execute Command
-    try { await Command.execute(interaction, api, interactionUser); }
+    try { await Command.executeCommand(interaction, api, interactionUser); }
     catch (err) {
         await logError(err, api);
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'CONTEXT_COMMAND_ERROR_GENERIC', timeLeft.toFixed(1))
+            content: localize('en-GB', 'CONTEXT_COMMAND_ERROR_GENERIC')
         });
     }
 
