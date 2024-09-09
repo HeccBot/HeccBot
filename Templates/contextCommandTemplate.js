@@ -2,7 +2,7 @@ import { ApplicationCommandType, InteractionContextType, ApplicationIntegrationT
 import { API, MessageFlags } from '@discordjs/core';
 
 
-export const ContextTemplate = {
+export const ContextCommand = {
     /** Command's Name, supports both upper- and lower-case, and spaces
      * @type {String}
      */

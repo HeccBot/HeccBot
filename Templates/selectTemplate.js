@@ -1,7 +1,7 @@
 import { API, MessageFlags } from '@discordjs/core';
 
 
-export const SelectTemplate = {
+export const Select = {
     /** The Select's name - set as the START of the Button's Custom ID, with extra data being separated with a "_" AFTER the name
      * @example "selectName_extraData"
      * @type {String}

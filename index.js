@@ -2,7 +2,6 @@ import { GatewayDispatchEvents, PresenceUpdateStatus } from '@discordjs/core';
 import { InteractionType, MessageType } from 'discord-api-types/v10';
 import { isChatInputApplicationCommandInteraction, isContextMenuApplicationCommandInteraction, isMessageComponentButtonInteraction, isMessageComponentSelectMenuInteraction } from 'discord-api-types/utils';
 import * as fs from 'node:fs';
-import * as path from 'node:path';
 
 import { DiscordClient, UtilityCollections } from './Utility/utilityConstants.js';
 import { handleTextCommand } from './Handlers/Commands/textCommandHandler.js';
@@ -31,86 +30,71 @@ const TextCommandFiles = fs.readdirSync('./Commands/TextCommands').filter(file =
 
 for ( const File of TextCommandFiles ) {
     const TempFile = await import(`./Commands/TextCommands/${File}`);
-    UtilityCollections.TextCommands.set(TempFile.name, TempFile);
+    UtilityCollections.TextCommands.set(TempFile.TextCommand.name, TempFile.TextCommand);
 }
 
 // Slash Commands
-const SlashFolderPath = path.join(__dirname, 'Commands/SlashCommands');
-const SlashFolders = fs.readdirSync(SlashFolderPath);
+const SlashFolders = fs.readdirSync('./Commands/SlashCommands');
 
 for ( const Folder of SlashFolders ) {
-    const SlashCommandPath  = path.join(SlashFolderPath, Folder);
-    const SlashCommandFiles = fs.readdirSync(SlashCommandPath).filter(file => file.endsWith(".js"));
+    const SlashCommandFiles = fs.readdirSync(`./Commands/SlashCommands/${Folder}`).filter(file => file.endsWith(".js"));
 
     for ( const File of SlashCommandFiles ) {
-        const FilePath = path.join(SlashCommandPath, File);
-        const TempFile = await import(FilePath);
-        if ( 'execute' in TempFile && 'registerData' in TempFile ) { UtilityCollections.SlashCommands.set(TempFile.name, TempFile); }
-        else { console.warn(`[WARNING] The Slash Command at ${FilePath} is missing required "execute" or "registerData" methods.`); }
+        const TempFile = await import(`./Commands/SlashCommands/${Folder}/${File}`);
+        if ( 'executeCommand' in TempFile.SlashCommand && 'getRegisterData' in TempFile.SlashCommand ) { UtilityCollections.SlashCommands.set(TempFile.SlashCommand.name, TempFile.SlashCommand); }
+        else { console.warn(`[WARNING] The Slash Command at ./Commands/SlashCommands/${Folder}/${File} is missing required "executeCommand" or "getRegisterData" methods.`); }
     }
 }
 
 // Context Commands
-const ContextFolderPath = path.join(__dirname, 'Commands/ContextCommands');
-const ContextFolders = fs.readdirSync(ContextFolderPath);
+const ContextFolders = fs.readdirSync(`./Commands/ContextCommands`);
 
 for ( const Folder of ContextFolders ) {
-    const ContextCommandPath  = path.join(ContextFolderPath, Folder);
-    const ContextCommandFiles = fs.readdirSync(ContextCommandPath).filter(file => file.endsWith(".js"));
+    const ContextCommandFiles = fs.readdirSync(`./Commands/ContextCommands/${Folder}`).filter(file => file.endsWith(".js"));
 
     for ( const File of ContextCommandFiles ) {
-        const FilePath = path.join(ContextCommandPath, File);
-        const TempFile = await import(FilePath);
-        if ( 'execute' in TempFile && 'registerData' in TempFile ) { UtilityCollections.ContextCommands.set(TempFile.name, TempFile); }
-        else { console.warn(`[WARNING] The Context Command at ${FilePath} is missing required "execute" or "registerData" methods.`); }
+        const TempFile = await import(`./Commands/ContextCommands/${Folder}/${File}`);
+        if ( 'executeCommand' in TempFile && 'getRegisterData' in TempFile ) { UtilityCollections.ContextCommands.set(TempFile.ContextCommand.name, TempFile.ContextCommand); }
+        else { console.warn(`[WARNING] The Context Command at ./Commands/ContextCommands/${Folder}/${File} is missing required "executeCommand" or "getRegisterData" methods.`); }
     }
 }
 
 // Buttons
-const ButtonFolderPath = path.join(__dirname, 'Interactions/Buttons');
-const ButtonFolders = fs.readdirSync(ButtonFolderPath);
+const ButtonFolders = fs.readdirSync(`./Interactions/Buttons`);
 
 for ( const Folder of ButtonFolders ) {
-    const ButtonPath  = path.join(ButtonFolderPath, Folder);
-    const ButtonFiles = fs.readdirSync(ButtonPath).filter(file => file.endsWith(".js"));
+    const ButtonFiles = fs.readdirSync(`./Interactions/Buttons/${Folder}`).filter(file => file.endsWith(".js"));
 
     for ( const File of ButtonFiles ) {
-        const FilePath = path.join(ButtonPath, File);
-        const TempFile = await import(FilePath);
-        if ( 'execute' in TempFile ) { UtilityCollections.Buttons.set(TempFile.name, TempFile); }
-        else { console.warn(`[WARNING] The Button at ${FilePath} is missing required "execute" method.`); }
+        const TempFile = await import(`./Interactions/Buttons/${Folder}/${File}`);
+        if ( 'executeButton' in TempFile ) { UtilityCollections.Buttons.set(TempFile.Button.name, TempFile.Button); }
+        else { console.warn(`[WARNING] The Button at ./Interactions/Buttons/${Folder}/${File} is missing required "executeButton" method.`); }
     }
 }
 
 // Selects
-const SelectFolderPath = path.join(__dirname, 'Interactions/Selects');
-const SelectFolders = fs.readdirSync(SelectFolderPath);
+const SelectFolders = fs.readdirSync(`./Interactions/Selects`);
 
 for ( const Folder of SelectFolders ) {
-    const SelectPath  = path.join(SelectFolderPath, Folder);
-    const SelectFiles = fs.readdirSync(SelectPath).filter(file => file.endsWith(".js"));
+    const SelectFiles = fs.readdirSync(`./Interactions/Selects/${Folder}`).filter(file => file.endsWith(".js"));
 
     for ( const File of SelectFiles ) {
-        const FilePath = path.join(SelectPath, File);
-        const TempFile = await import(FilePath);
-        if ( 'execute' in TempFile ) { UtilityCollections.Selects.set(TempFile.name, TempFile); }
-        else { console.warn(`[WARNING] The Select at ${FilePath} is missing required "execute" method.`); }
+        const TempFile = await import(`./Interactions/Selects/${Folder}/${File}`);
+        if ( 'executeSelect' in TempFile ) { UtilityCollections.Selects.set(TempFile.Select.name, TempFile.Select); }
+        else { console.warn(`[WARNING] The Select at ./Interactions/Selects/${Folder}/${File} is missing required "executeSelect" method.`); }
     }
 }
 
 // Modals
-const ModalFolderPath = path.join(__dirname, 'Interactions/Modals');
-const ModalFolders = fs.readdirSync(ModalFolderPath);
+const ModalFolders = fs.readdirSync(`./Interactions/Modals`);
 
 for ( const Folder of ModalFolders ) {
-    const ModalPath  = path.join(ModalFolderPath, Folder);
-    const ModalFiles = fs.readdirSync(ModalPath).filter(file => file.endsWith(".js"));
+    const ModalFiles = fs.readdirSync(`./Interactions/Modals/${Folder}`).filter(file => file.endsWith(".js"));
 
     for ( const File of ModalFiles ) {
-        const FilePath = path.join(ModalPath, File);
-        const TempFile = await import(FilePath);
-        if ( 'execute' in TempFile ) { UtilityCollections.Modals.set(TempFile.name, TempFile); }
-        else { console.warn(`[WARNING] The Modal at ${FilePath} is missing required "execute" method.`); }
+        const TempFile = await import(`./Interactions/Modals/${Folder}/${File}`);
+        if ( 'executeModal' in TempFile ) { UtilityCollections.Modals.set(TempFile.Modal.name, TempFile.Modal); }
+        else { console.warn(`[WARNING] The Modal at ./Interactions/Modals/${Folder}/${File} is missing required "executeModal" method.`); }
     }
 }
 

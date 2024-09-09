@@ -2,7 +2,7 @@ import { ApplicationCommandType, InteractionContextType, ApplicationIntegrationT
 import { API, MessageFlags } from '@discordjs/core';
 
 
-export const SlashTemplate = {
+export const SlashCommand = {
     /** Command's Name, in fulllowercase (can include hyphens)
      * @type {String}
      */

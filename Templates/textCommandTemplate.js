@@ -2,7 +2,7 @@ import { MessageReferenceType } from 'discord-api-types/v10';
 import { API } from '@discordjs/core';
 
 
-export const TextTemplate = {
+export const TextCommand = {
     /** Command's Name, in fulllowercase (can include hyphens)
      * @type {String}
      */

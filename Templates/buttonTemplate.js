@@ -1,7 +1,7 @@
 import { API, MessageFlags } from '@discordjs/core';
 
 
-export const ButtonTemplate = {
+export const Button = {
     /** The Button's name - set as the START of the Button's Custom ID, with extra data being separated with a "_" AFTER the name
      * @example "buttonName_extraData"
      * @type {String}

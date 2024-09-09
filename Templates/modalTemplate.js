@@ -1,7 +1,7 @@
 import { API, MessageFlags } from '@discordjs/core';
 
 
-export const ModalTemplate = {
+export const Modal = {
     /** The Modals's name - set as the START of the Modal's Custom ID, with extra data being separated with a "_" AFTER the name
      * @example "modalName_extraData"
      * @type {String}

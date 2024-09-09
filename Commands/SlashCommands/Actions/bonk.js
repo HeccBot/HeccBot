@@ -5,7 +5,7 @@ import { localize } from '../../../Utility/localizeResponses.js';
 import { logError } from '../../../Utility/loggingModule.js';
 
 
-export const BonkCommand = {
+export const SlashCommand = {
     /** Command's Name, in fulllowercase (can include hyphens)
      * @type {String}
      */
