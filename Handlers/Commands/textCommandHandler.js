@@ -1,4 +1,3 @@
-import { GatewayMessageCreateDispatchData } from 'discord-api-types/v10';
 import { API } from '@discordjs/core';
 import { APP_DEVELOPER_USER_ID, DISCORD_APP_USER_ID, TEXT_COMMAND_PREFIX } from '../../config.js';
 import { UtilityCollections } from '../../Utility/utilityConstants.js';
@@ -19,7 +18,7 @@ function escapePrefix(str) {
 
 /**
  * Handles & Runs Text-based Commands in Messages, if a Command is found
- * @param {GatewayMessageCreateDispatchData} message 
+ * @param {import('discord-api-types/v10').GatewayMessageCreateDispatchData} message 
  * @param {API} api 
  * 
  * @returns {Boolean|'NOT_A_COMMAND'|'INVALID_COMMAND'|'INVALID_SCOPE'|'INVALID_PERMISSION'|'INVALID_ARGUMENTS'|'COOLDOWN_ACTIVE'|'ERROR_GENERIC'} True if Command found, or custom error otherwise
