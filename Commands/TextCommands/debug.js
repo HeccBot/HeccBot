@@ -3,7 +3,7 @@ import { API } from '@discordjs/core';
 import { debugMode } from '../../Utility/utilityConstants.js';
 
 
-module.exports = {
+export const DebugCommand = {
     /** Command's Name, in fulllowercase (can include hyphens)
      * @type {String}
      */
