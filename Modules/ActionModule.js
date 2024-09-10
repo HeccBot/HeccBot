@@ -76,6 +76,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
     const InputTarget = interaction.data.options.find(option => option.name === "target");
     const InputIncludeGif = interaction.data.options.find(option => option.name === "include-gif");
     const InputAllowReturn = interaction.data.options.find(option => option.name === "allow-return");
+    const InputReason = interaction.data.options.find(option => option.name === "reason");
     // Just for ease
     const InteractionTriggeringContext = getInteractionContext(interaction);
     const InteractionTriggeringUserId = InteractionTriggeringContext === 'GUILD_CONTEXT' ? interaction.member.user.id : interaction.user.id;
@@ -106,7 +107,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
         displayMessage = localize('en-GB', `ACTION_COMMAND_EVERYONE_${interaction.data.name.toUpperCase()}`, InteractionTriggeringUserDisplayName);
     }
     // atRole
-    else if ( interaction.data.resolved?.roles != undefined ) {
+    else if ( interaction.data.resolved.roles?.[InputTarget.value] != undefined ) {
         forceDisplayEmbed = true;
         displayMessage = localize('en-GB', `ACTION_COMMAND_ROLE_${interaction.data.name.toUpperCase()}`, InteractionTriggeringUserDisplayName, `<@&${InputTarget.value}>`);
     }
@@ -123,7 +124,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
         displayMessage = localize('en-GB', `ACTION_COMMAND_MEE6_${interaction.data.name.toUpperCase()}`, InteractionTriggeringUserDisplayName, `<@159985870458322944>`);
     }
     // atUser (used on any app that isn't TwiLite or Mee6)
-    else if ( interaction.data.resolved.users[InputTarget.value]?.bot === true ) {
+    else if ( interaction.data.resolved.users?.[InputTarget.value]?.bot === true ) {
         displayMessage = localize('en-GB', `ACTION_COMMAND_OTHER_APPS_${interaction.data.name.toUpperCase()}`, InteractionTriggeringUserDisplayName, `<@${InputTarget.value}>`);
     }
     // atUser (used on any human User)
@@ -140,6 +141,14 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
     }
 
 
+    // If a custom message is given, check for sneaky atMentions!
+    if ( InputReason != undefined ) {
+        if ( TestForEveryoneMention(InputReason.value) ) { forceDisplayEmbed = true; }
+        if ( TestForRoleMention(InputReason.value) ) { forceDisplayEmbed = true; }
+        displayMessage += ` ${InputReason.value}`;
+    }
+
+
     // Hide Return Action button if requested by the User
     if ( InputAllowReturn?.value === false ) { displayButton = false; }
     // Also hide Return Action button if this is an Action Command that does not support it
@@ -151,8 +160,8 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
     if ( InputIncludeGif?.value === true ) {
         const GifEmbed = new EmbedBuilder()
             .setDescription(displayMessage)
-            .setImage(ActionGifs[interaction.data.name][Math.floor(( Math.random() * ActionGifs[interaction.data.name].length ) + 0)])
-            .setColor(interaction.data.resolved.roles != undefined ? interaction.data.resolved.roles[InputTarget.value].color : null);
+            .setImage(ActionGifs.default[interaction.data.name][Math.floor(( Math.random() * ActionGifs.default[interaction.data.name].length ) + 0)])
+            .setColor(interaction.data.resolved.roles?.[InputTarget.value] != undefined ? interaction.data.resolved.roles[InputTarget.value].color : null);
 
         await api.interactions.reply(interaction.id, interaction.token, {
             allowed_mentions: { parse: [], users: ['159985870458322944'] },
@@ -167,7 +176,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
         if ( forceDisplayEmbed ) {
             const ActionEmbed = new EmbedBuilder()
                 .setDescription(displayMessage)
-                .setColor(interaction.data.resolved.roles != undefined ? interaction.data.resolved.roles[InputTarget.value].color : null);
+                .setColor(interaction.data.resolved.roles?.[InputTarget.value] != undefined ? interaction.data.resolved.roles[InputTarget.value].color : null);
             
             await api.interactions.reply(interaction.id, interaction.token, {
                 allowed_mentions: { parse: [], users: ['159985870458322944'] },
