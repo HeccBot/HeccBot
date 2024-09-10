@@ -88,17 +88,6 @@ export const SlashCommand = {
                     'en-US': "Should the \"Return Bonk\" button be included? (default: true)"
                 },
                 required: false
-            },
-            {
-                type: ApplicationCommandOptionType.String,
-                name: "reason",
-                description: "An optional custom reason to be added onto the end of the displayed message",
-                description_localizations: {
-                    'en-GB': "An optional custom reason to be added onto the end of the displayed message",
-                    'en-US': "An optional custom reason to be added onto the end of the displayed message"
-                },
-                required: false,
-                max_length: 500
             }
         ];
 
