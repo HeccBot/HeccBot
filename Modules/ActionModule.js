@@ -80,7 +80,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
     // Just for ease
     const InteractionTriggeringContext = getInteractionContext(interaction);
     const InteractionTriggeringUserId = InteractionTriggeringContext === 'GUILD_CONTEXT' ? interaction.member.user.id : interaction.user.id;
-    const InteractionTriggeringUserDisplayName = InteractionTriggeringContext === 'GUILD_CONTEXT' ? getHighestName(interaction.member) : getHighestName(interaction.user);
+    const InteractionTriggeringUserDisplayName = InteractionTriggeringContext === 'GUILD_CONTEXT' && interaction.member.nick != null ? interaction.member.nick : getHighestName(interaction.user);
 
 
 
