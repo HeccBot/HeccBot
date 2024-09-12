@@ -3,7 +3,7 @@ import { API } from '@discordjs/core';
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from '@discordjs/builders';
 import * as ActionGifs from '../Assets/ActionGifLinks.json' with { type: 'json' };
 import { localize } from '../Utility/localizeResponses.js';
-import { getHighestName, getInteractionContext } from '../Utility/utilityMethods.js';
+import { getInteractionContext } from '../Utility/utilityMethods.js';
 import { DISCORD_APP_USER_ID } from '../config.js';
 
 /** Actions excluding from including the Return Action Button */
@@ -78,9 +78,12 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
     const InputAllowReturn = interaction.data.options.find(option => option.name === "allow-return");
     const InputReason = interaction.data.options.find(option => option.name === "reason");
     // Just for ease
-    const InteractionTriggeringContext = getInteractionContext(interaction);
-    const InteractionTriggeringUserId = InteractionTriggeringContext === 'GUILD_CONTEXT' ? interaction.member.user.id : interaction.user.id;
-    const InteractionTriggeringUserDisplayName = InteractionTriggeringContext === 'GUILD_CONTEXT' && interaction.member.nick != null ? interaction.member.nick : getHighestName(interaction.user);
+    const InteractionTriggeringUserId = interaction.member != undefined ? interaction.member.user.id : interaction.user.id;
+    const InteractionTriggeringUserDisplayName = interaction.member != undefined && interaction.member.nick != null ? interaction.member.nick
+        : interaction.member != undefined && interaction.member.nick == null && interaction.member.user.global_name != null ? interaction.member.user.global_name
+        : interaction.member != undefined && interaction.member.nick == null && interaction.member.user.global_name == null ? interaction.member.user.username
+        : interaction.member == undefined && interaction.user.global_name != null ? interaction.user.global_name
+        : interaction.user.username;
 
 
 
@@ -132,7 +135,10 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
         // Just so their highest display name can be gained
         let targetDisplayName = "";
         if ( interaction.data.resolved.members != undefined && interaction.data.resolved.members[InputTarget.value].nick != null ) { targetDisplayName = interaction.data.resolved.members[InputTarget.value].nick; }
-        else { targetDisplayName = getHighestName(interaction.data.resolved.users[InputTarget.value]); }
+        else if ( interaction.data.resolved.members != undefined && interaction.data.resolved.members[InputTarget.value].nick == null && interaction.data.resolved.users[InputTarget.value].global_name != null ) { targetDisplayName = interaction.data.resolved.users[InputTarget.value].global_name; }
+        else if ( interaction.data.resolved.members != undefined && interaction.data.resolved.members[InputTarget.value].nick == null && interaction.data.resolved.users[InputTarget.value].global_name == null ) { targetDisplayName = interaction.data.resolved.users[InputTarget.value].username; }
+        else if ( interaction.data.resolved.members == undefined && interaction.data.resolved.users[InputTarget.value].global_name != null ) { targetDisplayName = interaction.data.resolved.users[InputTarget.value].global_name; }
+        else { targetDisplayName = interaction.data.resolved.users[InputTarget.value].username; }
 
         // Allow Return Action button to display
         displayButton = true;

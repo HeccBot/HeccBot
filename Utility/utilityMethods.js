@@ -18,35 +18,6 @@ export function checkPomelo(user) {
 }
 
 /**
- * Gets the highest-level display name for the provided User or Member
- * @param {import('discord-api-types/v10').APIUser|import('discord-api-types/v10').APIGuildMember} userMember 
- * @param {Boolean?} ignoreNicknames Set as True to ignore Guild Nicknames, if using APIGuildMember
- * 
- * @returns {String} The highest-level display name - be it the Guild Nickname, User's Display Name, or User's Username
- */
-export function getHighestName(userMember, ignoreNicknames) {
-    let highestName = "";
-    let isPomelo = true;
-
-    // Pomelo checks. Basically, if an App, they're not on Pomelo!
-    if ( (userMember.roles == undefined) && userMember.bot ) { isPomelo = false; }
-    if ( (userMember.roles != undefined) && userMember.user?.bot ) { isPomelo = false; }
-
-    // Usernames
-    highestName = userMember.roles != undefined && userMember.user != null ? `${userMember.user?.username}${isPomelo ? '' : `#${userMember.user?.discriminator}`}`
-        : `${userMember.username}${isPomelo ? '' : `#${userMember.discriminator}`}`;
-
-    // Display Names override Usernames
-    if ( (userMember.roles == undefined) && (userMember.global_name != null) ) { highestName = userMember.global_name; }
-    if ( (userMember.roles != undefined) && (userMember.user?.global_name != null) ) { highestName = userMember.user.global_name; }
-
-    // Guild Nicknames override Display Names, if a Guild Member was provided
-    if ( !ignoreNicknames && (userMember.roles != undefined) && (userMember.nick != null) ) { highestName = userMember.nick; }
-
-    return highestName;
-}
-
-/**
  * Checks if the App can use External Server Emojis in its Interaction responses
  * @param {import('discord-api-types/v10').APIInteraction} interaction 
  * 
