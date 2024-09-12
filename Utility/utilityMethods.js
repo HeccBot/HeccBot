@@ -54,8 +54,9 @@ export function getHighestName(userMember, ignoreNicknames) {
  */
 export function checkExternalEmojiPermission(interaction) {
     let hasPermission = false;
+    let appPermissions = BigInt(interaction.app_permissions);
 
-    if ( (interaction.app_permissions & PermissionFlagsBits.UseExternalEmojis) == PermissionFlagsBits.UseExternalEmojis ) { hasPermission = true; }
+    if ( (appPermissions & PermissionFlagsBits.UseExternalEmojis) == PermissionFlagsBits.UseExternalEmojis ) { hasPermission = true; }
 
     return hasPermission;
 }

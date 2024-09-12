@@ -136,4 +136,13 @@ module.exports = {
     ACTION_ERROR_RETURN_CANNOT_FETCH_TARGET: `Sorry, but there was an error trying to fetch the original target of that Action.`,
     ACTION_ERROR_CANNOT_JAIL_SELF: `You cannot send yourself to jail!`,
 
+
+
+    // ******* JAIL COMMAND
+    JAIL_COMMAND_RESPONSE: `**{{0}}** was sent to jail by **{{1}}**!`,
+
+    JAIL_COMMAND_ERROR_MISSING_ATTACH_FILES_PERMISSION_GUILD: `Whoops, this command cannot be used as I am missing the "**Attach Files**" Permission here!`,
+    JAIL_COMMAND_ERROR_MISSING_ATTACH_FILES_PERMISSION_USER: `Whoops, this command cannot be used as you are missing the "**Attach Files**" Permission here!`,
+    JAIL_COMMAND_ERROR_CANNOT_JAIL_SELF: `You cannot send yourself to jail!`,
+
 }
