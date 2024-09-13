@@ -73,9 +73,10 @@ function TestForRoleMention(string, slice) {
  */
 export async function handleActionSlashCommand(interaction, api, commandName) {
     // Grab input options
+    //   * NOTE: Return Action Button is commented out since I'm temp-removing it
     const InputTarget = interaction.data.options.find(option => option.name === "target");
     const InputIncludeGif = interaction.data.options.find(option => option.name === "include-gif");
-    const InputAllowReturn = interaction.data.options.find(option => option.name === "allow-return");
+    //const InputAllowReturn = interaction.data.options.find(option => option.name === "allow-return");
     const InputReason = interaction.data.options.find(option => option.name === "reason");
     // Just for ease
     const InteractionTriggeringUserId = interaction.member != undefined ? interaction.member.user.id : interaction.user.id;
@@ -88,16 +89,16 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
 
 
     // Create "Return Action" button just in case
-    const ReturnActionRow = new ActionRowBuilder().addComponents(
+    /* const ReturnActionRow = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId(`return-action_${interaction.data.name}_${InteractionTriggeringUserId}_${InputTarget.value}`)
             .setStyle(ButtonStyle.Primary)
             .setLabel(localize('en-GB', `ACTION_RETURN_BUTTON_LABEL_${interaction.data.name.toUpperCase()}`))
-    );
+    ); */
 
 
     // To know if button shouldn't be included - such as when set to FALSE in InputAllowReturn, when InputIncludeGif is TRUE, or when the target is *not* of a User
-    let displayButton = false;
+    //let displayButton = false;
     // Override for GIF-less responses - such as when target is a Role, as to prevent accidental Role Pings should the `allow_mentions` field break.
     //   Also, prevents Server Modmins from freaking out even though the Role wasn't actually pinged, just mentioned, since it'll be in an embed NOT in the content field.
     let forceDisplayEmbed = false;
@@ -141,7 +142,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
         else { targetDisplayName = interaction.data.resolved.users[InputTarget.value].username; }
 
         // Allow Return Action button to display
-        displayButton = true;
+        //displayButton = true;
 
         displayMessage = localize('en-GB', `ACTION_COMMAND_OTHER_USER_${interaction.data.name.toUpperCase()}`, InteractionTriggeringUserDisplayName, targetDisplayName);
     }
@@ -156,9 +157,9 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
 
 
     // Hide Return Action button if requested by the User
-    if ( InputAllowReturn?.value === false ) { displayButton = false; }
+    //if ( InputAllowReturn?.value === false ) { displayButton = false; }
     // Also hide Return Action button if this is an Action Command that does not support it
-    if ( ButtonlessActions.includes(interaction.data.name) ) { displayButton = false; }
+    //if ( ButtonlessActions.includes(interaction.data.name) ) { displayButton = false; }
 
 
     // GIF was requested to be included
@@ -191,7 +192,7 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
         }
         else {
             // Check for button inclusion
-            if ( displayButton ) {
+            /* if ( displayButton ) {
                 await api.interactions.reply(interaction.id, interaction.token, {
                     allowed_mentions: { parse: [], users: ['159985870458322944'] },
                     content: displayMessage,
@@ -204,12 +205,12 @@ export async function handleActionSlashCommand(interaction, api, commandName) {
                     return;
                 }, 60_000);
             }
-            else {
+            else { */
                 await api.interactions.reply(interaction.id, interaction.token, {
                     allowed_mentions: { parse: [], users: ['159985870458322944'] },
                     content: displayMessage
                 });
-            }
+            //}
         }
     }
 
