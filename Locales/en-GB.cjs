@@ -130,10 +130,10 @@ module.exports = {
     ACTION_RETURN_BOOP: `**{{0}}** revenge booped **{{1}}**!`,
     ACTION_RETURN_KISS: `**{{0}}** kissed **{{1}}** in return!`,
 
-    //ACTION_ERROR_RETURN_NOT_TARGETED_AT_SELF: `You cannot return an Action that wasn't aimed at you!`,
-    //ACTION_ERROR_CANNOT_RETURN_TO_SENDER: `You cannot return the Action you originally sent!`,
-    //ACTION_ERROR_RETURN_CANNOT_FETCH_ORIGINAL_SENDER: `Sorry, there was an error trying to fetch the original sender of that Action.`,
-    //ACTION_ERROR_RETURN_CANNOT_FETCH_TARGET: `Sorry, but there was an error trying to fetch the original target of that Action.`,
+    ACTION_ERROR_RETURN_NOT_TARGETED_AT_SELF: `You cannot return an Action that wasn't aimed at you!`,
+    ACTION_ERROR_CANNOT_RETURN_TO_SENDER: `You cannot return the Action you sent!`,
+    ACTION_ERROR_RETURN_CANNOT_FETCH_ORIGINAL_SENDER: `Sorry, there was an error trying to fetch the original sender of that Action.`,
+    ACTION_ERROR_RETURN_CANNOT_FETCH_TARGET: `Sorry, but there was an error trying to fetch the original target of that Action.`,
     ACTION_ERROR_CANNOT_JAIL_SELF: `You cannot send yourself to jail!`,
 
 

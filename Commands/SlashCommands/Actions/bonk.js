@@ -79,7 +79,7 @@ export const SlashCommand = {
                 },
                 required: false
             },
-            /* {
+            {
                 type: ApplicationCommandOptionType.Boolean,
                 name: "allow-return",
                 description: "Should the \"Return Bonk\" button be included? (default: true)",
@@ -88,7 +88,7 @@ export const SlashCommand = {
                     'en-US': "Should the \"Return Bonk\" button be included? (default: true)"
                 },
                 required: false
-            }, */
+            },
             {
                 type: ApplicationCommandOptionType.String,
                 name: "reason",
