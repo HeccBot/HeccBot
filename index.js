@@ -54,7 +54,7 @@ for ( const Folder of ContextFolders ) {
 
     for ( const File of ContextCommandFiles ) {
         const TempFile = await import(`./Commands/ContextCommands/${Folder}/${File}`);
-        if ( 'executeCommand' in TempFile && 'getRegisterData' in TempFile ) { UtilityCollections.ContextCommands.set(TempFile.ContextCommand.name, TempFile.ContextCommand); }
+        if ( 'executeCommand' in TempFile.ContextCommand && 'getRegisterData' in TempFile.ContextCommand ) { UtilityCollections.ContextCommands.set(TempFile.ContextCommand.name, TempFile.ContextCommand); }
         else { console.warn(`[WARNING] The Context Command at ./Commands/ContextCommands/${Folder}/${File} is missing required "executeCommand" or "getRegisterData" methods.`); }
     }
 }
@@ -67,7 +67,7 @@ for ( const Folder of ButtonFolders ) {
 
     for ( const File of ButtonFiles ) {
         const TempFile = await import(`./Interactions/Buttons/${Folder}/${File}`);
-        if ( 'executeButton' in TempFile ) { UtilityCollections.Buttons.set(TempFile.Button.name, TempFile.Button); }
+        if ( 'executeButton' in TempFile.Button ) { UtilityCollections.Buttons.set(TempFile.Button.name, TempFile.Button); }
         else { console.warn(`[WARNING] The Button at ./Interactions/Buttons/${Folder}/${File} is missing required "executeButton" method.`); }
     }
 }
@@ -80,7 +80,7 @@ for ( const Folder of SelectFolders ) {
 
     for ( const File of SelectFiles ) {
         const TempFile = await import(`./Interactions/Selects/${Folder}/${File}`);
-        if ( 'executeSelect' in TempFile ) { UtilityCollections.Selects.set(TempFile.Select.name, TempFile.Select); }
+        if ( 'executeSelect' in TempFile.Select ) { UtilityCollections.Selects.set(TempFile.Select.name, TempFile.Select); }
         else { console.warn(`[WARNING] The Select at ./Interactions/Selects/${Folder}/${File} is missing required "executeSelect" method.`); }
     }
 }
@@ -93,7 +93,7 @@ for ( const Folder of ModalFolders ) {
 
     for ( const File of ModalFiles ) {
         const TempFile = await import(`./Interactions/Modals/${Folder}/${File}`);
-        if ( 'executeModal' in TempFile ) { UtilityCollections.Modals.set(TempFile.Modal.name, TempFile.Modal); }
+        if ( 'executeModal' in TempFile.Modal ) { UtilityCollections.Modals.set(TempFile.Modal.name, TempFile.Modal); }
         else { console.warn(`[WARNING] The Modal at ./Interactions/Modals/${Folder}/${File} is missing required "executeModal" method.`); }
     }
 }
