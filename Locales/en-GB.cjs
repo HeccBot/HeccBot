@@ -152,4 +152,10 @@ module.exports = {
     ANIMAL_COMMAND_DOG_SOURCE_FOOTER: `Sourced from https://random.dog/`,
 
     ANIMAL_COMMAND_ERROR_DOG_NOT_FOUND: `Sorry, I'm not able to fetch a random dog picture at this time.\nPlease wait a few minutes and try again later.`,
+
+
+
+    // ******* COIN COMMAND
+    COIN_COMMAND_HEADS: `You flipped a coin and it landed on heads!`,
+    COIN_COMMAND_TAILS: `You flipped a coin and it landed on tails!`,
 }
