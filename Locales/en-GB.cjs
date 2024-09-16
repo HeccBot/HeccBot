@@ -158,4 +158,10 @@ module.exports = {
     // ******* COIN COMMAND
     COIN_COMMAND_HEADS: `You flipped a coin and it landed on heads!`,
     COIN_COMMAND_TAILS: `You flipped a coin and it landed on tails!`,
+
+
+
+    // ******* DICE COMMAND
+    DICE_COMMAND_SINGLE_ROLL: `You rolled a {{0}} Die and it landed on: {{1}}`,
+    DICE_COMMAND_MULTIPLE_ROLLS: `You rolled {{0}} {{1}} Dice and they landed on: {{2}}`,
 }
