@@ -108,11 +108,11 @@ for ( const Folder of ModalFolders ) {
 
 // *******************************
 //  Discord Ready Event
-DiscordClient.once(GatewayDispatchEvents.Ready, async () => {
+DiscordClient.once(GatewayDispatchEvents.Ready, async ({ data }) => {
     // Set status
     await DiscordClient.updatePresence(0, { status: PresenceUpdateStatus.Online });
 
-    console.log(`Online & Ready!`);
+    console.log(`${data.user.username}#${data.user.discriminator} is online & ready!`);
 });
 
 

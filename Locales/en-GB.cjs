@@ -145,4 +145,11 @@ module.exports = {
     JAIL_COMMAND_ERROR_MISSING_ATTACH_FILES_PERMISSION_USER: `Whoops, this command cannot be used as you are missing the "**Attach Files**" Permission here!`,
     JAIL_COMMAND_ERROR_CANNOT_JAIL_SELF: `You cannot send yourself to jail!`,
 
+
+    
+    // ******* ANIMAL COMMANDS
+    ANIMAL_COMMAND_CAT_SOURCE_FOOTER: `Sourced from https://cataas.com/`,
+    ANIMAL_COMMAND_DOG_SOURCE_FOOTER: `Sourced from https://random.dog/`,
+
+    ANIMAL_COMMAND_ERROR_DOG_NOT_FOUND: `Sorry, I'm not able to fetch a random dog picture at this time.\nPlease wait a few minutes and try again later.`,
 }
