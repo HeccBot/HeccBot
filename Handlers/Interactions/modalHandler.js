@@ -24,7 +24,7 @@ export async function handleModal(interaction, api) {
     if ( !Modal ) { 
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'MODAL_ERROR_GENERIC', timeLeft.toFixed(1))
+            content: localize(interaction.locale, 'MODAL_ERROR_GENERIC', timeLeft.toFixed(1))
         });
         return 'INVALID';
     }
@@ -44,7 +44,7 @@ export async function handleModal(interaction, api) {
         await logError(err, api);
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'MODAL_ERROR_GENERIC')
+            content: localize(interaction.locale, 'MODAL_ERROR_GENERIC')
         });
     }
 

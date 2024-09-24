@@ -22,7 +22,7 @@ export async function handleSlashCommand(interaction, api) {
     if ( !Command ) { 
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'SLASH_COMMAND_ERROR_GENERIC', timeLeft.toFixed(1))
+            content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC', timeLeft.toFixed(1))
         });
         return 'INVALID_COMMAND';
     }
@@ -84,7 +84,7 @@ export async function handleSlashCommand(interaction, api) {
                 timeLeft = timeLeft / 60; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'SLASH_COMMAND_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -93,7 +93,7 @@ export async function handleSlashCommand(interaction, api) {
                 timeLeft = timeLeft / 3600; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'SLASH_COMMAND_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -102,7 +102,7 @@ export async function handleSlashCommand(interaction, api) {
                 timeLeft = timeLeft / 86400; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'SLASH_COMMAND_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -111,7 +111,7 @@ export async function handleSlashCommand(interaction, api) {
                 timeLeft = timeLeft / 2.628e+6; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'SLASH_COMMAND_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -119,7 +119,7 @@ export async function handleSlashCommand(interaction, api) {
             else {
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'SLASH_COMMAND_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -138,7 +138,7 @@ export async function handleSlashCommand(interaction, api) {
         await logError(err, api);
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'SLASH_COMMAND_ERROR_GENERIC')
+            content: localize(interaction.locale, 'SLASH_COMMAND_ERROR_GENERIC')
         });
     }
 

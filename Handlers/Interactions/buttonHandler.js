@@ -24,7 +24,7 @@ export async function handleButton(interaction, api) {
     if ( !Button ) { 
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'BUTTON_ERROR_GENERIC', timeLeft.toFixed(1))
+            content: localize(interaction.locale, 'BUTTON_ERROR_GENERIC', timeLeft.toFixed(1))
         });
         return 'INVALID';
     }
@@ -56,7 +56,7 @@ export async function handleButton(interaction, api) {
                 timeLeft = timeLeft / 60; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'BUTTON_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'BUTTON_ERROR_COOLDOWN_MINUTES', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -65,7 +65,7 @@ export async function handleButton(interaction, api) {
                 timeLeft = timeLeft / 3600; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'BUTTON_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'BUTTON_ERROR_COOLDOWN_HOURS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -74,7 +74,7 @@ export async function handleButton(interaction, api) {
                 timeLeft = timeLeft / 86400; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'BUTTON_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'BUTTON_ERROR_COOLDOWN_DAYS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -83,7 +83,7 @@ export async function handleButton(interaction, api) {
                 timeLeft = timeLeft / 2.628e+6; // For UX
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'BUTTON_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'BUTTON_ERROR_COOLDOWN_MONTHS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -91,7 +91,7 @@ export async function handleButton(interaction, api) {
             else {
                 await api.interactions.reply(interaction.id, interaction.token, {
                     flags: MessageFlags.Ephemeral,
-                    content: localize('en-GB', 'BUTTON_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1))
+                    content: localize(interaction.locale, 'BUTTON_ERROR_COOLDOWN_SECONDS', timeLeft.toFixed(1))
                 });
                 return 'COOLDOWN_ACTIVE';
             }
@@ -110,7 +110,7 @@ export async function handleButton(interaction, api) {
         await logError(err, api);
         await api.interactions.reply(interaction.id, interaction.token, {
             flags: MessageFlags.Ephemeral,
-            content: localize('en-GB', 'BUTTON_ERROR_GENERIC')
+            content: localize(interaction.locale, 'BUTTON_ERROR_GENERIC')
         });
     }
 
