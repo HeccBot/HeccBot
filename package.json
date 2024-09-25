@@ -39,6 +39,7 @@
     "emoji-regex": "^10.4.0",
     "mongoose": "^8.6.1",
     "node-fetch": "^3.3.2",
+    "statuspage.js": "github:TwilightZebby/statuspage.js",
     "undici": "^6.19.8"
   }
 }
