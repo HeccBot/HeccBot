@@ -164,4 +164,22 @@ module.exports = {
     // ******* DICE COMMAND
     DICE_COMMAND_SINGLE_ROLL: `You rolled a {{0}} Die and it landed on: {{1}}`,
     DICE_COMMAND_MULTIPLE_ROLLS: `You rolled {{0}} {{1}} Dice and they landed on: {{2}}`,
+
+
+
+    // ******* DISCORD STATUS FEED
+    DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS_AUDIT_LOG: `{{0}} subscribed to the Discord Status Feed using TwiLite`,
+    DSTATUS_COMMAND_SUBSCRIPTION_SUCCESS: `Successfully subscribed this Server to the Discord Status Feed!\nAny Discord outages or status issues will be notified about in the {{0}} Channel.`,
+    DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS_AUDIT_LOG: `{{0}} unsubscribed from the Discord Status Feed using TwiLite`,
+    DSTATUS_COMMAND_UNSUBSCRIPTION_SUCCESS: `Successfully unsubscribed from the Discord Status Feed.\nThis Server will no longer receive notifications from HeccBot about Discord's outages and status issues.{{0}}`,
+
+    DSTATUS_COMMAND_ERROR_INVALID_CHANNEL_TYPE: `Sorry, you cannot subscribe this Channel to the Discord Status Feed.\nPlease try again, ensuring you are running this Command in either a Text Channel, a Public Thread (within a Text Channel), or a Forum Post.`,
+    DSTATUS_COMMAND_ERROR_MISSING_PERMISSION_VIEW_CHANNEL: `Whoops - looks like I don't have the "**View Channel**" Permission for this Channel.\nI need both this and the "**Manage Webhooks**" Permissions in this Channel to be able to add my Discord Status Feed here!`,
+    DSTATUS_COMMAND_ERROR_MISSING_PERMISSION_MANAGE_WEBHOOKS: `Whoops - looks like I don't have the "**Manage Webhooks**" Permission for this Channel.\nI need this Permission in this Channel in order to add my Discord Status Feed here!`,
+    DSTATUS_COMMAND_ERROR_ALREADY_SUBSCRIBED: `This Server is already subscribed to the Discord Status Feed!\nIf you want to disable the Discord Status Feed in this Server, please use the {{0}} Command.`,
+    DSTATUS_COMMAND_ERROR_NOT_CURRENTLY_SUBSCRIBED: `There is no found Discord Status Feed for this Server - as such, you cannot unsubscribe from a non-existent Status Feed subscription!`,
+    DSTATUS_COMMAND_ERROR_WEBHOOK_DELETION_FAILED: `An error occurred while I was trying to delete the Webhook for this Status Feed.\nYou will have to delete the Webhook manually in Server Settings > Integrations.`,
+
+    DSTATUS_COMMAND_ERROR_SUBSCRIPTION_GENERIC: `Sorry, but something went wrong while trying to subscribe to the Discord Status Feed...`,
+    DSTATUS_COMMAND_ERROR_UNSUBSCRIPTION_GENERIC: `Sorry, something went wrong while trying to unsubscribe from the Discord Status Feed...`,
 }

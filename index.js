@@ -2,6 +2,7 @@ import { GatewayDispatchEvents, PresenceUpdateStatus } from '@discordjs/core';
 import { InteractionType, MessageType } from 'discord-api-types/v10';
 import { isChatInputApplicationCommandInteraction, isContextMenuApplicationCommandInteraction, isMessageComponentButtonInteraction, isMessageComponentSelectMenuInteraction } from 'discord-api-types/utils';
 import * as fs from 'node:fs';
+import mongoose from 'mongoose';
 
 import { DiscordClient, UtilityCollections } from './Utility/utilityConstants.js';
 import { handleTextCommand } from './Handlers/Commands/textCommandHandler.js';
@@ -12,6 +13,7 @@ import { handleSelect } from './Handlers/Interactions/selectHandler.js';
 import { handleAutocomplete } from './Handlers/Interactions/autocompleteHandler.js';
 import { handleModal } from './Handlers/Interactions/modalHandler.js';
 import { logInfo } from './Utility/loggingModule.js';
+import { MONGO_STRING } from './config.js';
 
 
 
@@ -127,6 +129,7 @@ DiscordClient.once(GatewayDispatchEvents.Ready, async ({ data }) => {
 //  Debugging and Error Logging
 process.on('warning', console.warn);
 process.on('unhandledRejection', console.error);
+mongoose.connection.on('error', console.error);
 
 
 
@@ -201,3 +204,15 @@ DiscordClient.on(GatewayDispatchEvents.InteractionCreate, async ({ data: interac
 
     return;
 });
+
+
+
+
+
+
+
+
+
+// *******************************
+//  Connect to stuff on startup
+mongoose.connect(MONGO_STRING).catch(console.error);
