@@ -2,7 +2,8 @@ import { REST } from '@discordjs/rest';
 import { WebSocketManager } from '@discordjs/ws';
 import { GatewayIntentBits, Client } from '@discordjs/core';
 import { Collection } from '@discordjs/collection';
-import { DISCORD_TOKEN } from '../config.js';
+import { StatuspageUpdates } from 'statuspage.js';
+import { DISCORD_STATUS_PAGE_ID, DISCORD_TOKEN } from '../config.js';
 
 
 // REST Manager
@@ -75,7 +76,12 @@ export const UtilityCollections = {
     /** Holds all Cooldowns for Select Menu Interactions, mapped by "selectName_userID"
      * @type {Collection<String, Number>}
      */
-    SelectCooldowns: new Collection()
+    SelectCooldowns: new Collection(),
+
+    /** Contains the Message IDs for each posting of Discord Status Incidents, mapped by Webhook IDs, mapped by Incident IDs
+     * @type {Collection<String, Collection<String, String>>}
+     */
+    DiscordStatusUpdates: new Collection()
 };
 
 /** Should Debug Mode be enabled or not? If enabled, logs all errors/etc to a private Discord Channel
@@ -83,3 +89,8 @@ export const UtilityCollections = {
  * @default False
  */
 export let debugMode = false;
+
+/**
+ * Used for the Discord Status Feed, receives events when Discord's Status page is updated with an outage
+ */
+export const DiscordStatusClient = new StatuspageUpdates(DISCORD_STATUS_PAGE_ID, 10_000);

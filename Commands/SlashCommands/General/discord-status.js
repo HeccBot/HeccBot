@@ -202,6 +202,7 @@ async function subscribeToFeed(interaction, api, interactionUser) {
         await OutageFeedModel.create({
             server_id: interaction.guild_id,
             webhook_id: feedWebhook.id,
+            webhook_token: feedWebhook.token,
             thread_id: threadId
         })
         .then(async createdDocument => {

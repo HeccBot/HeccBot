@@ -4,7 +4,7 @@ import { isChatInputApplicationCommandInteraction, isContextMenuApplicationComma
 import * as fs from 'node:fs';
 import mongoose from 'mongoose';
 
-import { DiscordClient, UtilityCollections } from './Utility/utilityConstants.js';
+import { DiscordClient, DiscordStatusClient, UtilityCollections } from './Utility/utilityConstants.js';
 import { handleTextCommand } from './Handlers/Commands/textCommandHandler.js';
 import { handleSlashCommand } from './Handlers/Commands/slashCommandHandler.js';
 import { handleContextCommand } from './Handlers/Commands/contextCommandHandler.js';
@@ -14,6 +14,7 @@ import { handleAutocomplete } from './Handlers/Interactions/autocompleteHandler.
 import { handleModal } from './Handlers/Interactions/modalHandler.js';
 import { logInfo } from './Utility/loggingModule.js';
 import { MONGO_STRING } from './config.js';
+import { handleStatusUpdate } from './Modules/StatusFeedModule.js';
 
 
 
@@ -214,5 +215,21 @@ DiscordClient.on(GatewayDispatchEvents.InteractionCreate, async ({ data: interac
 
 
 // *******************************
+//  Statuspage Incident Update Event
+DiscordStatusClient.on('incident_update', async (incident) => {
+    await handleStatusUpdate(incident);
+    return;
+});
+
+
+
+
+
+
+
+
+
+// *******************************
 //  Connect to stuff on startup
 mongoose.connect(MONGO_STRING).catch(console.error);
+DiscordStatusClient.start(); // Start listening for Discord Status Page updates
