@@ -86,6 +86,15 @@ module.exports = {
 
 
 
+    // ******* SERVER TYPES
+    SERVER_TYPE_STANDARD: `Standard`,
+    SERVER_TYPE_STANDARD_COMMUNITY: `Standard (Community enabled)`,
+    SERVER_TYPE_GAMING_GUILD: `Gaming Guild`,
+    SERVER_TYPE_HUB: `Student Hub`,
+    SERVER_TYPE_STAFF: `Discord Employee Server`,
+
+
+
     // ******* ACTION COMMAND RESPONSES
     ACTION_COMMAND_OTHER_USER_HEADPAT: `**{{0}}** gave **{{1}}** a headpat`,
     ACTION_COMMAND_OTHER_USER_HUG: `**{{0}}** cuddled **{{1}}**`,
@@ -360,6 +369,7 @@ module.exports = {
 
 
     // ******* INFO COMMAND - SERVER STUFF
+    INFO_SERVER_TYPE: `Type of Server:`,
     INFO_SERVER_OWNER: `Server Owner:`,
     INFO_SERVER_PARTNERED: `Is Partnered:`,
     INFO_SERVER_VERIFIED: `Is Verified:`,

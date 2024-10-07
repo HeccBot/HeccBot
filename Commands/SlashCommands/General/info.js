@@ -211,6 +211,14 @@ async function _getServerInfoGuildContext(interaction, api, inputSubcommand) {
     const FetchedGuild = await api.guilds.get(interaction.guild_id, { with_counts: true });
 
 
+    // Get what type of Server this is
+    let serverType = localize(interaction.locale, 'SERVER_TYPE_STANDARD');
+    if ( FetchedGuild.features.includes('COMMUNITY') && !FetchedGuild.features.includes('CLAN') && !FetchedGuild.features.includes('HUB') && !FetchedGuild.features.includes('INTERNAL_EMPLOYEE_ONLY') ) { serverType = localize(interaction.locale, 'SERVER_TYPE_STANDARD_COMMUNITY'); }
+    else if ( FetchedGuild.features.includes('CLAN') && !FetchedGuild.features.includes('HUB') && !FetchedGuild.features.includes('INTERNAL_EMPLOYEE_ONLY') ) { serverType = localize(interaction.locale, 'SERVER_TYPE_GAMING_GUILD'); }
+    else if ( !FetchedGuild.features.includes('CLAN') && FetchedGuild.features.includes('HUB') && !FetchedGuild.features.includes('INTERNAL_EMPLOYEE_ONLY') ) { serverType = localize(interaction.locale, 'SERVER_TYPE_HUB'); }
+    else if ( !FetchedGuild.features.includes('CLAN') && !FetchedGuild.features.includes('HUB') && FetchedGuild.features.includes('INTERNAL_EMPLOYEE_ONLY') ) { serverType = localize(interaction.locale, 'SERVER_TYPE_STAFF'); }
+
+
     // Channel information
     const GuildChannels = await api.guilds.getChannels(interaction.guild_id);
     let textChannelCount = 0;
@@ -266,7 +274,8 @@ async function _getServerInfoGuildContext(interaction, api, inputSubcommand) {
     
     // General information
     let generalInformation = ``;
-    generalInformation += `${AppEmoji.GUILD_OWNER_CROWN} **${localize(interaction.locale, 'INFO_SERVER_OWNER')}** <@${FetchedGuild.owner_id}>`;
+    generalInformation += `**${localize(interaction.locale, 'INFO_SERVER_TYPE')}** ${serverType}`;
+    generalInformation += `\n${AppEmoji.GUILD_OWNER_CROWN} **${localize(interaction.locale, 'INFO_SERVER_OWNER')}** <@${FetchedGuild.owner_id}>`;
     if ( FetchedGuild.features.includes("PARTNERED") ) { generalInformation += `\n${AppEmoji.PARTNERED_GUILD} **${localize(interaction.locale, 'INFO_SERVER_PARTNERED')}** ${localize(interaction.locale, 'TRUE')}`; }
     if ( FetchedGuild.features.includes("VERIFIED") ) { generalInformation += `\n${AppEmoji.VERIFIED_GUILD} **${localize(interaction.locale, 'INFO_SERVER_VERIFIED')}** ${localize(interaction.locale, 'TRUE')}`; }
     generalInformation += `\n${getGuildPremiumTierEmoji(FetchedGuild.premium_tier)} **${localize(interaction.locale, 'INFO_SERVER_BOOST_TIER')}** ${readableGuildPremiumTier(FetchedGuild.premium_tier, interaction.locale)}`;
