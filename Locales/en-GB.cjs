@@ -390,11 +390,11 @@ module.exports = {
     INFO_SERVER_NSFW_LEVEL: `Age-restricted Level:`,
     INFO_SERVER_DEFAULT_NOTIFICATIONS: `Default Notifications:`,
 
-    INFO_SERVER_THREADS_POSTS_TOTAL: `Number of Forum Posts:`,
+    //INFO_SERVER_THREADS_POSTS_TOTAL: `Number of Forum Posts:`, // Cannot use at this time
     INFO_SERVER_THREADS_PUBLIC_TOTAL: `Number of Public Threads:`,
     INFO_SERVER_THREADS_NEWS_TOTAL: `Number of Announcement Threads:`,
     INFO_SERVER_THREADS_FULL_TOTAL: `Total Number of Threads/Posts:`,
-    INFO_SERVER_THREADS_DISCLAIMER: `Thread & Post totals only counts the number of active/open Threads & Posts. Closed Threads/Posts, and Private Threads, are not included in these totals.`,
+    INFO_SERVER_THREADS_DISCLAIMER: `Thread totals only counts the number of active/open Threads. Forum/Media Channel Posts are included in the Public Threads count. Closed Threads, and Private Threads, are not included in these totals.`,
 
     INFO_SERVER_ONBOARDING_IS_ENABLED: `Onboarding is Enabled:`,
     INFO_SERVER_ONBOARDING_MODE: `Onboarding Mode:`,

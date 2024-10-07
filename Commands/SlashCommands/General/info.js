@@ -316,10 +316,10 @@ async function _getServerInfoGuildContext(interaction, api, inputSubcommand) {
 
 
     // Create Buttons
-    const InfoActionRow = new ActionRowBuilder().addComponents([
-        new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId(`info-server_feature-flags`).setLabel(localize(interaction.locale, 'INFO_SERVER_BUTTON_FLAGS')),
-        new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId(`info-server_extra-info`).setLabel(localize(interaction.locale, 'INFO_SERVER_BUTTON_MISC'))
-    ]);
+    const InfoActionRow = new ActionRowBuilder();
+    if ( FetchedGuild.features.length > 0 ) { InfoActionRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId(`info-server_feature-flags`).setLabel(localize(interaction.locale, 'INFO_SERVER_BUTTON_FLAGS'))); }
+    InfoActionRow.addComponents(new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId(`info-server_extra-info`).setLabel(localize(interaction.locale, 'INFO_SERVER_BUTTON_MISC')));
+
 
 
     // Asset Buttons!
