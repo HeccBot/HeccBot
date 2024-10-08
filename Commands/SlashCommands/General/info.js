@@ -1,11 +1,29 @@
-import { ApplicationCommandType, InteractionContextType, ApplicationIntegrationType, ApplicationCommandOptionType, ChannelType, ButtonStyle } from 'discord-api-types/v10';
+import { ApplicationCommandType, InteractionContextType, ApplicationIntegrationType, ApplicationCommandOptionType, ChannelType, ButtonStyle, InviteType, InviteTargetType } from 'discord-api-types/v10';
 import { API, MessageFlags } from '@discordjs/core';
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from '@discordjs/builders';
 import { DiscordSnowflake } from '@sapphire/snowflake';
 import { localize } from '../../../Utility/localizeResponses.js';
 import * as AppEmoji from '../../../Assets/AppEmojis.js';
-import { getGuildPremiumTierEmoji, readableGuildPremiumTier } from '../../../Modules/InfoCmdModule.js';
+import { getGuildPremiumTierEmoji, readableChannelType, readableGuildPremiumTier, readableInviteType, readableNSFWLevel } from '../../../Modules/InfoCmdModule.js';
 import { DISCORD_APP_USER_ID } from '../../../config.js';
+import { titleCaseGuildFeature } from '../../../Utility/utilityMethods.js';
+
+
+/**
+ * RegEx to match Discord invite links.
+ * The `code` group property is present on the `exec()` resultant
+ * @type {RegExp}
+ */
+const InvitePattern = new RegExp(/discord(?:(?:app)?\.com\/invite|\.gg(?:\/invite)?)\/(?<code>[\w-]{2,255})/i);
+
+/** 
+ * Resolves Invite Links to return the Invite code
+ * @param {String} inviteString The Invite link to get the Invite code from
+ * @returns {String}
+ */
+function _resolveInviteCode(inviteString) {
+    return InvitePattern.exec(inviteString)?.[1] ?? inviteString;
+}
 
 
 export const SlashCommand = {
@@ -185,14 +203,18 @@ export const SlashCommand = {
         //   Simply because, there may be some API calls we cannot do in a User App context, and thus have to show less info in such cases
         //   Example: Running "/info server" in a Guild context will show more info then in a User App context
 
-        if ( InputSubcommand.name === "server" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getServerInfoGuildContext(interaction, api, InputSubcommand); return; }
+        if ( InputSubcommand.name === "server" && (interaction.authorizing_integration_owners[0] != undefined) ) { await _getServerInfoGuildContext(interaction, api, InputSubcommand); return; }
         else if ( InputSubcommand.name === "server" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getServerInfoUserContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "user" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getUserInfoGuildContext(interaction, api, InputSubcommand); return; }
+        
+        else if ( InputSubcommand.name === "user" && (interaction.authorizing_integration_owners[0] != undefined) ) { await _getUserInfoGuildContext(interaction, api, InputSubcommand); return; }
         else if ( InputSubcommand.name === "user" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getUserInfoUserContext(interaction, api, InputSubcommand); return; }
+        
         else if ( InputSubcommand.name === "invite" ) { await _getInviteInfo(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "role" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getRoleInfoGuildContext(interaction, api, InputSubcommand); return; }
+        
+        else if ( InputSubcommand.name === "role" && (interaction.authorizing_integration_owners[0] != undefined) ) { await _getRoleInfoGuildContext(interaction, api, InputSubcommand); return; }
         else if ( InputSubcommand.name === "role" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getRoleInfoUserContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "channel" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getChannelInfoGuildContext(interaction, api, InputSubcommand); return; }
+        
+        else if ( InputSubcommand.name === "channel" && (interaction.authorizing_integration_owners[0] != undefined) ) { await _getChannelInfoGuildContext(interaction, api, InputSubcommand); return; }
         else if ( InputSubcommand.name === "channel" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getChannelInfoUserContext(interaction, api, InputSubcommand); return; }
 
         return;
@@ -379,7 +401,6 @@ async function _getServerInfoUserContext(interaction, api, inputSubcommand) {
     // First, make sure this isn't being run in (G)DMs
     if ( interaction.channel.type === ChannelType.DM || interaction.channel.type === ChannelType.GroupDM ) {
         await api.interactions.editReply(DISCORD_APP_USER_ID, interaction.token, {
-            flags: MessageFlags.Ephemeral,
             content: localize(interaction.locale, 'INFO_COMMAND_SERVER_ERROR_NOT_USABLE_IN_DMS', `</info channel:${interaction.data.id}>`)
         }, '@original');
         return;
@@ -387,7 +408,6 @@ async function _getServerInfoUserContext(interaction, api, inputSubcommand) {
 
     // Since all the API gives us in a User App context is the Server's Feature Flags, its Server ID, and its Server Locale. Not even its name & icon!
     await api.interactions.editReply(DISCORD_APP_USER_ID, interaction.token, {
-        flags: MessageFlags.Ephemeral,
         content: localize(interaction.locale, 'INFO_COMMAND_SERVER_ERROR_NOT_USABLE_AS_USER_APP_COMMAND')
     }, '@original');
     return;
@@ -423,7 +443,140 @@ async function _getUserInfoUserContext(interaction, api, inputSubcommand) {
  * @param {import('discord-api-types/v10').APIApplicationCommandInteractionDataSubcommandOption} inputSubcommand 
  */
 async function _getInviteInfo(interaction, api, inputSubcommand) {
-    // TODO
+    // Grab input
+    const InputInvite = inputSubcommand.options.find(option => option.name === "code");
+
+    // Validate given invite link/code
+    /** @type {import('discord-api-types/v10').APIExtendedInvite} */
+    let fetchedInvite = null;
+    try {
+        fetchedInvite = await api.invites.get(_resolveInviteCode(InputInvite.value), { with_counts: true, with_expiration: true });
+    }
+    catch (err) {
+        await api.interactions.editReply(DISCORD_APP_USER_ID, interaction.token, {
+            content: localize(interaction.locale, 'INFO_COMMAND_ERROR_INVITE_INVALID')
+        });
+        //console.error(err);
+        return;
+    }
+
+
+    // Create Embed & Component Array to display information in
+    const InviteEmbed = new EmbedBuilder();
+    const ResponseComponents = [];
+
+
+    // General Invite info - shared across all types of Invites
+    InviteEmbed.setAuthor({ name: `${localize(interaction.locale, 'INFO_INVITE_HEADER_DATA')} ${fetchedInvite.code}` });
+
+    let generalInviteInformation = "";
+
+    generalInviteInformation += `**${localize(interaction.locale, 'INFO_INVITE_TYPE')}** ${readableInviteType(fetchedInvite.type, interaction.locale)}`;
+    if ( fetchedInvite.inviter != undefined ) {
+        generalInviteInformation += `**${localize(interaction.locale, 'INFO_INVITE_CREATOR')}** ${fetchedInvite.inviter.global_name != null ? fetchedInvite.inviter.global_name : fetchedInvite.inviter.username}`;
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CREATOR_BOT')}** ${fetchedInvite.inviter.bot === true ? localize(interaction.locale, 'TRUE') : fetchedInvite.inviter.bot === false ? localize(interaction.locale, 'FALSE') : localize(interaction.locale, 'UNKNOWN')}`;
+    }
+    if ( fetchedInvite.created_at != null ) {
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CREATED')}** <t:${Math.floor(Date.parse(fetchedInvite.created_at) / 1000)}:R>`;
+    }
+    if ( fetchedInvite.expires_at != null ) {
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_EXPIRES')}** <t:${Math.floor(Date.parse(fetchedInvite.expires_at) / 1000)}:R>`;
+    }
+    if ( fetchedInvite.uses != null && fetchedInvite.max_uses == null ) {
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_USES')}** ${fetchedInvite.uses}`;
+    }
+    else if ( fetchedInvite.uses != null && fetchedInvite.max_uses != null ) {
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_USES')}** ${fetchedInvite.uses} / ${fetchedInvite.max_uses}`;
+    }
+
+    InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_GENERAL'), value: generalInviteInformation });
+
+
+
+    // Check what type of Invite this is
+    if ( fetchedInvite.type === InviteType.Guild ) { 
+        // For ease
+        const InviteGuild = ( fetchedInvite.guild || null );
+
+        // Invite Target Information
+        let targetInformation = "";
+        if ( fetchedInvite.channel != null ) {
+            targetInformation += `**${localize(interaction.locale, 'INFO_INVITE_CHANNEL_TYPE')}** ${readableChannelType(fetchedInvite.channel.type, interaction.locale)}`;
+            targetInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CHANNEL_NAME')}** ${fetchedInvite.channel.name}`;
+        }
+        if ( fetchedInvite.target_type != undefined && fetchedInvite.target_type === InviteTargetType.Stream ) {
+            targetInformation += `${targetInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_STREAM')}`;
+        }
+        else if ( fetchedInvite.target_type != undefined && fetchedInvite.target_type === InviteTargetType.EmbeddedApplication ) {
+            targetInformation += `${targetInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY')}`;
+            if ( fetchedInvite.target_application != undefined && fetchedInvite.target_application.name != undefined ) {
+                targetInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY_NAME')}** ${fetchedInvite.target_application.name}`;
+            }
+        }
+
+        if ( targetInformation.length > 1 ) { InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_TARGET'), value: targetInformation }); }
+
+
+        // Invite Guild Information
+        if ( InviteGuild != null ) {
+            if ( InviteGuild.description != null ) { InviteEmbed.setDescription(InviteGuild.description); }
+            if ( InviteGuild.icon != null ) {
+                InviteEmbed.setAuthor({
+                    iconURL: `https://cdn.discordapp.com/icons/${InviteGuild.id}/${InviteGuild.icon}.png`,
+                    name: `${localize(interaction.locale, 'INFO_INVITE_HEADER_DATA')} ${fetchedInvite.code}`
+                });
+            }
+
+            let guildInviteInformation = "";
+            
+            guildInviteInformation += `**${localize(interaction.locale, 'INFO_INVITE_SERVER_NAME')}** ${InviteGuild.name}`;
+            if ( InviteGuild.features.includes("PARTNERED") ) { guildInviteInformation += `\n${AppEmoji.PARTNERED_GUILD} **${localize(interaction.locale, 'INFO_INVITE_SERVER_PARTNERED')}** ${localize(interaction.locale, 'TRUE')}`; }
+            if ( InviteGuild.features.includes("VERIFIED") ) { guildInviteInformation += `\n${AppEmoji.VERIFIED_GUILD} **${localize(interaction.locale, 'INFO_INVITE_SERVER_VERIFIED')}** ${localize(interaction.locale, 'TRUE')}`; }
+            if ( InviteGuild.premium_subscription_count != undefined ) { guildInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_BOOST_COUNT')}** ${InviteGuild.premium_subscription_count}`; }
+            if ( fetchedInvite.approximate_member_count != undefined ) { guildInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_APPROX_TOTAL_MEMBERS')}** ${fetchedInvite.approximate_member_count}`; }
+            if ( fetchedInvite.approximate_presence_count != undefined ) { guildInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_APPROX_ONLINE_MEMBERS')}** ${fetchedInvite.approximate_presence_count}`; }
+            if ( InviteGuild.nsfw_level != null ) { guildInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_SERVER_NSFW_LEVEL')}** ${readableNSFWLevel(InviteGuild.nsfw_level, interaction.locale)}`; }
+
+            InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_SERVER'), value: guildInviteInformation });
+
+
+            // Server Feature Flags - not putting in own button like with `/info server` just to reduce API calls to the GET Invite endpoint!
+            if ( InviteGuild.features.length > 0 ) {
+                let featureFlags = [];
+                InviteGuild.features.forEach(flag => featureFlags.push(titleCaseGuildFeature(flag)));
+                InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_SERVER_FLAGS'), value: `${featureFlags.sort().join(', ').slice(0, 1023)}` });
+            }
+        }
+
+
+        // Contruct Link Button
+        const GuildInviteRow = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_SERVER')).setURL(`https://discord.gg/${fetchedInvite.code}`)
+        );
+
+        ResponseComponents.push(GuildInviteRow);
+
+
+    }
+    else if ( fetchedInvite.type === InviteType.GroupDM ) {
+        // TODO
+
+
+    }
+    else if ( fetchedInvite.type === InviteType.Friend ) {
+        // TODO
+
+
+    }
+
+
+    // ACK
+    await api.interactions.editReply(DISCORD_APP_USER_ID, interaction.token, {
+        embeds: [InviteEmbed],
+        components: ResponseComponents.length > 0 ? ResponseComponents : undefined
+    }, '@original');
+
+    return;
 }
 
 

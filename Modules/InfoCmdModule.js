@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { GuildPremiumTier, UserFlags, GuildMemberFlags, ChannelType, ApplicationFlags, RoleFlags, ChannelFlags } from "discord-api-types/v10";
+import { GuildPremiumTier, UserFlags, GuildMemberFlags, ChannelType, ApplicationFlags, RoleFlags, ChannelFlags, InviteType, GuildNSFWLevel } from "discord-api-types/v10";
 import { checkExternalEmojiPermission, titleCaseGuildFeature } from "../Utility/utilityMethods.js";
 import { DiscordClient } from "../Utility/utilityConstants.js";
 import * as AppEmoji from "../Assets/AppEmojis.js";
@@ -51,6 +51,30 @@ export function getGuildPremiumTierEmoji(premiumTier) {
 
         case GuildPremiumTier.Tier3:
             return AppEmoji.GUILD_BOOST_TIER_THREE;
+    }
+}
+
+
+/**
+ * Readable Guild NSFW Level
+ * @param {GuildNSFWLevel} nsfwLevel 
+ * @param {String} locale 
+ * 
+ * @returns {String}
+ */
+export function readableNSFWLevel(nsfwLevel, locale) {
+    switch (nsfwLevel) {
+        case GuildNSFWLevel.Default:
+            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_DEFAULT');
+
+        case GuildNSFWLevel.AgeRestricted:
+            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_RESTRICTED');
+
+        case GuildNSFWLevel.Explicit:
+            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_EXPLICIT');
+
+        case GuildNSFWLevel.Safe:
+            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_SAFE');
     }
 }
 
@@ -291,4 +315,25 @@ export function readableChannelFlags(channelFlags, locale) {
     if ( (channelFlags & ChannelFlags.RequireTag) == ChannelFlags.RequireTag ) { readableStrings.push(localize(locale, 'INFO_CHANNEL_FLAG_REQUIRE_TAG')); }
 
     return readableStrings;
+}
+
+
+/**
+ * Readable Invite Types
+ * @param {InviteType} inviteType
+ * @param {String} locale
+ * 
+ * @returns {String}
+ */
+export function readableInviteType(inviteType, locale) {
+    switch (inviteType) {
+        case InviteType.Friend:
+            return localize(locale, 'INFO_INVITE_TYPE_FRIEND');
+
+        case InviteType.GroupDM:
+            return localize(locale, 'INFO_INVITE_TYPE_GROUP_DM');
+
+        case InviteType.Guild:
+            return localize(locale, 'INFO_INVITE_TYPE_GUILD');
+    }
 }

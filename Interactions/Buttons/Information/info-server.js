@@ -1,9 +1,10 @@
 import { API, MessageFlags } from '@discordjs/core';
-import { GuildVerificationLevel, GuildExplicitContentFilter, GuildDefaultMessageNotifications, GuildMFALevel, GuildNSFWLevel, GuildOnboardingMode, ChannelType } from 'discord-api-types/v10';
+import { GuildVerificationLevel, GuildExplicitContentFilter, GuildDefaultMessageNotifications, GuildMFALevel, GuildOnboardingMode, ChannelType } from 'discord-api-types/v10';
 import { EmbedBuilder } from '@discordjs/builders';
 import { localize } from '../../../Utility/localizeResponses.js';
 import { titleCaseGuildFeature } from '../../../Utility/utilityMethods.js';
 import { DISCORD_APP_USER_ID } from '../../../config.js';
+import { readableNSFWLevel } from '../../../Modules/InfoCmdModule.js';
 
 
 
@@ -94,30 +95,6 @@ function _readableMFALevel(mfaLevel, locale) {
 
 
 /**
- * Readable Guild NSFW Level
- * @param {GuildNSFWLevel} nsfwLevel 
- * @param {String} locale 
- * 
- * @returns {String}
- */
-function _readableNSFWLevel(nsfwLevel, locale) {
-    switch (nsfwLevel) {
-        case GuildNSFWLevel.Default:
-            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_DEFAULT');
-
-        case GuildNSFWLevel.AgeRestricted:
-            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_RESTRICTED');
-
-        case GuildNSFWLevel.Explicit:
-            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_EXPLICIT');
-
-        case GuildNSFWLevel.Safe:
-            return localize(locale, 'INFO_READABLE_GUILD_NSFW_LEVEL_SAFE');
-    }
-}
-
-
-/**
  * Readable Guild Onboarding Mode
  * @param {GuildOnboardingMode} onboardingMode
  * @param {String} locale 
@@ -187,7 +164,7 @@ export const Button = {
             miscInformation += `**${localize(interaction.locale, 'INFO_SERVER_VERIFICATION_LEVEL')}** ${_readableVerificationLevel(fetchedGuild.verification_level, interaction.locale)}`;
             miscInformation += `\n**${localize(interaction.locale, 'INFO_SERVER_EXPLICIT_FILTER')}** ${_readableExplicitFilter(fetchedGuild.explicit_content_filter, interaction.locale)}`;
             miscInformation += `\n**${localize(interaction.locale, 'INFO_SERVER_MFA_MODERATION')}** ${_readableMFALevel(fetchedGuild.mfa_level, interaction.locale)}`;
-            miscInformation += `\n**${localize(interaction.locale, 'INFO_SERVER_NSFW_LEVEL')}** ${_readableNSFWLevel(fetchedGuild.nsfw_level, interaction.locale)}`;
+            miscInformation += `\n**${localize(interaction.locale, 'INFO_SERVER_NSFW_LEVEL')}** ${readableNSFWLevel(fetchedGuild.nsfw_level, interaction.locale)}`;
             miscInformation += `\n**${localize(interaction.locale, 'INFO_SERVER_DEFAULT_NOTIFICATIONS')}** ${_readableDefaultNotifications(fetchedGuild.default_message_notifications, interaction.locale)}`;
 
             // Onboarding Info - ONLY IF ENABLED

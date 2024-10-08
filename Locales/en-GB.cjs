@@ -481,24 +481,31 @@ module.exports = {
 
 
     // ******* INFO COMMAND - INVITE STUFF
+    INFO_INVITE_TYPE_FRIEND: `Friend`,
+    INFO_INVITE_TYPE_GROUP_DM: `Group DM`,
+    INFO_INVITE_TYPE_GUILD: `Server`,
+
+    INFO_INVITE_TYPE: `Invite Type:`,
     INFO_INVITE_CREATOR: `Inviter:`,
     INFO_INVITE_CREATOR_BOT: `Inviter is an App:`,
     INFO_INVITE_CREATED: `Invite Created:`,
     INFO_INVITE_EXPIRES: `Invite Expires:`,
+    INFO_INVITE_USES: `Number of uses:`,
 
-    INFO_INVITE_CHANNEL_TYPE: `Channel Type:`,
-    INFO_INVITE_CHANNEL_NAME: `Channel Name:`,
-    INFO_INVITE_TARGET_TYPE: `Target Type:`,
+    INFO_INVITE_CHANNEL_TYPE: `Channel's Type:`,
+    INFO_INVITE_CHANNEL_NAME: `Channel's Name:`,
+    INFO_INVITE_TARGET_TYPE: `Target's Type:`,
     INFO_INVITE_TARGET_STREAM: `Screenshare`,
     INFO_INVITE_TARGET_ACTIVITY: `Activity`,
     INFO_INVITE_TARGET_ACTIVITY_NAME: `Activity's Name:`,
 
-    INFO_INVITE_SERVER_NAME: `Server Name:`,
+    INFO_INVITE_SERVER_NAME: `Server's Name:`,
     INFO_INVITE_SERVER_PARTNERED: `Is Partnered:`,
     INFO_INVITE_SERVER_VERIFIED: `Is Verified:`,
     INFO_INVITE_SERVER_BOOST_COUNT: `Boost Count:`,
     INFO_INVITE_SERVER_APPROX_TOTAL_MEMBERS: `Approximate Total Members:`,
     INFO_INVITE_SERVER_APPROX_ONLINE_MEMBERS: `Approximate Online Members:`,
+    INFO_INVITE_SERVER_NSFW_LEVEL: `Server's Age-restricted Level:`,
 
     INFO_INVITE_HEADER_DATA: `Data for Invite Code:`,
     INFO_INVITE_HEADER_GENERAL: `>> General Information`,
@@ -506,7 +513,9 @@ module.exports = {
     INFO_INVITE_HEADER_SERVER: `>> Server Information`,
     INFO_INVITE_HEADER_SERVER_FLAGS: `>> Server's Feature Flags`,
 
-    INFO_INVITE_BUTTON_JOIN_SERVER: `Join Server`,
+    INFO_INVITE_BUTTON_SERVER: `Join Server`,
+    INFO_INVITE_BUTTON_GROUP_DM: `Join Group DM`,
+    INFO_INVITE_BUTTON_FRIEND: `Add Friend`,
 
 
 
@@ -525,8 +534,6 @@ module.exports = {
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_OTHER: `Sorry, either that User is not a Member of this Server, or I was unable to fetch their public Discord information due to an error.`,
     
     INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server Invite, or that Invite doesn't exist on Discord.`,
-    INFO_COMMAND_ERROR_INVITE_TYPE_GROUP_DM_NOT_SUPPORTED: `Sorry, I don't support fetching information for Group DM Invites.`,
-    INFO_COMMAND_ERROR_INVITE_TYPE_FRIEND_NOT_SUPPORTED: `Sorry, I don't support fetching information for Friend Invites.`,
     
     INFO_COMMAND_ERROR_CHANNEL_DM_UNSUPPORTED: `Sorry, but this App cannot be used to fetch information of Direct Messages (DMs) or Group Direct Messages (GDMs)!`,
 }
