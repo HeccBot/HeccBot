@@ -185,15 +185,15 @@ export const SlashCommand = {
         //   Simply because, there may be some API calls we cannot do in a User App context, and thus have to show less info in such cases
         //   Example: Running "/info server" in a Guild context will show more info then in a User App context
 
-        if ( InputSubcommand.name === "server" && interaction.context === InteractionContextType.Guild ) { await _getServerInfoGuildContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "server" && interaction.context === InteractionContextType.PrivateChannel ) { await _getServerInfoUserContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "user" && interaction.context === InteractionContextType.Guild ) { await _getUserInfoGuildContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "user" && interaction.context === InteractionContextType.PrivateChannel ) { await _getUserInfoUserContext(interaction, api, InputSubcommand); return; }
+        if ( InputSubcommand.name === "server" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getServerInfoGuildContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "server" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getServerInfoUserContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "user" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getUserInfoGuildContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "user" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getUserInfoUserContext(interaction, api, InputSubcommand); return; }
         else if ( InputSubcommand.name === "invite" ) { await _getInviteInfo(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "role" && interaction.context === InteractionContextType.Guild ) { await _getRoleInfoGuildContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "role" && interaction.context === InteractionContextType.PrivateChannel ) { await _getRoleInfoUserContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "channel" && interaction.context === InteractionContextType.Guild ) { await _getChannelInfoGuildContext(interaction, api, InputSubcommand); return; }
-        else if ( InputSubcommand.name === "channel" && interaction.context === InteractionContextType.PrivateChannel ) { await _getChannelInfoUserContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "role" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getRoleInfoGuildContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "role" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getRoleInfoUserContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "channel" && (interaction.authorizing_integration_owners[0] != undefined && interaction.authorizing_integration_owners[1] == undefined) ) { await _getChannelInfoGuildContext(interaction, api, InputSubcommand); return; }
+        else if ( InputSubcommand.name === "channel" && (interaction.authorizing_integration_owners[0] == undefined && interaction.authorizing_integration_owners[1] != undefined) ) { await _getChannelInfoUserContext(interaction, api, InputSubcommand); return; }
 
         return;
     }
@@ -376,7 +376,21 @@ async function _getServerInfoGuildContext(interaction, api, inputSubcommand) {
  * @param {import('discord-api-types/v10').APIApplicationCommandInteractionDataSubcommandOption} inputSubcommand 
  */
 async function _getServerInfoUserContext(interaction, api, inputSubcommand) {
-    // TODO
+    // First, make sure this isn't being run in (G)DMs
+    if ( interaction.channel.type === ChannelType.DM || interaction.channel.type === ChannelType.GroupDM ) {
+        await api.interactions.editReply(DISCORD_APP_USER_ID, interaction.token, {
+            flags: MessageFlags.Ephemeral,
+            content: localize(interaction.locale, 'INFO_COMMAND_SERVER_ERROR_NOT_USABLE_IN_DMS', `</info channel:${interaction.data.id}>`)
+        }, '@original');
+        return;
+    }
+
+    // Since all the API gives us in a User App context is the Server's Feature Flags, its Server ID, and its Server Locale. Not even its name & icon!
+    await api.interactions.editReply(DISCORD_APP_USER_ID, interaction.token, {
+        flags: MessageFlags.Ephemeral,
+        content: localize(interaction.locale, 'INFO_COMMAND_SERVER_ERROR_NOT_USABLE_AS_USER_APP_COMMAND')
+    }, '@original');
+    return;
 }
 
 

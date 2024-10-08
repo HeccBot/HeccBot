@@ -511,6 +511,9 @@ module.exports = {
 
 
     // ******* INFO COMMAND - ERRORS
+    INFO_COMMAND_SERVER_ERROR_NOT_USABLE_AS_USER_APP_COMMAND: `Sorry, but this Command isn't supported for use in a User App context.\nTwiLite must be added to this Server in order to use this Command.\n-# *(This is simply due to how Discord does not provide User Apps with even the Server's name in the API!)*`,
+    INFO_COMMAND_SERVER_ERROR_NOT_USABLE_IN_DMS: `Sorry, this Command cannot be used in DMs (Direct Messages) and Group DMs.\nHowever, you can use the {{0}} Command to see basic information about this DM or Group DM!`,
+
     INFO_COMMAND_ERROR_DMS_UNSUPPORTED: `Sorry, I cannot fetch information about DMs (Direct Messages) or Group DMs.`,
     INFO_COMMAND_ERROR_CHANNEL_FETCH_FAILED: `Sorry, there was an error trying to fetch information about that Channel.\nI may not have the "**View Channels**" Permission required to see that specified Channel.`,
     
