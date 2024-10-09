@@ -16,6 +16,16 @@ import { titleCaseGuildFeature } from '../../../Utility/utilityMethods.js';
  */
 const InvitePattern = new RegExp(/discord(?:(?:app)?\.com\/invite|\.gg(?:\/invite)?)\/(?<code>[\w-]{2,255})/i);
 
+/**
+ * Invite Flags (not officially documented)
+ */
+const InviteFlags = {
+    /** Invite grants one-time access to a Voice Channel in a Guild */
+    Guest: 1 << 0,
+    /** Invite has been viewed by any User (ie: has been retrieved using the `GET Invite` endpoint) */
+    Viewed: 1 << 1
+};
+
 /** 
  * Resolves Invite Links to return the Invite code
  * @param {String} inviteString The Invite link to get the Invite code from
@@ -459,6 +469,7 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
         //console.error(err);
         return;
     }
+    console.log(fetchedInvite);
 
 
     // Create Embed & Component Array to display information in
@@ -473,8 +484,8 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
 
     generalInviteInformation += `**${localize(interaction.locale, 'INFO_INVITE_TYPE')}** ${readableInviteType(fetchedInvite.type, interaction.locale)}`;
     if ( fetchedInvite.inviter != undefined ) {
-        generalInviteInformation += `**${localize(interaction.locale, 'INFO_INVITE_CREATOR')}** ${fetchedInvite.inviter.global_name != null ? fetchedInvite.inviter.global_name : fetchedInvite.inviter.username}`;
-        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CREATOR_BOT')}** ${fetchedInvite.inviter.bot === true ? localize(interaction.locale, 'TRUE') : fetchedInvite.inviter.bot === false ? localize(interaction.locale, 'FALSE') : localize(interaction.locale, 'UNKNOWN')}`;
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CREATOR')}** ${fetchedInvite.inviter.global_name != null ? fetchedInvite.inviter.global_name : fetchedInvite.inviter.username}`;
+        generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CREATOR_BOT')}** ${fetchedInvite.inviter.bot === true ? localize(interaction.locale, 'TRUE') : localize(interaction.locale, 'FALSE')}`;
     }
     if ( fetchedInvite.created_at != null ) {
         generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CREATED')}** <t:${Math.floor(Date.parse(fetchedInvite.created_at) / 1000)}:R>`;
@@ -487,6 +498,15 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
     }
     else if ( fetchedInvite.uses != null && fetchedInvite.max_uses != null ) {
         generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_USES')}** ${fetchedInvite.uses} / ${fetchedInvite.max_uses}`;
+    }
+    if ( fetchedInvite.flags != null ) {
+        let invFlags = Number(fetchedInvite.flags);
+        // Future proofing!
+        let invFlagInformation = [];
+
+        if ( (invFlags & InviteFlags.Guest) == InviteFlags.Guest ) { invFlagInformation.push(localize(interaction.locale, 'INFO_INVITE_FLAG_GUEST')); }
+        
+        if ( invFlagInformation.length > 0 ) { generalInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_FLAGS')}** ${invFlagInformation.sort().join(', ')}`; }
     }
 
     InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_GENERAL'), value: generalInviteInformation });
@@ -512,6 +532,14 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
             if ( fetchedInvite.target_application != undefined && fetchedInvite.target_application.name != undefined ) {
                 targetInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY_NAME')}** ${fetchedInvite.target_application.name}`;
             }
+        }
+        // TARGET TYPE: Role Subscriptions
+        else if ( fetchedInvite.target_type != undefined && fetchedInvite.target_type === 2 ) {
+            targetInformation += `${targetInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_ROLE_SUBSCRIPTIONS')}`;
+        }
+        // TARGET TYPE: Creator Page
+        else if ( fetchedInvite.target_type != undefined && fetchedInvite.target_type === 3 ) {
+            targetInformation += `${targetInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_CREATOR_PAGE')}`;
         }
 
         if ( targetInformation.length > 1 ) { InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_TARGET'), value: targetInformation }); }
@@ -559,7 +587,34 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
 
     }
     else if ( fetchedInvite.type === InviteType.GroupDM ) {
-        // TODO
+        // Invite Target Information (just in case? You never know, GDMs do support calls and Activities after all!)
+        let gdmInviteInformation = "";
+        if ( fetchedInvite.channel != null ) {
+            gdmInviteInformation += `**${localize(interaction.locale, 'INFO_INVITE_CHANNEL_TYPE')}** ${readableChannelType(fetchedInvite.channel.type, interaction.locale)}`;
+            if ( fetchedInvite.channel.name != null ) { gdmInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_CHANNEL_NAME')}** ${fetchedInvite.channel.name}`; }
+        }
+        if ( fetchedInvite.target_type != undefined && fetchedInvite.target_type === InviteTargetType.Stream ) {
+            gdmInviteInformation += `${gdmInviteInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_STREAM')}`;
+        }
+        else if ( fetchedInvite.target_type != undefined && fetchedInvite.target_type === InviteTargetType.EmbeddedApplication ) {
+            gdmInviteInformation += `${gdmInviteInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_TARGET_TYPE')}** ${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY')}`;
+            if ( fetchedInvite.target_application != undefined && fetchedInvite.target_application.name != undefined ) {
+                gdmInviteInformation += `\n**${localize(interaction.locale, 'INFO_INVITE_TARGET_ACTIVITY_NAME')}** ${fetchedInvite.target_application.name}`;
+            }
+        }
+        if ( fetchedInvite.approximate_member_count != undefined ) {
+            gdmInviteInformation += `${gdmInviteInformation.length > 1 ? `\n` : ''}**${localize(interaction.locale, 'INFO_INVITE_SERVER_APPROX_TOTAL_MEMBERS')}** ${fetchedInvite.approximate_member_count}`;
+        }
+
+        if ( gdmInviteInformation.length > 1 ) { InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_TARGET'), value: gdmInviteInformation }); }
+
+        
+        // Contruct Link Button
+        const GroupDMInviteRow = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_GROUP_DM')).setURL(`https://discord.gg/${fetchedInvite.code}`)
+        );
+
+        ResponseComponents.push(GroupDMInviteRow);
 
 
     }

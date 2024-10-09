@@ -484,6 +484,9 @@ module.exports = {
     INFO_INVITE_TYPE_FRIEND: `Friend`,
     INFO_INVITE_TYPE_GROUP_DM: `Group DM`,
     INFO_INVITE_TYPE_GUILD: `Server`,
+    
+    INFO_INVITE_FLAGS: `Invite Flags:`,
+    INFO_INVITE_FLAG_GUEST: `Guest Invite`,
 
     INFO_INVITE_TYPE: `Invite Type:`,
     INFO_INVITE_CREATOR: `Inviter:`,
@@ -498,6 +501,8 @@ module.exports = {
     INFO_INVITE_TARGET_STREAM: `Screenshare`,
     INFO_INVITE_TARGET_ACTIVITY: `Activity`,
     INFO_INVITE_TARGET_ACTIVITY_NAME: `Activity's Name:`,
+    INFO_INVITE_TARGET_ROLE_SUBSCRIPTIONS: `Server Subscriptions`,
+    INFO_INVITE_TARGET_CREATOR_PAGE: `Server Creator Page`,
 
     INFO_INVITE_SERVER_NAME: `Server's Name:`,
     INFO_INVITE_SERVER_PARTNERED: `Is Partnered:`,

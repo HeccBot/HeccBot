@@ -3,6 +3,7 @@ import { ButtonStyle } from 'discord-api-types/v10';
 import { Collection } from '@discordjs/collection';
 import { OutageFeedModel } from '../Mongoose/Modals.js';
 import { DiscordClient, UtilityCollections } from '../Utility/utilityConstants.js';
+import { hexToRgb } from '../Utility/utilityMethods.js';
 
 
 // *******************************
@@ -22,7 +23,7 @@ export async function handleStatusUpdate(incident) {
 
     // Create the Embed to be used
     const OutageEmbed = new EmbedBuilder()
-    .setColor(incident.impact === "none" ? '#000000' : incident.impact === "minor" ? '#13b307' : incident.impact === "major" ? '#e8e409' : '#940707')
+    .setColor(incident.impact === "none" ? hexToRgb('#000000') : incident.impact === "minor" ? hexToRgb('#13b307') : incident.impact === "major" ? hexToRgb('#e8e409') : hexToRgb('#940707'))
     .setTitle(incident.name)
     .setDescription(`Impact: ${incident.impact}`)
     .addFields(
