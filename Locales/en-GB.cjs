@@ -538,7 +538,7 @@ module.exports = {
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_SELF: `Sorry, I was unable to fetch public Discord information about yourself. Please try again in a few minutes.`,
     INFO_COMMAND_ERROR_UNABLE_TO_FETCH_USER_OTHER: `Sorry, either that User is not a Member of this Server, or I was unable to fetch their public Discord information due to an error.`,
     
-    INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server Invite, or that Invite doesn't exist on Discord.`,
+    INFO_COMMAND_ERROR_INVITE_INVALID: `Sorry, either that wasn't a valid Server or Group DM Invite, or that Invite doesn't exist on Discord.`,
     
     INFO_COMMAND_ERROR_CHANNEL_DM_UNSUPPORTED: `Sorry, but this App cannot be used to fetch information of Direct Messages (DMs) or Group Direct Messages (GDMs)!`,
 }

@@ -469,7 +469,6 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
         //console.error(err);
         return;
     }
-    console.log(fetchedInvite);
 
 
     // Create Embed & Component Array to display information in
@@ -619,7 +618,15 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
 
     }
     else if ( fetchedInvite.type === InviteType.Friend ) {
-        // TODO
+        // Literally can't test this as Discord's API throws an "Unknown Invite" error when using the `GET Invite` endpoint for a Friend Invite using this App.
+        //   Whatever.
+
+        // Contruct Link Button
+        const FriendInviteRow = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_FRIEND')).setURL(`https://discord.gg/${fetchedInvite.code}`)
+        );
+
+        ResponseComponents.push(FriendInviteRow);
 
 
     }
