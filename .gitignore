@@ -3,6 +3,7 @@ config.js
 /.vscode
 
 deployCommands.js
+/Commands/TextCommands/test.js
 
 /JsonFiles
 /Mongoose

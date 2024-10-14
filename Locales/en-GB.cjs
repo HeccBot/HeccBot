@@ -519,6 +519,7 @@ module.exports = {
     INFO_INVITE_HEADER_SERVER_FLAGS: `>> Server's Feature Flags`,
 
     INFO_INVITE_BUTTON_SERVER: `Join Server`,
+    INFO_INVITE_BUTTON_GUILD: `Join Guild`, // For Gaming Guilds
     INFO_INVITE_BUTTON_GROUP_DM: `Join Group DM`,
     INFO_INVITE_BUTTON_FRIEND: `Add Friend`,
 

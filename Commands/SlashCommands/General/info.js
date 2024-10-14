@@ -545,6 +545,7 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
 
 
         // Invite Guild Information
+        let isGamingGuild = false;
         if ( InviteGuild != null ) {
             if ( InviteGuild.description != null ) { InviteEmbed.setDescription(InviteGuild.description); }
             if ( InviteGuild.icon != null ) {
@@ -573,15 +574,28 @@ async function _getInviteInfo(interaction, api, inputSubcommand) {
                 InviteGuild.features.forEach(flag => featureFlags.push(titleCaseGuildFeature(flag)));
                 InviteEmbed.addFields({ name: localize(interaction.locale, 'INFO_INVITE_HEADER_SERVER_FLAGS'), value: `${featureFlags.sort().join(', ').slice(0, 1023)}` });
             }
+
+            // Just to change the Link Button's Label below
+            if ( InviteGuild.features.includes("CLAN") ) { isGamingGuild = true; }
         }
 
 
         // Contruct Link Button
-        const GuildInviteRow = new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_SERVER')).setURL(`https://discord.gg/${fetchedInvite.code}`)
-        );
+        if ( isGamingGuild ) {
+            const GuildInviteRow = new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_GUILD')).setURL(`https://discord.gg/${fetchedInvite.code}`)
+            );
 
-        ResponseComponents.push(GuildInviteRow);
+            ResponseComponents.push(GuildInviteRow);
+        }
+        else {
+            const GuildInviteRow = new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(localize(interaction.locale, 'INFO_INVITE_BUTTON_SERVER')).setURL(`https://discord.gg/${fetchedInvite.code}`)
+            );
+
+            ResponseComponents.push(GuildInviteRow);
+        }
+        
 
 
     }
