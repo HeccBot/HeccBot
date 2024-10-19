@@ -190,6 +190,7 @@ export function readableMemberFlags(memberFlags, locale) {
  */
 export function readableChannelType(channelType, locale) {
     switch (channelType) {
+        // Existing/usable Channel types
         case ChannelType.AnnouncementThread:
             return localize(locale, 'CHANNEL_TYPE_ANNOUNCEMENT_THREAD');
 
@@ -228,6 +229,33 @@ export function readableChannelType(channelType, locale) {
         
         case ChannelType.PublicThread:
             return localize(locale, 'CHANNEL_TYPE_PUBLIC_THREAD');
+
+        // Deleted Channel types (just in case)
+        case 6:
+            // GUILD_STORE Channel - actually deprecated not deleted (existing ones still exist), but cannot be created since 2022 (or 2023)
+            //   Used to be used for Game Devs to sell their games directly inside Discord within their own Servers.
+            return localize(locale, 'CHANNEL_TYPE_DELETED_STORE');
+        
+        case 7:
+            // GUILD_LFG Channel - was a scrapped experiment (LFG = Looking For Game)
+            return localize(locale, 'CHANNEL_TYPE_DELETED_LFG');
+
+        case 8:
+            // LFG_GROUP_DM Channel - part of the same scrapped experiment as GUILD_LFG. These existed only inside GUILD_LFG Channels
+            return localize(locale, 'CHANNEL_TYPE_DELETED_LFG_GROUP_DM');
+
+        case 9:
+            // THREAD_ALPHA Channel - The first iteration of the Threads feature/Channels, never widely used and was scrapped in favour of the newer *_THREAD Channel types
+            return localize(locale, 'CHANNEL_TYPE_DELETED_THREAD_ALPHA');
+
+        // Experimental / WIP / Upcoming new Channel Types that haven't been fully released
+        case 17:
+            // LOBBY Channel. Theory: Used as a new Channel for Gaming Guilds to have a connected feed/chat between that specific Channel in Discord and a Game/Activity's chat?
+            return localize(locale, 'CHANNEL_TYPE_EXPERIMENTAL_LOBBY');
+
+        case 18:
+            // DM_SDK Channel. Theory: Used as a new DM type between a User and a Game/Activity said User has connected to their Account?
+            return localize(locale, 'CHANNEL_TYPE_EXPERIMENTAL_DM_SDK');
     }
 }
 

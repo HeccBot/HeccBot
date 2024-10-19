@@ -36,7 +36,7 @@
     "@discordjs/ws": "^2.0.0",
     "@napi-rs/canvas": "^0.1.54",
     "@sapphire/snowflake": "^3.5.3",
-    "discord-api-types": "^0.37.101",
+    "discord-api-types": "^0.37.102",
     "emoji-regex": "^10.4.0",
     "mongoose": "^8.6.1",
     "node-fetch": "^3.3.2",

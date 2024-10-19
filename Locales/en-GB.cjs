@@ -83,6 +83,14 @@ module.exports = {
     CHANNEL_AFK: `AFK`,
     CHANNEL_SYSTEM: `System`,
     CHANNEL_RULES: `Rules`,
+    // Deleted/Deprecated Channel Types
+    CHANNEL_TYPE_DELETED_STORE: `Store *[Deprecated Channel Type]*`,
+    CHANNEL_TYPE_DELETED_LFG: `LFG *[Scrapped Channel Type]*`,
+    CHANNEL_TYPE_DELETED_LFG_GROUP_DM: `LFG Group DM *[Scrapped Channel Type]*`,
+    CHANNEL_TYPE_DELETED_THREAD_ALPHA: `Thread (Alpha Testing) *[Scrapped Channel Type]*`,
+    // Experimental/WIP Channel Types
+    CHANNEL_TYPE_EXPERIMENTAL_LOBBY: `Lobby *[Experimental Channel Type]*`,
+    CHANNEL_TYPE_EXPERIMENTAL_DM_SDK: `SDK-powered DM *[Experimental Channel Type]*`,
 
 
 
