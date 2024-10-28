@@ -30,7 +30,7 @@ export const SlashCommand = {
     /** Command's cooldown, in seconds (whole number integers!)
      * @type {Number}
      */
-    cooldown: 10,
+    cooldown: 5,
 
     /**
      * Cooldowns for specific Subcommands
