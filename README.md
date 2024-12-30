@@ -1,4 +1,9 @@
-*Want to jump to a specific heading? Use the navigation menu! (Which doesn't exist on GitHub's Mobile App sadly)* ↗
+> [!IMPORTANT]
+> HeccBot has been replaced by TwiLite - Zebby's new vision for his multipurpose Discord App.
+> 
+> You can find TwiLite's source [linked here](https://github.com/TwilightZebby/TwiLite).
+
+---
 
 # HeccBot
 
